@@ -60,15 +60,13 @@ const Header = () => {
             </li>
           </ul>
         </nav>
-
-        {/* 로그인 및 회원가입 링크 */}
         <nav>
-          <ul>
-            <li className='login'>
+          <ul className="login_nav_ul">
+            <li className='login_li'>
               <a href="/Login" className='login_a'>로그인</a>
             </li>
-            <li className='createAccount'>
-              <a href="/CreateAccount" className='createAccount_a'>회원가입</a>
+            <li className='Signup_li'>
+              <a href="/Signup" className='Signup_a'>회원가입</a>
             </li>
           </ul>
         </nav>

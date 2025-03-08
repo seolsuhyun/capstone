@@ -8,9 +8,9 @@ const Footer = () => {
         <div className="footer-content">
           <h3>부기 푸드</h3>
           <hr />
-          <ul>
-            <li href="#brand-info" className="footer-link">
-              <a href="/" className="footer-link">
+          <ul className='footer-ul'>
+            <li>
+              <a href="/Info" className="footer-link">
                 브랜드 소개
               </a>
             </li>
@@ -24,8 +24,8 @@ const Footer = () => {
         <div className="footer-content">
           <h3>고객 서비스</h3>
         <hr/>
-          <ul>
-            <li href="#brand-info" className="footer-link">
+          <ul className='footer-ul'>
+            <li >
               <a href="#brand-info" className="footer-link">
                 주문 배송 조회
               </a>
@@ -56,8 +56,8 @@ const Footer = () => {
         <div className="footer-content">
           <h3>제품 목록</h3>
         <hr/>
-          <ul>
-            <li href="#brand-info" className="footer-link">
+          <ul className='footer-ul'>
+            <li >
               <a href="#brand-info" className="footer-link">
                 밀키트
               </a>
@@ -82,8 +82,8 @@ const Footer = () => {
         <div className="footer-content">
           <h3>소셜 미디어</h3>
         <hr/>
-          <ul>
-            <li href="#brand-info" className="footer-link">
+          <ul className='footer-ul'>
+            <li >
               <a href="#brand-info" className="footer-link">
               Instagram
               </a>
@@ -106,7 +106,9 @@ const Footer = () => {
           </ul>
         </div>
       </div>
-      <a className="footer-email">  1971435@hansung.ac.kr 010-1234-1234</a>
+      <div>
+      <h1 className="footer-email">  1971435@hansung.ac.kr 010-1234-1234</h1> 
+      </div>
     </footer>
 
   );
