@@ -1,8 +1,17 @@
+import {Route, Routes} from "react-router-dom";
+import Location from "./routes/Location";
+import Home from "./routes/Home";
+import Login from "./routes/Login";
+import './App.css';
 function App() {
   return (
-    <div>
-      컨텐츠 요소가 표시됩니다.
-    </div>
+   
+   <Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/Location" element={<Location />} />
+    <Route path="/Login" element={<Login />} />
+    </Routes>
+  
   );
 }
 
