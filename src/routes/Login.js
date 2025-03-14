@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // axios import
 import "./Login.css";
 import kakao from "./kakaoImg.png";
 
@@ -8,15 +9,35 @@ const Location = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 로그인 성공 시 로컬 스토리지에 로그인 상태 저장
-    localStorage.setItem('isLoggedIn', 'true');
+    try {
+      // Spring 백엔드로 로그인 요청 보내기
+      const response = await axios.post('/api/login', {
+        id: username,
+        password: password
+      });
 
-    // 로그인 후 홈 화면으로 이동
-    navigate('/');
-    window.location.replace("/")  // 메인 페이지로 이동
+      // 로그인 성공 처리
+      if (response.data.status === 'success') {
+        // 로그인 성공 시 로컬 스토리지에 로그인 상태 저장
+        localStorage.setItem('isLoggedIn', 'true');
+
+        // 홈 화면으로 이동
+        navigate('/');
+        window.location.replace("/");  // 메인 페이지로 이동
+      } else {
+        // 로그인 실패 시 오류 메시지 alert로 표시
+        alert('아이디 또는 비밀번호가 틀렸습니다.');
+        setUsername('');
+        setPassword('');
+      }
+    } catch (error) {
+      // 서버 오류 처리
+      console.error("Login error:", error);
+      alert('서버에 문제가 발생했습니다. 다시 시도해주세요.');
+    }
   };
 
   return (
@@ -46,10 +67,13 @@ const Location = () => {
               required
             />
           </div>
+
           <button type="submit" className="login_button">로그인</button>
         </form>
+
         <div className="lost_id_pw">
-          <a href="#lost_id_pw">아이디/비밀번호찾기</a><hr />
+          <a href="#lost_id_pw">아이디/비밀번호찾기</a>
+          <hr />
           <a href="#join">회원가입</a>
         </div>
 

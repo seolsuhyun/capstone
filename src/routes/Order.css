@@ -1,0 +1,41 @@
+.order {
+      
+    text-align: center;
+    padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
+    padding-bottom: 180px;  /* 푸터 높이만큼 여백 추가 */
+    height: 1000px;
+    
+  }
+  .order_product-container {
+    display: flex;
+    flex-direction: column; /* 항목들을 세로로 나열 */
+    align-items: center;     /* 항목들을 수평으로 가운데 정렬 */
+    justify-content: center; /* 항목들을 수직으로 가운데 정렬 */
+    width: 80%;             /* 부모 div의 너비 100% */
+    padding: 20px;
+    margin: 0 auto; 
+    background-color: aliceblue;
+    border-radius: 15px;
+  }
+ .order_product_nav{
+    width :90%;
+    
+    
+ }
+
+  .order_product_nav ul {
+    display: flex; /* 가로로 정렬 */
+    list-style: none;
+    
+    justify-content: center; /* 가운데 정렬 */
+    
+  }
+  
+  .order_product_item{
+    display: flex; /* 가로로 정렬 */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+
+  }
