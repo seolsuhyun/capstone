@@ -74,7 +74,7 @@ const Location = () => {
         <div className="lost_id_pw">
           <a href="#lost_id_pw">아이디/비밀번호찾기</a>
           <hr />
-          <a href="#join">회원가입</a>
+          <a href="/Signup">회원가입</a>
         </div>
 
         <div className="sns_login">
