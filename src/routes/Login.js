@@ -1,36 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // axios import
+import axios from "axios";
+import { useLogin } from "../context/LoginContext";  // useLogin 훅을 import
 import "./Login.css";
 import kakao from "./kakaoImg.png";
 
-const Location = () => {
+const Login = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const { login } = useLogin();  // 로그인 상태를 변경하는 함수
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Spring 백엔드로 로그인 요청 보내기
-      const response = await axios.post('/api/login', {
-        id: username,
-        password: password
+      const formData = new FormData();
+      formData.append('email', email); 
+      formData.append('password', password);
+
+      // 백엔드 로그인 요청
+      const response = await axios({
+        url: 'http://localhost:8080/loginProc',
+        method: 'POST',
+        data: formData,
+        withCredentials: true,
       });
 
       // 로그인 성공 처리
-      if (response.data.status === 'success') {
-        // 로그인 성공 시 로컬 스토리지에 로그인 상태 저장
-        localStorage.setItem('isLoggedIn', 'true');
+      if (response.status === 200) {
+        alert('로그인 성공!');
+        console.log('유저 이메일: ' + response.data.email);
+        console.log('권한: ' + response.data.authorities);
 
-        // 홈 화면으로 이동
-        navigate('/');
-        window.location.replace("/");  // 메인 페이지로 이동
+        // 로그인 성공 시 로그인 상태 변경
+        login();  // 로그인 상태를 true로 변경
+
+        // 메인 페이지로 이동
+        navigate('/', { state: { userData: response.data } });
       } else {
-        // 로그인 실패 시 오류 메시지 alert로 표시
+        // 로그인 실패 시 오류 메시지
         alert('아이디 또는 비밀번호가 틀렸습니다.');
-        setUsername('');
+        setEmail('');
         setPassword('');
       }
     } catch (error) {
@@ -48,11 +59,11 @@ const Location = () => {
           <div className="input_group">
             <input
               type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              id="username"
-              name="username"
-              placeholder="아이디"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}  // setEmail로 email 상태 업데이트
+              id="email"
+              name="email"
+              placeholder="이메일"
               required
             />
           </div>
@@ -61,7 +72,7 @@ const Location = () => {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}  // setPassword로 password 상태 업데이트
               name="password"
               placeholder="비밀번호"
               required
@@ -86,4 +97,4 @@ const Location = () => {
   );
 };
 
-export default Location;
+export default Login;

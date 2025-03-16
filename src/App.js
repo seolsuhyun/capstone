@@ -7,6 +7,7 @@ import Signup from "./routes/Signup";
 import Detail from "./routes/Details";
 import Order from "./routes/Order";
 function App() {
+    
   return (
 
     <Routes>
