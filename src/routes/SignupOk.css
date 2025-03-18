@@ -1,0 +1,81 @@
+.SignupOk {
+    padding-top: 200px;
+    /* 헤더 높이만큼 여백 추가 */
+    padding-bottom: 200px;
+    /* 푸터 높이만큼 여백 추가 */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  
+  /* SignupOk.css */
+
+/* 전체 컨테이너 스타일 */
+.SignupOk-cnt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    background-color: #f4f7fc; /* 배경색 */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  /* 환영 메시지 스타일 */
+  .SignupOk-cnt h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333; /* 텍스트 색상 */
+    margin: 20px 0;
+  }
+  
+  /* 아이콘 이미지 스타일 */
+  .SignupOk-cnt img {
+    width: 150px;
+    height: 150px;
+    margin: 20px 0;
+  }
+  
+  /* 로그인 버튼 스타일 */
+  .login-button {
+    background-color: #5C6BC0; /* 버튼 배경색 */
+    color: #fff; /* 버튼 텍스트 색상 */
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* 버튼 호버 효과 */
+  .login-button:hover {
+    background-color: #3f51b5; /* 버튼 호버 색상 */
+  }
+  
+  /* 버튼 클릭 시 효과 */
+  .login-button:active {
+    transform: scale(0.98); /* 클릭 시 살짝 작아지는 효과 */
+  }
+  
+  /* 모바일 화면에서 스타일 조정 (반응형 디자인) */
+  @media (max-width: 768px) {
+    .SignupOk-cnt h2 {
+      font-size: 20px;
+    }
+  
+    .SignupOk-cnt img {
+      width: 120px;
+      height: 120px;
+    }
+  
+    .login-button {
+      font-size: 14px;
+    }
+  }
+  

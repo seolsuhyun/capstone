@@ -1,7 +1,8 @@
 import './Signup.css';
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';  // axios 임포트 추가
+import React, { useState } from 'react';
+import axios from 'axios';  
 
+import { useNavigate } from 'react-router-dom';
 const Signup = () => {
   const [user, setUser] = useState({
     name: '',
@@ -13,13 +14,20 @@ const Signup = () => {
     const { id, value } = e.target;
     setUser({ ...user, [id]: value });
   };
+  const navigate = useNavigate();
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!emailRegex.test(user.email)) {
+      alert('유효한 이메일 주소를 입력해주세요.');
+      return; // 이메일이 유효하지 않으면 회원가입을 진행하지 않음
+    }
     try {
+      // 서버에 사용자 데이터 전송
       await axios.post('http://localhost:8080/join', user);
       alert('회원가입 완료');
-      window.location.href = '/';
+      navigate("/Signup/SignupOk", { state: { userName: user.name } });
     } catch (error) {
       console.log('회원가입 에러: ' + error);
     }
@@ -29,7 +37,6 @@ const Signup = () => {
     <div className="Signup">
       <div className="Signup-text">회원가입</div>
       <form onSubmit={handleSubmit} className="Signup-form">
-
         <div className="form-group">
           회원 정보 입력
         </div>

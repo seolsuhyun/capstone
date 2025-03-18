@@ -32,9 +32,9 @@ const Login = () => {
         alert('로그인 성공!');
         console.log('유저 이메일: ' + response.data.email);
         console.log('권한: ' + response.data.authorities);
-
+        login(response.data.name); 
         // 로그인 성공 시 로그인 상태 변경
-        login();  // 로그인 상태를 true로 변경
+    
 
         // 메인 페이지로 이동
         navigate('/', { state: { userData: response.data } });

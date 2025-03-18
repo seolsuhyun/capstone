@@ -5,19 +5,35 @@ import search_img from "./reading-glasses.png";
 import mypage_img from "./person.png";
 import nav_bar_img from "./nav-bar.png";
 import shopping_cart_img from "./shopping_cart.png";
+import axios from 'axios';
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, login, logout } = useLogin();  // 로그인 상태와 로그인/로그아웃 함수 사용
+  const { isLoggedIn,logout, userName } = useLogin();  // 로그인 상태와 사용자 이름 사용
 
   const handleLoginLogout = (e) => {
     e.preventDefault();
 
     if (isLoggedIn) {
-      logout();  // 로그아웃 처리
-      navigate('/');
+      // 로그아웃 처리
+      axios.get('http://localhost:8080/logoutOk')  // 백엔드의 로그아웃 API 호출
+        .then(() => {
+          logout();  // 로그인 상태 변경
+          
+          alert("로그아웃 했습니다.");
+        })
+        .catch((error) => {
+          console.error("로그아웃 실패:", error);
+        });
     } else {
       navigate('/Login');
+    }
+  };
+
+  const handleNameClick = (e) => {
+    e.preventDefault(); // a 태그가 기본적으로 페이지를 새로고침하는 걸 방지합니다.
+    if (isLoggedIn) {
+      navigate('/#MyPage');  // 로그인한 상태라면 마이페이지로 이동
     }
   };
 
@@ -72,13 +88,30 @@ const Header = () => {
         <nav>
           <ul className="login_nav_ul">
             <li className='login_li'>
-            <a href="/" onClick={handleLoginLogout} className='login_a'>
-                {isLoggedIn ? '로그아웃' : '로그인'}
-              </a>
+              {/* 로그인 상태에 따라 다르게 표시 */}
+              {isLoggedIn ? (
+                // 로그인 상태에서 사용자 이름을 클릭 시 마이페이지로 이동
+                <a href="/" onClick={handleNameClick} className='login_a'>
+                  {userName}님
+                </a>
+              ) : (
+                <a href="/" onClick={handleLoginLogout} className='login_a'>
+                  로그인
+                </a>
+              )}
             </li>
+
+            {/* 로그인 안 한 경우 회원가입 버튼을 보여줌 */}
             {!isLoggedIn && (
               <li className='Signup_li'>
                 <a href="/Signup" className='Signup_a'>회원가입</a>
+              </li>
+            )}
+
+            {/* 로그인 상태일 때, 로그아웃 버튼이 보이게 */}
+            {isLoggedIn && (
+              <li className='Signup_li'>
+                <a href="/" onClick={handleLoginLogout} className='Signup_a'>로그아웃</a>
               </li>
             )}
           </ul>

@@ -96,9 +96,20 @@ border-radius: 15px;
   border-radius: 15px; 
 }  
 
-.login_a{
- width: 170px;
- text-decoration: none;
+.login_a, .Signup_a {
+  color: #000000; 
+  width:170px; /* 파란색으로 변경 (원하는 색상으로 수정) */
+  text-decoration: none;  /* 기본 밑줄 제거 */
+}
+
+/* 로그인, 회원가입, 로그아웃 클릭 시 색상 변화 */
+.login_a:hover, .Signup_a:hover {
+  color: #1d72b8;  /* 마우스를 올렸을 때 색상 (원하는 색상으로 수정) */
+}
+
+/* 클릭했을 때 색상 변화 */
+.login_a:active, .Signup_a:active {
+  color: #1a6bbd;  /* 클릭 시 색상 */
 }
  .Signup_li{
   
@@ -119,10 +130,6 @@ border-radius: 15px;
   border-radius: 15px; 
 
 } 
-.Signup_a{
-  width: 170px;
-  text-decoration: none;
-}
 
 .event{
 position: fixed;
