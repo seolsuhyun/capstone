@@ -1,23 +1,17 @@
-// Detail.js
 import React from "react";
-import { useParams,useNavigate } from "react-router-dom"; // URL에서 파라미터 추출, 페이지 이동
-import data from "./data";
-import "./Details.css";
-
-function Detail() {
-  const { id } = useParams(); // URL에서 id를 가져옵니다.
-  const navigate = useNavigate(); // 페이지 이동을 위한 navigate 함수
-  const product = data.find((item) => item.id === parseInt(id)); // id에 맞는 상품을 찾습니다.
-
-  if (!product) {
-    return <div>상품을 찾을 수 없습니다.</div>;
-  }
-
-   const handleOrderClick = () => {
-     // 상품 정보를 state로 주문 페이지로 넘기기
-     navigate("/order", { state: { product } });
-   };
-
+import { useLocation } from "react-router-dom";
+import './Details.css';
+import { useNavigate } from "react-router-dom";
+const Detail = () => {
+  const location = useLocation(); // location을 통해 state를 가져옵니다.
+  const { state } = location;  // state에서 product를 추출
+  const product = state;
+  console.log("상세 페이지로 전달된 상품:", product);
+  const navigate = useNavigate(); 
+  const handleOrderClick = () => {
+    // 상품 정보를 state로 주문 페이지로 넘기기
+    navigate("/order", { state: { product } });
+  };
   return (
     <div className="product">
     <div className="product-container">
