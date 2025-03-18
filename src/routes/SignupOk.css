@@ -1,6 +1,53 @@
 .SignupOk {
-    padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
-    padding-bottom: 180px;  /* 푸터 높이만큼 여백 추가 */
-    overflow-y: auto;
-    height: 1000px;
-  }
+  padding-top: 200px;
+  /* 헤더 높이만큼 여백 추가 */
+  padding-bottom: 200px;
+  /* 푸터 높이만큼 여백 추가 */
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+.SignupOk-cnt {
+  width: 50%;
+  padding: 40px 20px; /* 내부 여백 추가 (더 넓게) */
+  background: #D9D9D9;
+  border-radius: 10px; /* 모서리 둥글게 */
+}
+
+.SignupOk h1 {
+  font-size: 32px; /* 글자 크기 더 크게 */
+  font-weight: bold;
+  margin-bottom: 30px; /* 간격 더 크게 */
+}
+
+.smile-image {
+  width: 256px;
+  height: 256px;
+  margin-bottom: 40px; /* 간격 더 크게 */
+}
+
+.SignupOk h2 {
+  font-size: 24px; /* 글자 크기 더 크게 */
+  color: #333;
+  margin-bottom: 40px; /* 간격 더 크게 */
+}
+
+.login-button {
+  padding: 15px 25px; /* 버튼 크기 키우기 */
+  font-size: 20px; /* 버튼 글자 크기 키우기 */
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px; /* 버튼과 글자 사이 간격 추가 */
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}

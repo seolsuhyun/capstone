@@ -27,7 +27,7 @@
   width: 225px;
   height: 225px;
   margin: auto;
-  background-image: url(D:\study\src\Layout\Logo.png);
+  /* background-image: url(D:\study\src\Layout\Logo.png); */
 }
 
 .input_group input {
