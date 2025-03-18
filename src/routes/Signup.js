@@ -32,6 +32,7 @@ const Signup = () => {
       console.log('회원가입 에러: ' + error);
     }
   };
+  
 
   return (
     <div className="Signup">
