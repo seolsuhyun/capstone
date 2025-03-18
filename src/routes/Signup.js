@@ -19,11 +19,12 @@ const Signup = () => {
     try {
       await axios.post('http://localhost:8080/join', user);
       alert('회원가입 완료');
-      window.location.href = '/';
+      window.location.href = '/Signup/SignupOk';
     } catch (error) {
       console.log('회원가입 에러: ' + error);
     }
   };
+  
 
   return (
     <div className="Signup">
@@ -81,4 +82,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signup;  
