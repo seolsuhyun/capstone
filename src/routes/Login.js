@@ -52,9 +52,12 @@ const Login = () => {
   };
 
   return (
+    
     <div className="login_container">
+        
       <div className="login_box">
-        <h2>LOGIN</h2>
+      <h2>LOGIN</h2>
+        <img src="/Logo.png" className="logo_login"/>
         <form onSubmit={handleSubmit}>
           <div className="input_group">
             <input

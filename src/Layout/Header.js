@@ -1,39 +1,57 @@
-import './Header.css';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogin } from '../context/LoginContext';
+import { useLogin } from '../context/LoginContext'; // useLogin 훅을 불러옴
+import axios from 'axios';
+import './Header.css';
 import search_img from "./reading-glasses.png";
 import mypage_img from "./person.png";
 import nav_bar_img from "./nav-bar.png";
 import shopping_cart_img from "./shopping_cart.png";
-import axios from 'axios';
+
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isLoggedIn,logout, userName } = useLogin();  // 로그인 상태와 사용자 이름 사용
+  const { isLoggedIn, logout, login, userName } = useLogin();  // 로그인 상태와 사용자 이름을 가져옴
 
-  const handleLoginLogout = (e) => {
+  // 새로고침해도 로그인 상태 유지
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/loginOk', {
+          withCredentials: true, // 세션 쿠키 포함
+        });
+
+        if (response.status === 200) {
+          login(response.data.name); // 로그인 상태 유지
+        }
+      } catch (error) {
+        logout(); // 세션이 없으면 로그아웃 처리
+      }
+    };
+
+    checkLoginStatus();
+  }, [login, logout]);
+
+  const handleLoginLogout = async (e) => {
     e.preventDefault();
 
     if (isLoggedIn) {
-      // 로그아웃 처리
-      axios.get('http://localhost:8080/logoutOk')  // 백엔드의 로그아웃 API 호출
-        .then(() => {
-          logout();  // 로그인 상태 변경
-          
-          alert("로그아웃 했습니다.");
-        })
-        .catch((error) => {
-          console.error("로그아웃 실패:", error);
-        });
+      try {
+        await axios.get('http://localhost:8080/logout', { withCredentials: true });
+        logout(); // 로그인 상태 변경
+        alert("로그아웃 했습니다.");
+      } catch (error) {
+        console.error("로그아웃 실패:", error);
+      }
     } else {
       navigate('/Login');
     }
   };
 
   const handleNameClick = (e) => {
-    e.preventDefault(); // a 태그가 기본적으로 페이지를 새로고침하는 걸 방지합니다.
+    e.preventDefault();
     if (isLoggedIn) {
-      navigate('/#MyPage');  // 로그인한 상태라면 마이페이지로 이동
+      navigate('/#MyPage');
     }
   };
 
@@ -43,7 +61,7 @@ const Header = () => {
         <a href="/Event" className='event_lab'>이벤트,공지사항</a>
       </div>
       <div>
-        <div className='logo' onClick={() => navigate('/')} />
+        <img src='/Logo.png' className='logo' onClick={() => navigate('/')} />
         
         <div className="search">
           <img 
@@ -88,9 +106,7 @@ const Header = () => {
         <nav>
           <ul className="login_nav_ul">
             <li className='login_li'>
-              {/* 로그인 상태에 따라 다르게 표시 */}
               {isLoggedIn ? (
-                // 로그인 상태에서 사용자 이름을 클릭 시 마이페이지로 이동
                 <a href="/" onClick={handleNameClick} className='login_a'>
                   {userName}님
                 </a>
@@ -101,14 +117,12 @@ const Header = () => {
               )}
             </li>
 
-            {/* 로그인 안 한 경우 회원가입 버튼을 보여줌 */}
             {!isLoggedIn && (
               <li className='Signup_li'>
                 <a href="/Signup" className='Signup_a'>회원가입</a>
               </li>
             )}
 
-            {/* 로그인 상태일 때, 로그아웃 버튼이 보이게 */}
             {isLoggedIn && (
               <li className='Signup_li'>
                 <a href="/" onClick={handleLoginLogout} className='Signup_a'>로그아웃</a>

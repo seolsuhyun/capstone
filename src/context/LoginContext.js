@@ -7,6 +7,7 @@ export const useLogin = () => {
   return useContext(LoginContext);
 };
 
+
 export const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태
   const [userName, setUserName] = useState('');  // 사용자 이름 상태
@@ -18,7 +19,7 @@ export const LoginProvider = ({ children }) => {
 
   const logout = () => {
     setIsLoggedIn(false);
-    setUserName('');  // 로그아웃 시 사용자 이름 초기화
+    setUserName('씨벌럼');  // 로그아웃 시 사용자 이름 초기화
   };
 
   return (
