@@ -1,16 +1,14 @@
 .order {
   text-align: center;
-  padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
+  padding-top: 200px; 
   padding-bottom: 180px;
-    /* 푸터 높이만큼 여백 추가 */
+ 
 }
 
 .order_product_container { 
   display: flex;
-
- /* 항목들을 왼쪽 정렬 */
- justify-content: space-between; /* 항목들을 수직으로 시작점에 정렬 */
-  width: 80%; /* 부모 div의 너비 100% */
+ justify-content: space-between; 
+  width: 80%; 
   padding: 20px;
   margin: 0 auto;
   height: auto;
@@ -21,8 +19,7 @@
 }
 
 .cnt-left {
-  flex: 1.2; /* 각 컨테이너가 동일한 비율로 공간을 차지 */
-  /* max-width와 width는 flex로 관리하므로 제거해도 됩니다. */
+  flex: 1.2; 
 }
 
 .cnt-right{
@@ -30,20 +27,20 @@
 }
 
 .order_product_item {
-  display: flex; /* 가로로 정렬 */
+  display: flex;
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: flex-start; /* 아이템들을 왼쪽으로 정렬 */
+  justify-content: flex-start; 
 }
 
 .order_product_info{
 
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center;
   gap: 10px;
   background: #ffffff;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start; 
   width :100%;
   padding: 20px;
   margin-top: 30px
@@ -52,7 +49,7 @@
 
 .order_product_name_price{
   display: flex;
-  flex-direction: column; /* 세로로 정렬 */
+  flex-direction: column; 
   justify-content: center;
   padding:20px; 
   height: 100px;
@@ -62,10 +59,10 @@
 
 .orderer_info{
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center; 
   gap: 10px;
   background: #ffffff;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start; 
   width :100%;
   padding: 20px;
   margin-top: 30px
@@ -73,10 +70,10 @@
 
 .delivery_info{
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center; 
   gap: 10px;
   background: #ffffff;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start; 
   width :100%;
   padding: 20px;
   margin-top: 30px
@@ -165,22 +162,18 @@ select:focus {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* 전체 쿠폰 박스 스타일 */
+
 .coupon {
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center;
   gap: 10px;
   background: #ffffff;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: flex-start; 
   width :100%;
   padding: 20px;
   margin-top: 30px
 }
 
-/* 헤더 스타일 */
-
-
-/* 각 입력 필드 스타일 */
 .coupon-field {
   margin-bottom: 20px;
 }
@@ -192,7 +185,7 @@ select:focus {
   color: #333;
 }
 
-/* input 그룹 스타일 (입력칸과 버튼을 가로로 배치) */
+
 .coupon-input-group {
   display: flex;
   align-items: center;
@@ -204,7 +197,7 @@ select:focus {
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px;  /* 버튼과 간격 */
+  margin-right: 10px;  
 }
 
 .coupon-input-group button {
@@ -225,7 +218,7 @@ select:focus {
 
 .order-price{
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center;
   gap: 10px;
   background: #ffffff;
   margin-left: auto;
@@ -257,14 +250,14 @@ select:focus {
 
 .final-price p {
   font-size: 20px;
-  color: red; /* 강조 */
+  color: red;
 }
 
 
 
 .pay-info{
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center; 
   gap: 10px;
   background: #ffffff;
   margin-left: auto;
@@ -291,7 +284,7 @@ select:focus {
 }
 
 .selected {
-  background-color: #87CEFA; /* 하늘색 */
+  background-color: #87CEFA; 
   color: white;
   font-weight: bold;
 }
@@ -306,8 +299,8 @@ select:focus {
   cursor: default;
 }
 .highlight {
-  color: #FF6347; /* 원하는 색으로 변경 */
-  font-weight: bold; /* 강조 효과 (선택 사항) */
+  color: #FF6347;
+  font-weight: bold; 
 }
 .bank-details {
   margin-top: 20px;
@@ -327,7 +320,7 @@ select:focus {
 
 .payment-cnt {
   text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  align-items: center;
   gap: 10px;
   background: #ffffff;
   margin-left: auto;

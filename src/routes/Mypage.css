@@ -1,7 +1,7 @@
 .mypage-container {
   padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
   padding-bottom: 180px;  /* 푸터 높이만큼 여백 추가 */
-  overflow-y: auto;
+  
   width: 80%;
    /* 화면 크기에 맞춰 너비 조정 */
   margin: 0 auto;  /* 수평 가운데 정렬 */
@@ -11,7 +11,7 @@
 }
 
 .mypage-header {
-  background-color: #4a90e2;
+  background-color: #b7b7b7;
   color: white;
   padding: 15px;
   text-align: center;
@@ -75,31 +75,46 @@
   margin-top: 30px;
 }
 
-.product {
-  display: flex; /* 가로로 정렬 */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  justify-content: flex-start;
-}
-
-.product-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  margin-right: 20px;
+.product-detil {
+  display: flex;
+  align-items: center; /* 세로 중앙 정렬 */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+ 
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .product-info {
-  text-align: left;
-  align-items: center; /* 세로로 가운데 정렬 */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 왼쪽 정렬 */
+  justify-content: center;
   gap: 10px;
-  background: #ffffff;
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  width :100%;
-  padding: 20px;
-  margin-top: 30px
+  width: 100%;
 }
+.product-image{
+
+  width: 150px;
+  height: 150px;
+}
+.quantity-controls {
+  display: flex;
+  align-items: center; /* 버튼과 가격을 한 줄에 정렬 */
+  gap: 10px; /* 요소 사이 간격 */
+}
+
+.product-info h2,
+.product-info p,
+.quantity-controls {
+  margin: 0; /* 기본 마진 제거 */
+}
+
+
+
 
 .product-info h3 {
   margin: 0;
@@ -107,11 +122,7 @@
   color: #333;
 }
 
-.product-info p {
-  margin: 5px 0;
-  font-size: 18px;
-  color: #555;
-}
+
 
 .quantity {
   margin-top: 10px;
@@ -128,4 +139,136 @@
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #ccc;
+}
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* 버튼 사이 간격 */
+}
+
+.quantity-button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%; /* 버튼을 동그랗게 */
+  background-color: #4a90e2; /* 파란색 배경 */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 추가 */
+  transition: background 0.3s, transform 0.2s;
+}
+
+.quantity-button:hover {
+  background-color: #357abd; /* 조금 더 어두운 파란색 */
+  transform: scale(1.1); /* 호버 시 살짝 확대 */
+}
+
+.quantity-display {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  min-width: 30px;
+  text-align: center;
+}
+
+.mypage-delivery-info {
+  margin-top: 30px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* 전체 폭을 조정 */
+  margin-left: auto;
+  margin-right: auto;  /* 중앙 정렬 */
+}
+
+.delivery-details {
+  margin-top: 10px;
+  width: 100%;  /* 부모 요소에 맞춰 100% */
+}
+
+.delivery-item {
+  display: flex;
+  justify-content: flex-start;  /* 왼쪽 정렬 */
+  align-items: center;  /* 수직 정렬 */
+  padding: 8px 0;  /* 상하 여백을 조금 더 늘림 */
+  border-bottom: 1px solid #eee;
+  width: 100%;  /* 전체 폭을 사용 */
+}
+
+.label {
+  font-weight: bold;  /* 글자 두껍게 */
+  color: #333;
+  font-size: 18px;  /* 글자 크기 키움 */
+  margin-right: 150px;  /* 라벨과 값 사이의 간격을 줄임 */
+  width: 120px;  /* 라벨의 고정된 너비 */
+  text-align: left;  /* 라벨은 오른쪽 정렬 */
+}
+
+.value {
+  color: #555;
+  font-size: 18px;  /* 글자 크기 키움 */
+  font-weight: bold;  /* 글자 두껍게 */
+  flex-grow: 1;  /* 값을 가득 차게 만들어 정렬 */
+  text-align: left;  /* 왼쪽 정렬 */
+}
+
+.mypage-price-info {
+ 
+  margin-bottom: 30px;
+
+}
+
+.mypage-price-details {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 항목들 사이에 간격을 주기 위해 */
+    /* 전체 너비 */
+}
+
+.mypage-price-item {
+  text-align: center;
+  margin: 0 10px;  /* 양옆에 간격 추가 */
+}
+
+.mypage-price-item h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.mypage-price-item p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #555;
+}
+
+.mypage-plus-sign, .mypage-equals-sign {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.mypage-total-price {
+  text-align: center;
+}
+
+.mypage-total-price h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.mypage-total-price p {
+  font-size: 20px;
+  font-weight: bold;
+  color: #f39c12; /* 총 결제 금액 강조 색 */
 }
