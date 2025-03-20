@@ -51,7 +51,7 @@ const Header = () => {
   const handleNameClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      navigate('/#MyPage');
+      navigate('/Mypage');
     }
   };
 

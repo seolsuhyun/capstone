@@ -7,6 +7,7 @@ import Signup from "./routes/Signup";
 import Detail from "./routes/Details";
 import Order from "./routes/Order";
 import SignupOk from "./routes/SignupOk";
+import Mypage from "./routes/Mypage";
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
       <Route path="/detail/:id" element={<Detail />} />
       <Route path="/order" element={<Order />} />
       <Route path="/Signup/SignupOk" element={<SignupOk/>}/>
+      <Route path="Mypage" element={<Mypage/>}/>
     </Routes>
 
   );
