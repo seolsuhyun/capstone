@@ -1,6 +1,5 @@
 .Category {
     padding-top: 200px;
-    padding-bottom: 180px;
     min-height: calc(100vh - 280px);
     display: flex;
     flex-direction: column;

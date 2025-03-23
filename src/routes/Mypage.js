@@ -3,7 +3,6 @@ import axios from "axios";
 import "./Mypage.css";
 import { useLogin } from "../context/LoginContext";
 
-
 const Mypage = () => {
   const { userName, userEmail } = useLogin();
 
@@ -15,6 +14,7 @@ const Mypage = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
+    console.log("현재 로그인된 이메일:", userEmail);
     axios.get(`http://localhost:8080/orders/${encodeURIComponent(userEmail)}`)
       .then((response) => {
         setOrders(response.data);
@@ -28,35 +28,23 @@ const Mypage = () => {
     axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
       .then(() => {
         alert("주문이 취소되었습니다.");
-        // 주문 취소 후 서버에서 최신 주문 데이터를 받아와서 상태를 갱신
-        axios.get(`http://localhost:8080/orders/${encodeURIComponent(userEmail)}`)
-          .then((response) => {
-            setOrders(response.data);  // 서버에서 받은 최신 주문 데이터로 상태 업데이트
-          })
-          .catch((error) => {
-            console.error("주문 데이터를 다시 가져오는 데 실패했습니다.", error);
-          });
+        setOrders(orders.filter(order => order.id !== orderId));
       })
       .catch(error => {
         alert("주문 취소에 실패했습니다.");
         console.error("주문 취소 에러", error);
       });
   };
-  
 
   const calculateTotalPrice = () => {
     let totalProductPrice = 0;
     orders.forEach(order => {
-      if (order.status === "ORDER") {
-        order.orderItemDtoList.forEach(item => {
-          totalProductPrice += item.price * item.count;
-        });
-      }
+      order.orderItemDtoList.forEach(item => {
+        totalProductPrice += item.price * item.count;
+      });
     });
     return totalProductPrice;
   };
-  
-  
 
   const totalProductPrice = calculateTotalPrice();
   const totalPrice = totalProductPrice + discount + shippingCost;

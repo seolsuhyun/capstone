@@ -1,0 +1,155 @@
+.faq {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 200px; /* 상단 여백 조정 */
+}
+
+.faq-title {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  
+}
+
+.faq-description {
+  font-size: 18px;
+  text-align: center;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.faq-cnt {
+  display: flex;
+  justify-content: space-between;
+  width: 80%; /* 양쪽 여백을 더 넓게 설정 */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 40px; /* 위쪽 여백 추가 */
+  margin-bottom: 40px; /* 아래쪽 여백 추가 */
+}
+
+.faq-cnt-left {
+  width: 60%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin: 20px; /* 오른쪽과 간격을 추가 */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.faq-cnt-right {
+  width: 30%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin: 20px; /* 왼쪽과 간격을 추가 */
+}
+
+.faq-item {
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  padding: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.faq-item:hover {
+  background-color: #f0a500;
+}
+
+.faq-question {
+  font-size: 32px;
+  color: #000000;
+}
+
+.faq-answer {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.faq-list {
+  margin-bottom: 30px;
+  background-color: #fff; /* 배경색 추가 */
+  border-radius: 10px; /* 둥근 모서리 */
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+}
+
+.faq-list h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.faq-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.faq-list li {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #0066cc;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.faq-list li:hover {
+  color: #f0a500;
+}
+
+.faq-customer-call {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.faq-customer-call h2 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.faq-customer-call h3 {
+  font-size: 20px;
+  color: #f0a500;
+  margin: 10px 0;
+}
+
+.faq-customer-call p {
+  font-size: 16px;
+  color: #555;
+  margin: 5px 0;
+}
+
+.faq-customer-call button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.faq-customer-call button:hover {
+  background-color: #f0a500;
+}

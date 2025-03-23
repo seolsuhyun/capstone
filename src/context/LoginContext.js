@@ -13,6 +13,7 @@ export const LoginProvider = ({ children }) => {
   const [userEmail, setUserEmail] = useState(''); // 사용자 이메일 상태 추가
 
   const login = (name, email) => {
+    console.log("로그인 실행! 이메일:", email, "이름:", name);
     setIsLoggedIn(true);
     setUserName(name);
     setUserEmail(email);  // 로그인 시 이메일도 설정

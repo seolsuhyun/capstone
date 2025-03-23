@@ -41,7 +41,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="#location" className="footer-link">
+              <a href="/FaQ" className="footer-link">
                 FAQ
               </a>
             </li>
@@ -58,23 +58,28 @@ const Footer = () => {
         <hr/>
           <ul className='footer-ul'>
             <li >
-              <a href="#brand-info" className="footer-link">
-                밀키트
+              <a href="/category/Best" className="footer-link">
+                Best
               </a>
             </li>
             <li>
-              <a href="#location" className="footer-link">
-                신상품
+              <a href="/category/New" className="footer-link">
+                New
               </a>
             </li>
             <li>
-              <a href="#location" className="footer-link">
-                베스트
+              <a href="/category/구이류" className="footer-link">
+                구이류
               </a>
             </li>
             <li>
-              <a href="#location" className="footer-link">
-                세일
+              <a href="/category/스프류" className="footer-link">
+                스프류
+              </a>
+            </li>
+            <li>
+              <a href="/category/파스타류" className="footer-link">
+                파스타류
               </a>
             </li>
           </ul>

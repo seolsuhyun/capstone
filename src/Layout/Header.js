@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { resolvePath, useNavigate } from 'react-router-dom';
 import { useLogin } from '../context/LoginContext';
 import axios from 'axios';
 import './Header.css';
@@ -22,7 +22,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name);
+          login(response.data.name,response.data.email);
         }
       } catch (error) {
         logout();
@@ -51,7 +51,7 @@ const Header = () => {
   const handleNameClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      navigate('/#MyPage');
+      navigate('/MyPage');
     }
   };
 
@@ -68,7 +68,7 @@ const Header = () => {
       <div>
         <img src='/Logo.png' className='logo' onClick={() => navigate('/')} />
 
-        {/* 서브 카테고리 메뉴 */}
+        
         <ul className="category-menu">
           {['Best', 'New', '구이류', '스프류', '파스타류'].map((category) => (
             <li key={category} className="category-item" onClick={() => handleCategoryClick(category)}>

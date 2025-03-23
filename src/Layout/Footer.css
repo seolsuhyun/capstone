@@ -1,58 +1,54 @@
 .footer {
-  position : absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px 0;
-    height: 170px;
-    position : relative;
-    transform : translateY(-100%);
-    z-index: 1000; 
-  }
+  position: relative;  /* 절대 위치 대신 상대 위치 사용 */
+  bottom: 0;
+  left: 0;
 
+  height: 170px;
  
- .footer-content-wrapper{
-    display: flex;
-    justify-content: space-around;
-  
-  
- }
- .footer-content{
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-   
-    justify-content: center;
- }
+}
 
- .footer-content hr{
-    width : 100%;
-  }
-  
-  .footer-ul {
-    display: flex;
-    flex-direction: column;
-     padding :0;
-     list-style: none;
-  }
-  
-.footer-ul li{
+.footer-content-wrapper {
+  display: flex;
+  justify-content: space-around;
+}
+
+.footer-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footer-content hr {
+  width: 100%;
+}
+
+.footer-ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-ul li {
   margin: 10px 0;
 }
-  
-  .footer-link {
-    color : black;
-    font-size: 14px;
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-email{
-    display: block;
-    text-align: right;
-    font-size: 14px;
-   
- 
-  }
-  .footer-link:hover {
-    color: #f0a500;
-  }
+
+.footer-link {
+  color: black;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-email {
+  display: block;
+  text-align: right;
+  font-size: 14px;
+}
+
+.footer-link:hover {
+  color: #d48a00;
+}
+
+/* 부모 요소(body 또는 main)에 패딩 추가 */

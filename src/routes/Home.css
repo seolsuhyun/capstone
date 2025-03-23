@@ -1,8 +1,8 @@
 .home {
-  padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
-  padding-bottom: 180px;  /* 푸터 높이만큼 여백 추가 */
+  padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */  
   height: auto;
   text-align: center;
+
 }
 
 h1 {
@@ -58,4 +58,31 @@ h1 {
 
 .products a:hover {
   background-color: #45a049;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page-btn {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s;
+}
+
+.page-btn:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.page-btn.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
 }

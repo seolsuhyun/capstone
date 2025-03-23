@@ -10,7 +10,7 @@ import SignupOk from "./routes/SignupOk";
 import Mypage from "./routes/Mypage";
 import OrderSuccess from "./routes/OrderSuccess";
 import Category from "./routes/Category";
-
+import FaQ from "./routes/FaQ";
 function App() {
 
     
@@ -28,6 +28,7 @@ function App() {
       <Route path="Mypage" element={<Mypage/>}/>
       <Route path="/order/ordersuccess" element={<OrderSuccess/>}/>
       <Route path="/category/:category" element={<Category />} />
+      <Route path="/FaQ" element={<FaQ/>}/>
     </Routes>
 
   );

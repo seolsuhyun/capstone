@@ -4,7 +4,7 @@
     justify-content: center;
     align-items: center;
     padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
-     padding-bottom: 180px;
+   
      height: 600px;/* 화면의 높이를 100%로 설정 */
     /* 배경색 */
   }
