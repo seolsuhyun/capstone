@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation,useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import axios from 'axios';
@@ -22,21 +22,20 @@ function Order() {
   const [isPersonalInfoAgreed, setIsPersonalInfoAgreed] = useState(false);
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);
   const [isPaymentAgreed, setIsPaymentAgreed] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [count, setCount] = useState(1);
-  
+  const [count, setcount] = useState(1);
+
   const API_URL = "http://localhost:8080";
   const navigate = useNavigate();
 
   const createOrder = async () => {
-    
-    
+
+
     try {
       await axios.post(`${API_URL}/order`, { id: product.id, count }, {
         withCredentials: true,
       });
       alert("Order Created!");
-      
+
       // 결제 완료 후 OrderSuccess 페이지로 이동
       navigate('/order/ordersuccess');  // 이 부분에서 페이지 이동
     } catch (error) {
@@ -47,7 +46,7 @@ function Order() {
 
 
   const calculateTotalPrice = () => {
-    const total = product.price - couponDiscount - pointsUsage + shippingCost;
+    const total = totalPrice - couponDiscount - pointsUsage + shippingCost;
     return total < 0 ? 0 : total; // 0 미만으로는 안되도록 처리
   };
   // 날짜계산
@@ -94,10 +93,24 @@ function Order() {
   };
 
   const allAgreed = isPersonalInfoAgreed && isTermsAgreed && isPaymentAgreed; // 체크박스 확인함수
-  
+
   if (!product) {
     return <div>상품 정보가 없습니다.</div>;
   }
+
+
+  // 수량 증가 함수
+  const increasecount = () => {
+    setcount(prevcount => prevcount + 1);
+  };
+
+  // 수량 감소 함수 (0보다 작지 않도록)
+  const decreasecount = () => {
+    if (count > 1) {
+      setcount(prevcount => prevcount - 1);
+    }
+  };
+  const totalPrice = product.price * count;
 
   return (
     <div className="order">
@@ -109,7 +122,6 @@ function Order() {
           <div className='order_product_info'>
             <h2>주문상품정보</h2>
             <div className="order_product_item">
-             
               <img
                 src={product.image}
                 alt={product.title}
@@ -121,9 +133,29 @@ function Order() {
                 }}
               />
               <div className="order_product_name_price">
-                <h2>{product.title}</h2>
+                <h2>{product.name}</h2>
                 <p>{product.content}</p>
-                <h3>가격: {product.price.toLocaleString()} 원</h3>
+                <div className="order_product_count_price">
+               
+                  <div className="count-price-container">
+                    <h3 style={{ marginRight: "15px" }}>금액: {totalPrice.toLocaleString()} 원</h3>
+                    <div className="count-controls">
+                      <button
+                        className="count-button decrease"
+                        onClick={decreasecount}
+                      >
+                        -
+                      </button>
+                      <span className="count-number">{count}</span>
+                      <button
+                        className="count-button increase"
+                        onClick={increasecount}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -237,7 +269,7 @@ function Order() {
             <div className="price-details">
               <div className="price-item">
                 <label>상품가격</label>
-                <p>{product.price.toLocaleString()} 원</p>
+                <p>{totalPrice.toLocaleString()}  원</p>
               </div>
               <div className="price-item">
                 <label>쿠폰할인</label>
@@ -347,52 +379,52 @@ function Order() {
             )}
           </div>
           <div className="payment-cnt">
-      <h2>결제 전 동의사항</h2>
-      
-      <div className="checkbox-container">
-        <label>
-          <input
-            type="checkbox"
-            checked={isPersonalInfoAgreed}
-            onChange={() => setIsPersonalInfoAgreed(!isPersonalInfoAgreed)}
-          />
-          개인정보 처리방침에 동의합니다.
-        </label>
-      </div>
+            <h2>결제 전 동의사항</h2>
 
-      <div className="checkbox-container">
-        <label>
-          <input
-            type="checkbox"
-            checked={isTermsAgreed}
-            onChange={() => setIsTermsAgreed(!isTermsAgreed)}
-          />
-          이용약관에 동의합니다.
-        </label>
-      </div>
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPersonalInfoAgreed}
+                  onChange={() => setIsPersonalInfoAgreed(!isPersonalInfoAgreed)}
+                />
+                개인정보 처리방침에 동의합니다.
+              </label>
+            </div>
 
-      <div className="checkbox-container">
-        <label>
-          <input
-            type="checkbox"
-            checked={isPaymentAgreed}
-            onChange={() => setIsPaymentAgreed(!isPaymentAgreed)}
-          />
-          결제 동의합니다.
-        </label>
-      </div>
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isTermsAgreed}
+                  onChange={() => setIsTermsAgreed(!isTermsAgreed)}
+                />
+                이용약관에 동의합니다.
+              </label>
+            </div>
 
-   
-      <div>
-        <button
-          className="pay-button"
-          disabled={!allAgreed}
-          onClick={createOrder}
-        >
-          결제하기
-        </button>
-      </div>
-    </div>
+            <div className="checkbox-container">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isPaymentAgreed}
+                  onChange={() => setIsPaymentAgreed(!isPaymentAgreed)}
+                />
+                결제 동의합니다.
+              </label>
+            </div>
+
+
+            <div>
+              <button
+                className="pay-button"
+                disabled={!allAgreed}
+                onClick={createOrder}
+              >
+                결제하기
+              </button>
+            </div>
+          </div>
 
         </div>
 

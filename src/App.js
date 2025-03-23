@@ -9,7 +9,7 @@ import Order from "./routes/Order";
 import SignupOk from "./routes/SignupOk";
 import Mypage from "./routes/Mypage";
 import OrderSuccess from "./routes/OrderSuccess";
-
+import Category from "./routes/Category";
 
 function App() {
 
@@ -27,7 +27,7 @@ function App() {
       <Route path="/Signup/SignupOk" element={<SignupOk/>}/>
       <Route path="Mypage" element={<Mypage/>}/>
       <Route path="/order/ordersuccess" element={<OrderSuccess/>}/>
-
+      <Route path="/category/:category" element={<Category />} />
     </Routes>
 
   );

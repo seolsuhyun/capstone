@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLogin } from '../context/LoginContext'; // useLogin 훅을 불러옴
+import { useLogin } from '../context/LoginContext';
 import axios from 'axios';
 import './Header.css';
 import search_img from "./reading-glasses.png";
@@ -11,21 +11,21 @@ import shopping_cart_img from "./shopping_cart.png";
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout, login, userName } = useLogin();  // 로그인 상태와 사용자 이름을 가져옴
+  const { isLoggedIn, logout, login, userName } = useLogin();
 
-  // 새로고침해도 로그인 상태 유지
+
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
         const response = await axios.get('http://localhost:8080/loginOk', {
-          withCredentials: true, // 세션 쿠키 포함
+          withCredentials: true,
         });
 
         if (response.status === 200) {
-          login(response.data.name,response.data.email); // 로그인 상태 유지
+          login(response.data.name);
         }
       } catch (error) {
-        logout(); // 세션이 없으면 로그아웃 처리
+        logout();
       }
     };
 
@@ -38,7 +38,7 @@ const Header = () => {
     if (isLoggedIn) {
       try {
         await axios.get('http://localhost:8080/logout', { withCredentials: true });
-        logout(); // 로그인 상태 변경
+        logout();
         alert("로그아웃 했습니다.");
       } catch (error) {
         console.error("로그아웃 실패:", error);
@@ -51,8 +51,13 @@ const Header = () => {
   const handleNameClick = (e) => {
     e.preventDefault();
     if (isLoggedIn) {
-      navigate('/Mypage');
+      navigate('/#MyPage');
     }
+  };
+
+  const handleCategoryClick = (category) => {
+
+    navigate(`/category/${category}`);
   };
 
   return (
@@ -62,43 +67,52 @@ const Header = () => {
       </div>
       <div>
         <img src='/Logo.png' className='logo' onClick={() => navigate('/')} />
-        
+
+        {/* 서브 카테고리 메뉴 */}
+        <ul className="category-menu">
+          {['Best', 'New', '구이류', '스프류', '파스타류'].map((category) => (
+            <li key={category} className="category-item" onClick={() => handleCategoryClick(category)}>
+              {category}
+            </li>
+          ))}
+        </ul>
+
         <div className="search">
-          <img 
-            src={search_img} 
-            alt="Search" 
-            className="search_img" 
+          <img
+            src={search_img}
+            alt="Search"
+            className="search_img"
             onClick={() => navigate('/All_Items')}
           />
-          <input 
-            type="text" 
-            placeholder="검색..." 
-            className="search_bar" 
+          <input
+            type="text"
+            placeholder="검색..."
+            className="search_bar"
           />
         </div>
         <nav>
           <ul className="navi_ul">
             <li className="navi_item">
               <img
-                src={shopping_cart_img} 
-                alt="shopping_cart" 
+                src={shopping_cart_img}
+                alt="shopping_cart"
                 className="nav_img"
                 onClick={() => navigate('/Cart')}
               />
             </li>
             <li className="navi_item">
-              <img 
-                src={mypage_img} 
-                alt="mypage" 
-                className="nav_img" 
-                onClick={() => navigate('/MyPage')} 
+              <img
+                src={mypage_img}
+                alt="mypage"
+                className="nav_img"
+                onClick={() => navigate('/MyPage')}
               />
             </li>
             <li className="navi_item">
-              <img 
-                src={nav_bar_img} 
-                alt="nav_bar" 
-                className="nav_img" 
+              <img
+                src={nav_bar_img}
+                alt="nav_bar"
+                className="nav_img"
               />
             </li>
           </ul>
