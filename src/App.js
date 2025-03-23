@@ -8,6 +8,8 @@ import Detail from "./routes/Details";
 import Order from "./routes/Order";
 import SignupOk from "./routes/SignupOk";
 import Mypage from "./routes/Mypage";
+import OrderSuccess from "./routes/OrderSuccess";
+
 
 function App() {
 
@@ -15,6 +17,7 @@ function App() {
   return (
 
     <Routes>
+     
       <Route path="/" element={<Home />} />
       <Route path="/Location" element={<Location />} />
       <Route path="/Login" element={<Login />} />
@@ -23,6 +26,8 @@ function App() {
       <Route path="/order" element={<Order />} />
       <Route path="/Signup/SignupOk" element={<SignupOk/>}/>
       <Route path="Mypage" element={<Mypage/>}/>
+      <Route path="/order/ordersuccess" element={<OrderSuccess/>}/>
+
     </Routes>
 
   );

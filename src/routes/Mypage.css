@@ -75,105 +75,71 @@
   margin-top: 30px;
 }
 
-.product-detil {
-  display: flex;
-  align-items: center; /* 세로 중앙 정렬 */
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+.mypage-order-items {
   margin-top: 20px;
- 
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.product-info {
+.mypage-order-item {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 왼쪽 정렬 */
-  justify-content: center;
-  gap: 10px;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mypage-order-item-details {
+  padding: 10px;
+}
+
+.mypage-order-item-detail {
+  display: flex;
+  align-items: flex-start;  /* 텍스트와 이미지 상단을 맞추기 위해 상단 정렬 */
+  gap: 20px;  /* 이미지와 텍스트 사이 간격 */
+  margin-bottom: 20px;  /* 각 항목 사이 간격 */
+}
+
+.mypage-product-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;  /* 이미지 비율 맞추기 */
+}
+
+.mypage-product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  /* 텍스트를 위쪽에 정렬 */
+  gap: 8px;  /* 텍스트 간격 */
+}
+
+.mypage-product-info h4 {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0;  /* 기본 여백 제거 */
+}
+
+.mypage-product-info p {
+  font-size: 18px;
+  margin: 0;  /* 기본 여백 제거 */
+}
+
+
+
+.mypage-price-quantity {
+  display: flex;
+  justify-content: space-between;  /* 가격과 수량을 양쪽 끝으로 배치 */
+  align-items: center;
   width: 100%;
-}
-.product-image{
-
-  width: 150px;
-  height: 150px;
-}
-.quantity-controls {
-  display: flex;
-  align-items: center; /* 버튼과 가격을 한 줄에 정렬 */
-  gap: 10px; /* 요소 사이 간격 */
-}
-
-.product-info h2,
-.product-info p,
-.quantity-controls {
-  margin: 0; /* 기본 마진 제거 */
-}
-
-
-
-
-.product-info h3 {
-  margin: 0;
-  font-size: 20px;
-  color: #333;
-}
-
-
-
-.quantity {
   margin-top: 10px;
+  gap:20px;
 }
 
-.quantity label {
-  margin-right: 10px;
-  font-size: 16px;
+.mypage-price {
+  font-size: 22px;  /* 글자 크기를 22px로 키움 */
+  font-weight: bold;  /* 글자 두껍게 */
+  margin: 0;  /* 간격을 없애서 더 깔끔하게 */
 }
-
-.quantity-input {
-  width: 60px;
-  padding: 5px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-.quantity-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px; /* 버튼 사이 간격 */
-}
-
-.quantity-button {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 50%; /* 버튼을 동그랗게 */
-  background-color: #4a90e2; /* 파란색 배경 */
-  color: white;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* 그림자 추가 */
-  transition: background 0.3s, transform 0.2s;
-}
-
-.quantity-button:hover {
-  background-color: #357abd; /* 조금 더 어두운 파란색 */
-  transform: scale(1.1); /* 호버 시 살짝 확대 */
-}
-
-.quantity-display {
-  font-size: 20px;
-  font-weight: bold;
-  color: #333;
-  min-width: 30px;
-  text-align: center;
+.mypage-product-info .quantity {
+  color: #888;  /* 회색으로 색깔 변경 */
+  font-size: 16px;  /* 가격보다 조금 작게 설정 */
 }
 
 .mypage-delivery-info {

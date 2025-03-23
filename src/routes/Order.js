@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
-
+import axios from 'axios';
 function Order() {
   const location = useLocation(); // 전달된 상태를 가져옵니다.
   const { product } = location.state || {}; // state가 없다면 빈 객체로 처리
@@ -19,10 +19,32 @@ function Order() {
   const [couponDiscount, setCouponDiscount] = useState(0); // 쿠폰 할인 금액
   const [pointsUsage, setPointsUsage] = useState(0); // 포인트 사용 금액
   const [shippingCost, setShippingCost] = useState(3500); //기본배송비
-  
   const [isPersonalInfoAgreed, setIsPersonalInfoAgreed] = useState(false);
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);
   const [isPaymentAgreed, setIsPaymentAgreed] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [count, setCount] = useState(1);
+  
+  const API_URL = "http://localhost:8080";
+  const navigate = useNavigate();
+
+  const createOrder = async () => {
+    
+    
+    try {
+      await axios.post(`${API_URL}/order`, { id: product.id, count }, {
+        withCredentials: true,
+      });
+      alert("Order Created!");
+      
+      // 결제 완료 후 OrderSuccess 페이지로 이동
+      navigate('/order/ordersuccess');  // 이 부분에서 페이지 이동
+    } catch (error) {
+      console.error("Error creating order", error);
+      alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
+    }
+  };
+
 
   const calculateTotalPrice = () => {
     const total = product.price - couponDiscount - pointsUsage + shippingCost;
@@ -87,6 +109,7 @@ function Order() {
           <div className='order_product_info'>
             <h2>주문상품정보</h2>
             <div className="order_product_item">
+             
               <img
                 src={product.image}
                 alt={product.title}
@@ -364,7 +387,7 @@ function Order() {
         <button
           className="pay-button"
           disabled={!allAgreed}
-          onClick={() => alert('결제 진행')}
+          onClick={createOrder}
         >
           결제하기
         </button>

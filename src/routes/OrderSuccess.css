@@ -1,0 +1,51 @@
+/* 화면 전체를 채우고 가운데 정렬 */
+.order-success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
+     padding-bottom: 180px;
+     height: 600px;/* 화면의 높이를 100%로 설정 */
+    /* 배경색 */
+  }
+  
+  .order-success-message {
+    text-align: center;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  .order-success-message h1 {
+    color: #4caf50;
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .order-success-message p {
+    color: #333;
+    font-size: 16px;
+  }
+  
+  /* 홈으로 가는 버튼 스타일 */
+  .home-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .home-button:hover {
+    background-color: #45a049;
+  }
+  
+  .home-button:active {
+    background-color: #3e8e41;
+  }

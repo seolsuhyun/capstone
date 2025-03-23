@@ -7,23 +7,25 @@ export const useLogin = () => {
   return useContext(LoginContext);
 };
 
-
 export const LoginProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);  // 로그인 상태
   const [userName, setUserName] = useState('');  // 사용자 이름 상태
+  const [userEmail, setUserEmail] = useState(''); // 사용자 이메일 상태 추가
 
-  const login = (name) => {
+  const login = (name, email) => {
     setIsLoggedIn(true);
-    setUserName(name);  // 로그인 시 사용자 이름 설정
+    setUserName(name);
+    setUserEmail(email);  // 로그인 시 이메일도 설정
   };
 
   const logout = () => {
     setIsLoggedIn(false);
-    setUserName('씨벌럼');  // 로그아웃 시 사용자 이름 초기화
+    setUserName('');  
+    setUserEmail('');  // 로그아웃 시 이메일 초기화
   };
 
   return (
-    <LoginContext.Provider value={{ isLoggedIn, login, logout, userName }}>
+    <LoginContext.Provider value={{ isLoggedIn, login, logout, userName, userEmail }}>
       {children}
     </LoginContext.Provider>
   );

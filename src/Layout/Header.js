@@ -22,7 +22,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name); // 로그인 상태 유지
+          login(response.data.name,response.data.email); // 로그인 상태 유지
         }
       } catch (error) {
         logout(); // 세션이 없으면 로그아웃 처리
