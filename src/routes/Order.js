@@ -16,7 +16,7 @@ function Order() {
   const [detailAddress, setDetailAddress] = useState('');
   const [deliveryMemo, setDeliveryMemo] = useState(''); // 배송 메모 상태
   const [deliveryOption, setDeliveryOption] = useState('standard');
-  const [couponDiscount, setCouponDiscount] = useState(0); // 쿠폰 할인 금액
+  const [couponDiscount, setCouponDiscount] = useState(1000); // 쿠폰 할인 금액
   const [pointsUsage, setPointsUsage] = useState(0); // 포인트 사용 금액
   const [shippingCost, setShippingCost] = useState(3500); //기본배송비
   const [isPersonalInfoAgreed, setIsPersonalInfoAgreed] = useState(false);
@@ -111,6 +111,44 @@ function Order() {
     }
   };
   const totalPrice = product.price * count;
+
+
+  const onClickPayment = (product,couponDiscount, totalPrice) => {
+    const { IMP } = window;
+    IMP.init("imp87433075"); // 임포트된 IMP 객체 초기화
+    
+    const data = {
+      pg: "kicc", // PG사
+      pay_method: "card", // 결제 수단
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호
+      amount: totalPrice - couponDiscount, // 결제 금액
+      name: product.name, // 주문명
+     customer_id:"test_ck_lpP2YxJ4K877JAdv7KX8RGZwXLOb",
+    };
+
+    // 결제 요청
+    IMP.request_pay(data, callback);
+  };
+
+  // 결제 완료 후 콜백 처리 함수
+  const callback = (response) => {
+    const { success, error_msg } = response;
+    if (success) {
+      createOrder();
+      alert("결제 성공");
+    } else {
+      alert(`결제 실패: ${error_msg}`);
+    }
+  };
+
+  // 버튼 클릭 시 onClickPayment 실행
+  const handlePaymentClick = () => {
+    onClickPayment(product, couponDiscount, calculateTotalPrice()*0+1);
+  };
+
+
+
+
 
   return (
     <div className="order">
@@ -422,6 +460,13 @@ function Order() {
                 onClick={createOrder}
               >
                 결제하기
+              </button>
+              <button
+                className="real-pay-button"
+              
+                onClick={handlePaymentClick}
+              >
+                실제 결제하기
               </button>
             </div>
           </div>
