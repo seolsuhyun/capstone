@@ -1,0 +1,52 @@
+.QAPage {
+    padding-top: 200px;
+    padding-bottom: 200px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.qa-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.qa-table {
+    width: 80%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.qa-table th,
+.qa-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.qa-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.qa-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.qa-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.qa-title-cell {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.pagination {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #666;
+}

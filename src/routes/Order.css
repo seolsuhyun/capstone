@@ -60,7 +60,7 @@
 }
 
 .cnt-left {
-  flex: 1.2; 
+  flex: 1.1; 
 }
 
 .cnt-right{
@@ -411,5 +411,4 @@ select:focus {
   border-radius: 5px;
   font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s;
-}
+  transition: background-color 0.3s;}

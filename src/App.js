@@ -11,6 +11,7 @@ import Mypage from "./routes/Mypage";
 import OrderSuccess from "./routes/OrderSuccess";
 import Category from "./routes/Category";
 import FaQ from "./routes/FaQ";
+import QAPage from "./routes/QAPage";
 function App() {
 
     
@@ -29,6 +30,7 @@ function App() {
       <Route path="/order/ordersuccess" element={<OrderSuccess/>}/>
       <Route path="/category/:category" element={<Category />} />
       <Route path="/FaQ" element={<FaQ/>}/>
+      <Route path="/Q&A" element={<QAPage />} />
     </Routes>
 
   );

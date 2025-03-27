@@ -46,7 +46,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="#location" className="footer-link">
+              <a href="/Q&A" className="footer-link">
                 고객 문의
               </a>
             </li>
