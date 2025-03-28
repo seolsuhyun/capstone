@@ -12,6 +12,7 @@ import OrderSuccess from "./routes/OrderSuccess";
 import Category from "./routes/Category";
 import FaQ from "./routes/FaQ";
 import QAPage from "./routes/QAPage";
+import InquiryWrite from "./routes/InquiryWrite";
 function App() {
 
     
@@ -31,6 +32,7 @@ function App() {
       <Route path="/category/:category" element={<Category />} />
       <Route path="/FaQ" element={<FaQ/>}/>
       <Route path="/Q&A" element={<QAPage />} />
+      <Route path="/Q&A/InquiryWirte" element={<InquiryWrite/>}/>
     </Routes>
 
   );
