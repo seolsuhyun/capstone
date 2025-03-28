@@ -7,7 +7,32 @@
     align-items: center;
     justify-content: center;
 }
+.qa-search{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.qa-search-input {
+    width: 70%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.qa-search-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+.qa-search-button:hover {
+    background-color: #45a049;
+}
 .qa-title {
     font-size: 24px;
     font-weight: bold;
@@ -49,4 +74,27 @@
     margin-top: 20px;
     font-size: 16px;
     color: #666;
+}
+.qa-search-write {
+    width: 80%;
+    display: flex;
+    justify-content: right;
+    margin-bottom: 30px;
+}
+
+
+
+.qa-write-button {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.qa-write-button:hover {
+    background-color: #45a049;
 }
