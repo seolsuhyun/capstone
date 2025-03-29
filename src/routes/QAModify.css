@@ -1,0 +1,51 @@
+.qa-modify {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-top: 80px;
+}
+
+.qa-modify h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.qa-modify form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.qa-modify label {
+    font-size: 16px;
+    color: #333;
+}
+
+.qa-modify input,
+.qa-modify textarea {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.qa-modify-submit {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.qa-modify-submit:hover {
+    background-color: #45a049;
+}

@@ -1,6 +1,6 @@
 import "./QAPage.css";
-import React, { useEffect, useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom"; // useNavigate 임포트
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const QAPage = () => {
@@ -11,6 +11,7 @@ const QAPage = () => {
     const [totalPages, setTotalPages] = useState(1); // 전체 페이지 수
     const [loading, setLoading] = useState(false); // 데이터 로딩 상태
     const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태
+    const [filteredQuestions, setFilteredQuestions] = useState([]); // 필터된 질문 상태
 
     const navigate = useNavigate(); // useNavigate 훅을 사용하여 페이지 이동
 
@@ -32,7 +33,7 @@ const QAPage = () => {
 
                 setQuestions(sortedQuestions);
                 setTotalPages(Math.ceil(sortedQuestions.length / questionsPerPage)); // 페이지 수 계산
-                console.log(sortedQuestions);
+                setFilteredQuestions(sortedQuestions); // 모든 질문을 필터된 상태로 설정
             } catch (error) {
                 console.error("질문 데이터를 가져오는 중 오류 발생:", error);
             } finally {
@@ -51,20 +52,24 @@ const QAPage = () => {
         setSearchTerm(e.target.value); // 검색어 변경
     };
 
-    const filteredQuestions = useMemo(() => {
-        if (searchTerm === "") return questions;
-        return questions.filter(q => q.title.toLowerCase().includes(searchTerm.toLowerCase())); // 제목에 검색어 포함하는 질문 필터링
-    }, [searchTerm, questions]);
+    const handleSearchClick = () => {
+        if (searchTerm === "") {
+            setFilteredQuestions(questions); // 검색어가 비었으면 모든 질문을 다시 보여줌
+        } else {
+            const filtered = questions.filter(q =>
+                q.title.toLowerCase().includes(searchTerm.toLowerCase()) // 제목에 검색어 포함하는 질문 필터링
+            );
+            setFilteredQuestions(filtered); // 필터된 질문만 상태에 저장
+        }
+    };
 
-    const currentQuestions = useMemo(() => {
-        const indexOfLastQuestion = currentPage * questionsPerPage;
-        const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
-        return filteredQuestions.slice(indexOfFirstQuestion, indexOfLastQuestion); // 필터된 목록에서 페이지에 맞는 질문 반환
-    }, [currentPage, filteredQuestions]);
+    const currentQuestions = filteredQuestions.slice(
+        (currentPage - 1) * questionsPerPage,
+        currentPage * questionsPerPage
+    );
 
-    const handleQuestionClick = (questionId, questionData) => {
-        navigate(`/Q&A/content/${questionId}`, { state: { questionData } });
-        console.log(questionData);
+    const handleQuestionClick = (questionId) => {
+        navigate(`/Q&A/content/${questionId}`, { state: { questionId } });
     };
 
     const handleWriteClick = () => {
@@ -82,14 +87,14 @@ const QAPage = () => {
         <div className="QAPage">
             <h2 className="qa-title">Q&A 게시판</h2>
             <div className="qa-search">
-            <input
+                <input
                     type="text"
                     placeholder="검색어를 입력하세요..."
                     value={searchTerm}
                     onChange={handleSearchChange}
                     className="qa-search-input"
                 />
-                <button className="qa-search-button" >
+                <button className="qa-search-button" onClick={handleSearchClick}>
                     검색
                 </button>
             </div>
@@ -107,17 +112,17 @@ const QAPage = () => {
                     </thead>
                     <tbody>
                         {currentQuestions.map((q) => (
-                            <tr key={q.id} onClick={() => handleQuestionClick(q.id, q)}>
+                            <tr key={q.id} onClick={() => handleQuestionClick(q.id)}>
                                 <td>{q.id}</td>
                                 <td className="qa-title-cell">{q.title}</td>
                                 <td>{q.name}</td>
-                                <td>{q.date}</td>
+                                <td>{q.date.split("T")[0]}</td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             )}
-            
+
             <div className="pagination">
                 <p>{currentPage} / {totalPages}</p>
                 <button

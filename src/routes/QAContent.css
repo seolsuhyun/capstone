@@ -1,4 +1,77 @@
-.qa-content {
-    margin-top: 240px;
-    height: 200px;
-}
+    .qa-content{
+
+        width: 100%;
+        
+        
+    }
+    .qa-content-cnt {
+        width: 80%;
+        margin: auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-top: 220px;
+        height: 400px;
+
+    }
+
+    .qa-content-header {
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .qa-content-header h2 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .qa-content-info {
+        font-size: 14px;
+        color: #777;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .qa-content-body {
+        font-size: 16px;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    .qa-content-body p {
+        margin-bottom: 20px;
+    }
+
+    .qa-content-info p {
+        margin: 0;
+    }
+
+    .qa-content-body p:first-of-type {
+        font-weight: bold;
+    }
+    .qa-content-actions {
+        display: flex;
+        width: 90%;
+        justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
+        margin-top: 20px; /* 버튼과 내용 간에 여백 추가 */
+    }
+
+    .qa-delete-button {
+        padding: 10px 20px;
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .qa-delete-button:hover {
+        background-color: #e60000; /* 호버 시 색상 변경 */
+    }

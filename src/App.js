@@ -14,6 +14,7 @@ import FaQ from "./routes/FaQ";
 import QAPage from "./routes/QAPage";
 import InquiryWrite from "./routes/InquiryWrite";
 import QAContent from "./routes/QAContent";
+import QAModify from "./routes/QAModify";
 function App() {
 
     
@@ -35,6 +36,7 @@ function App() {
       <Route path="/Q&A" element={<QAPage />} />
       <Route path="/Q&A/BoardWrite" element={<InquiryWrite/>}/>
       <Route path="/Q&A/content/:questionId" element={<QAContent />} />
+      <Route path="/Q&A/modify/:questionId" element={<QAModify />} />
     </Routes>
 
   );
