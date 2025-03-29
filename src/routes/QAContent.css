@@ -57,21 +57,159 @@
     }
     .qa-content-actions {
         display: flex;
-        width: 90%;
-        justify-content: flex-end; /* 버튼을 오른쪽 정렬 */
-        margin-top: 20px; /* 버튼과 내용 간에 여백 추가 */
-    }
+        justify-content: space-between; /* 두 그룹의 버튼을 양쪽 끝으로 정렬 */
+        width: 80%; /* 부모 div가 가질 너비를 100%로 설정 */
 
-    .qa-delete-button {
-        padding: 10px 20px;
-        background-color: #ff4d4d;
+        margin: 20px auto 0; /* 상단에 20px의 마진과 수평 가운데 정렬 */
+    }
+    
+    .qa-back-button-container {
+        /* 왼쪽에 배치할 영역 */
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    
+    .qa-right-buttons-container {
+        /* 오른쪽에 배치할 영역 */
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px; /* 버튼 간 간격 */
+    }
+    
+    .qa-back-button {
+        padding: 8px 15px;
+        background-color: #007bff;
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 16px;
     }
-
+    
+    .qa-back-button:hover {
+        background-color: #0056b3;
+    }
+    
+    .qa-delete-button,
+    .qa-edit-button {
+        padding: 8px 15px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
     .qa-delete-button:hover {
-        background-color: #e60000; /* 호버 시 색상 변경 */
+        background-color: #c82333;
     }
+    
+    .qa-edit-button:hover {
+        background-color: #28a745;
+    }
+    
+    /* 댓글 작성 버튼 */
+.qa-comment-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.qa-comment-toggle-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.qa-comment-toggle-button:hover {
+    background-color: #0056b3;
+}
+
+/* 댓글 작성 폼 */
+.qa-comment-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.qa-comment-textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.qa-comment-submit-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.qa-comment-submit-button:hover {
+    background-color: #218838;
+}
+
+/* 댓글 리스트 */
+.qa-comment-list {
+    margin-top: 40px;
+    padding: 10px;
+    border-top: 2px solid #ddd;
+}
+
+.qa-comment-list h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.qa-comment {
+    background-color: #f8f9fa;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.qa-comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.qa-comment-author {
+    font-size: 16px;
+    color: #007bff;
+}
+
+.qa-comment-date {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.qa-comment-content {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.qa-no-comments {
+    font-size: 14px;
+    color: #6c757d;
+    text-align: center;
+    margin-top: 20px;
+}

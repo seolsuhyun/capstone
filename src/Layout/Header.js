@@ -22,7 +22,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name,response.data.email);
+          login(response.data.name,response.data.email,response.data.role);
         }
       } catch (error) {
         logout();

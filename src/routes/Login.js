@@ -32,7 +32,7 @@ const Login = () => {
         alert('로그인 성공!');
         console.log('유저 이메일: ' + response.data.email);
         console.log('권한: ' + response.data.authorities);
-        login(response.data.name,response.data.email);
+        login(response.data.name,response.data.email,response.data.role);
         navigate('/', { state: { userData: response.data } });
       } else {
         // 로그인 실패 시 오류 메시지
