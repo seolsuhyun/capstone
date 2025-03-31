@@ -15,6 +15,7 @@ import QAPage from "./routes/QAPage";
 import InquiryWrite from "./routes/InquiryWrite";
 import QAContent from "./routes/QAContent";
 import QAModify from "./routes/QAModify";
+import MainPage from "./Layout/MainPage";
 function App() {
 
     
@@ -22,7 +23,7 @@ function App() {
 
     <Routes>
      
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home/>} />
       <Route path="/Location" element={<Location />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/Signup" element={<Signup />} />

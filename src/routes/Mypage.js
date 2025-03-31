@@ -18,6 +18,7 @@ const Mypage = () => {
     axios.get(`http://localhost:8080/orders/${encodeURIComponent(userEmail)}`)
       .then((response) => {
         setOrders(response.data);
+        console.log(orders);
       })
       .catch((error) => {
         console.error("에러", error);
@@ -28,7 +29,9 @@ const Mypage = () => {
     axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
       .then(() => {
         alert("주문이 취소되었습니다.");
+        // 주문이 취소된 후 해당 주문을 orders 배열에서 제거
         setOrders(orders.filter(order => order.id !== orderId));
+        window.location.reload()
       })
       .catch(error => {
         alert("주문 취소에 실패했습니다.");
@@ -39,9 +42,12 @@ const Mypage = () => {
   const calculateTotalPrice = () => {
     let totalProductPrice = 0;
     orders.forEach(order => {
-      order.orderItemDtoList.forEach(item => {
-        totalProductPrice += item.price * item.count;
-      });
+      // 주문 상태가 'CANCEL'이 아닌 경우만 가격을 더한다
+      if (order.status !== "CANCEL") {
+        order.orderItemDtoList.forEach(item => {
+          totalProductPrice += item.price * item.count;
+        });
+      }
     });
     return totalProductPrice;
   };
@@ -74,26 +80,29 @@ const Mypage = () => {
         <div className="mypage-order-items">
           {orders.length > 0 ? (
             orders.map((order, index) => (
-              <div key={index} className="mypage-order-item">
-                <div className="mypage-order-item-details">
-                  <p>주문일: {order.orderDate}</p>
-                  {order.orderItemDtoList.map((item, itemIndex) => (
-                    <div key={itemIndex} className="mypage-order-item-detail">
-                      <img src={item.image} alt={item.name} className="mypage-product-image" />
-                      <div className="mypage-product-info">
-                        <h4>{item.name}</h4>
-                        <p>{item.productContent}</p>
-                        <div className="mypage-price-quantity">
-                          <p className="mypage-price">가격: {item.price} 원</p>
-                          <p className="mypage-quantity">수량: {item.count}</p>
+              // 주문 상태가 'CANCEL'인 주문은 화면에 보이지 않도록 조건을 추가
+              order.status !== "CANCEL" && (
+                <div key={index} className="mypage-order-item">
+                  <div className="mypage-order-item-details">
+                    <p>주문일: {order.orderDate}</p>
+                    {order.orderItemDtoList.map((item, itemIndex) => (
+                      <div key={itemIndex} className="mypage-order-item-detail">
+                        <img src={item.image} alt={item.name} className="mypage-product-image" />
+                        <div className="mypage-product-info">
+                          <h4>{item.name}</h4>
+                          <p>{item.productContent}</p>
+                          <div className="mypage-price-quantity">
+                            <p className="mypage-price">가격: {item.price} 원</p>
+                            <p className="mypage-quantity">수량: {item.count}</p>
+                          </div>
+                          <p>주문 상태 : {order.status}</p>
+                          <button className="cancel-button" onClick={() => handleCancelOrder(order.orderId)}>주문 취소</button>
                         </div>
-                        <p>주문 상태 : {order.status}</p>
-                        <button className="cancel-button" onClick={() => handleCancelOrder(order.orderId)}>주문 취소</button>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )
             ))
           ) : (
             <p>주문 내역이 없습니다.</p>

@@ -1,0 +1,39 @@
+/* MainPage.css */
+.main-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .category-item {
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .category-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  
+  .product-card {
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .discount {
+    color: red;
+    margin-right: 10px;
+  }
