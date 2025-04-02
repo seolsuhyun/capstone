@@ -26,28 +26,31 @@ const Mypage = () => {
   }, [userEmail]);
 
   const handleCancelOrder = (orderId) => {
+    // 서버에 주문 취소 요청 보내기
     axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
       .then(() => {
         alert("주문이 취소되었습니다.");
-        // 주문이 취소된 후 해당 주문을 orders 배열에서 제거
-        setOrders(orders.filter(order => order.id !== orderId));
-        window.location.reload()
+        window.location.reload();
+        setOrders(prevOrders => 
+          prevOrders.filter(order => order.id !== orderId) // 취소된 주문만 제외
+        );
       })
       .catch(error => {
         alert("주문 취소에 실패했습니다.");
         console.error("주문 취소 에러", error);
       });
   };
+  
 
   const calculateTotalPrice = () => {
     let totalProductPrice = 0;
     orders.forEach(order => {
       // 주문 상태가 'CANCEL'이 아닌 경우만 가격을 더한다
-      if (order.status !== "CANCEL") {
+    
         order.orderItemDtoList.forEach(item => {
           totalProductPrice += item.price * item.count;
         });
-      }
+      
     });
     return totalProductPrice;
   };
@@ -80,8 +83,8 @@ const Mypage = () => {
         <div className="mypage-order-items">
           {orders.length > 0 ? (
             orders.map((order, index) => (
-              // 주문 상태가 'CANCEL'인 주문은 화면에 보이지 않도록 조건을 추가
-              order.status !== "CANCEL" && (
+       
+              (
                 <div key={index} className="mypage-order-item">
                   <div className="mypage-order-item-details">
                     <p>주문일: {order.orderDate}</p>
