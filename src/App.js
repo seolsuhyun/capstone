@@ -15,7 +15,8 @@ import QAPage from "./routes/QAPage";
 import InquiryWrite from "./routes/InquiryWrite";
 import QAContent from "./routes/QAContent";
 import QAModify from "./routes/QAModify";
-import MainPage from "./Layout/MainPage";
+import SearchResults from "./routes/SearchResults"
+
 function App() {
 
     
@@ -38,6 +39,7 @@ function App() {
       <Route path="/Q&A/BoardWrite" element={<InquiryWrite/>}/>
       <Route path="/Q&A/content/:questionId" element={<QAContent />} />
       <Route path="/Q&A/modify/:questionId" element={<QAModify />} />
+      <Route path="/search" element={<SearchResults />} />
     </Routes>
 
   );
