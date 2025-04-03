@@ -15,8 +15,8 @@ const Category = () => {
                 //카테고리별로 필터링
                 const filteredProducts = response.data.filter((product) => {
                     if (category === '구이류') return product.category === 'ROAST';
-                    if (category === '스프류') return product.category === 'SOUP';
-                    if (category === '파스타류') return product.category === 'PASTA';
+                    if (category === '국물 요리') return product.category === 'SOUP';
+                    if (category === '파스타') return product.category === 'PASTA';
                     return true;  //아무 카테고리가 아니면 모든 제품
                 });
                 setProducts(filteredProducts);
