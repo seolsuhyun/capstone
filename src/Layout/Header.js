@@ -16,16 +16,38 @@ const Header = () => {
   useEffect(() => {
     const checkLoginStatus = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/loginOk', { withCredentials: true });
+        const response = await axios.get('http://localhost:8080/loginOk', {
+          withCredentials: true,
+        });
+
         if (response.status === 200) {
-          login(response.data.name, response.data.email, response.data.role);
+          login(response.data.name);
         }
       } catch (error) {
         logout();
       }
     };
+
     checkLoginStatus();
   }, [login, logout]);
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+
+    if (isLoggedIn) {
+      try {
+        await axios.get('http://localhost:8080/logout', { withCredentials: true });
+        logout();
+        alert("로그아웃 했습니다.");
+        navigate('/'); // 로그아웃 후 홈으로 이동
+      } catch (error) {
+        console.error("로그아웃 실패:", error);
+      }
+    } else {
+      alert("로그인 후 이용해주세요.");
+    }
+  };
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -36,7 +58,7 @@ const Header = () => {
       <div className="nav-links">
         {isLoggedIn ? (
           <>
-            <a href="/" onClick={logout}>로그아웃</a>
+            <a href="/" onClick={handleLogout}>로그아웃</a>
             <a href="/MyPage">{userName} 님</a>
           </>
         ) : (
