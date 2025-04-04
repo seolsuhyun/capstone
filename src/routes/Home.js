@@ -44,8 +44,18 @@ const Home = () => {
         ))}
       </ul>
 
-      {/* 페이지네이션 버튼 */}
+      {/* 페이지네이션 */}
       <div className="pagination">
+        {/* 맨 앞으로 가기 버튼 */}
+        <button 
+          onClick={() => setCurrentPage(1)} 
+          disabled={currentPage === 1} 
+          className="page-btn"
+        >
+          «
+        </button>
+
+        {/* 페이지 번호 버튼 */}
         {Array.from({ length: totalPages }, (_, index) => (
           <button
             key={index + 1}
@@ -55,6 +65,15 @@ const Home = () => {
             {index + 1}
           </button>
         ))}
+
+        {/* 맨 뒤로 가기 버튼 */}
+        <button 
+          onClick={() => setCurrentPage(totalPages)} 
+          disabled={currentPage === totalPages} 
+          className="page-btn"
+        >
+          »
+        </button>
       </div>
     </div>
   );

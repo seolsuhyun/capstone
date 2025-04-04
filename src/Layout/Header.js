@@ -21,7 +21,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name);
+          login(response.data.name,response.data.email,response.data.role); // 로그인 상태 업데이트
         }
       } catch (error) {
         logout();
@@ -98,7 +98,7 @@ const Header = () => {
                   <li onClick={() => navigate('/category/구이류')}>구이/볶음</li>
                   <li onClick={() => navigate('/category/국물요리')}>국물 요리</li>
                   <li onClick={() => navigate('/category/파스타')}>파스타</li>
-                  <li onClick={() => navigate('/category/drinks')}>음료</li>
+                  <li onClick={() => navigate('/category/안주')}>안주</li>
                 </ul>
               </div>
             )}
