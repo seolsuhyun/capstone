@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import './Details.css';
-import { useLogin} from "../context/LoginContext";
+import { useLogin } from "../context/LoginContext";
+import { useCart } from "../context/CartContext";
 
 const Detail = () => {
   const location = useLocation();
   const { state } = location;
   const product = state;
   const navigate = useNavigate();
-  
+
   // LoginContext에서 로그인 상태를 가져옵니다.
   const { isLoggedIn } = useLogin();
-  
+  const { addToCart } = useCart();
+
   const handleOrderClick = () => {
     // 로그인이 되어 있지 않으면 경고문을 띄운 후 로그인 페이지로 이동
     if (!isLoggedIn) {
@@ -22,6 +24,30 @@ const Detail = () => {
       navigate("/order", { state: { product } });
     }
   };
+
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login"); // 로그인 페이지로 이동
+      return;
+    }
+
+    try {
+      console.log("추가 시도:", product);
+
+      if (!product.id) {
+        alert("상품 ID가 없습니다!");
+        return;
+      }
+
+      await addToCart(product); // 내부적으로 axios 요청
+      alert("장바구니에 추가되었습니다!");
+    } catch (err) {
+      console.error("에러 발생:", err);
+      alert("장바구니 추가 중 오류가 발생했습니다.");
+    }
+  };
+
 
   return (
     <div className="product">
@@ -35,7 +61,9 @@ const Detail = () => {
           <h2>{product.price}원</h2>
           <p>{product.content}</p>
           <div className="button-container">
-            <button className="add-to-cart">장바구니 추가</button>
+            <button className="add-to-cart" onClick={handleAddToCart}>
+              장바구니 추가
+            </button>
             <button className="buy-now" onClick={handleOrderClick}>구매하기</button>
           </div>
         </div>
