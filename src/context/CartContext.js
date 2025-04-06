@@ -120,12 +120,13 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, removeFromCart, decreaseQuantity, updateQuantity }}
+            value={{ cartItems, addToCart, removeFromCart, decreaseQuantity, updateQuantity, fetchCart }}
         >
             {children}
         </CartContext.Provider>
     );
 
 };
+
 
 export const useCart = () => useContext(CartContext);

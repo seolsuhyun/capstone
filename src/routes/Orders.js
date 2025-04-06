@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useLogin } from "../context/LoginContext";
+import { useCart } from "../context/CartContext";
 import axios from 'axios';
 
 function Orders() {
@@ -107,6 +108,8 @@ function Orders() {
 
     const allAgreed = isPersonalInfoAgreed && isTermsAgreed && isPaymentAgreed;
 
+    const { fetchCart } = useCart(); // 👈 import 한 후 사용
+
     const createOrder = async () => {
         if (!validateAddress()) return;
         if (!allAgreed) {
@@ -121,6 +124,7 @@ function Orders() {
 
         try {
             await axios.post("/orders", orderDtos, { withCredentials: true });
+            await fetchCart(); // ✅ 장바구니 리프레시 추가
             alert("장바구니 주문이 완료되었습니다!");
             navigate("/order/ordersuccess");
         } catch (err) {
@@ -128,6 +132,7 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
+
 
     return (
         <div className="order">
