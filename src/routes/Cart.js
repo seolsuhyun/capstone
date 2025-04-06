@@ -14,7 +14,7 @@ const Cart = () => {
             alert("장바구니가 비어 있습니다.");
             return;
         }
-        navigate("/order", { state: { product: cartItems } });
+        navigate("/orders", { state: { product: cartItems } });
         console.log("주문 페이지로 넘길 데이터:", cartItems);
     };
 

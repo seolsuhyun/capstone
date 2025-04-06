@@ -19,6 +19,7 @@ import SearchResults from "./routes/SearchResults.js"
 import { CartProvider } from "./context/CartContext";
 import Cart from "./routes/Cart";
 import axios from "axios";
+import Orders from "./routes/Orders";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -47,6 +48,7 @@ function App() {
         <Route path="/Q&A/modify/:questionId" element={<QAModify />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchResults />} />
+        <Route path="/orders" element={<Orders />} />
 
       </Routes>
     </CartProvider>
