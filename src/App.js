@@ -18,6 +18,10 @@ import QAModify from "./routes/QAModify";
 import SearchResults from "./routes/SearchResults.js"
 import { CartProvider } from "./context/CartContext";
 import Cart from "./routes/Cart";
+import axios from "axios";
+
+axios.defaults.baseURL = "http://localhost:8080";
+axios.defaults.withCredentials = true;
 
 function App() {
 
