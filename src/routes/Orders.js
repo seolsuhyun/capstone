@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
 import { useLogin } from "../context/LoginContext";
-import { useCart } from "../context/CartContext";
 import axios from 'axios';
+import { useCart } from "../context/CartContext";
 
 function Orders() {
     const location = useLocation();
@@ -44,6 +44,8 @@ function Orders() {
         roadAddress: false,
         detailAddress: false,
     });
+
+    const { fetchCart } = useCart(); //장바구니 비우기
 
     const today = new Date();
     const maxDate = new Date(today);
@@ -108,7 +110,47 @@ function Orders() {
 
     const allAgreed = isPersonalInfoAgreed && isTermsAgreed && isPaymentAgreed;
 
-    const { fetchCart } = useCart(); // 👈 import 한 후 사용
+    const onClickPayment = () => {
+        const { IMP } = window;
+        IMP.init("imp87433075");  // 아임포트 상점 식별코드
+
+        const orderName = products.map(item => item.name).join(", ").slice(0, 50); // 주문명 (여러 개일 경우)
+
+        const data = {
+            pg: payPg,
+            pay_method: paymentMethod,
+            merchant_uid: `mid_${new Date().getTime()}`,
+            amount: calculateTotalPrice(),
+            name: orderName,
+            buyer_name: userName,
+            buyer_email: userEmail,
+            buyer_addr: roadAddress + " " + detailAddress,
+            buyer_postcode: zonecode,
+        };
+
+        IMP.request_pay(data, callback);
+    };
+
+    const handlePaymentClick = () => {
+        if (!validateAddress()) return;
+        if (!isPaymentAgreed) {
+            alert("⚠️ 결제 동의에 체크해주세요.");
+            return;
+        }
+        onClickPayment();  // 결제창 띄우기
+    };
+
+
+    const callback = (response) => {
+        const { success, error_msg } = response;
+        if (success) {
+            createOrder();  // 실제 주문 생성
+            alert("결제 성공!");
+        } else {
+            alert(`결제 실패: ${error_msg}`);
+        }
+    };
+
 
     const createOrder = async () => {
         if (!validateAddress()) return;
@@ -124,7 +166,7 @@ function Orders() {
 
         try {
             await axios.post("/orders", orderDtos, { withCredentials: true });
-            await fetchCart(); // ✅ 장바구니 리프레시 추가
+            await fetchCart();
             alert("장바구니 주문이 완료되었습니다!");
             navigate("/order/ordersuccess");
         } catch (err) {
@@ -132,7 +174,6 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
-
 
     return (
         <div className="order">
@@ -292,7 +333,10 @@ function Orders() {
                         </div>
 
                         <button className="pay-button" onClick={createOrder}>결제하기</button>
+                        <button className="real-pay-button" onClick={handlePaymentClick}>실제 결제하기</button>
+
                     </div>
+
                 </div>
             </div>
         </div>
