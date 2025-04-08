@@ -1,39 +1,462 @@
-/* MainPage.css */
-.main-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
+.main-page{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 220px
+}
+
+.main-slider {
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+ 
+}
+.main-hr{
+  width: 64%;
+}
+
+
+.slider-track {
+  display: flex;
+  transition: transform 1s ease-in-out;
+  height: 100%;
+}
+
+.slide {
+  min-width: 100%;
+  height: auto; /* ✅ 변경 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.5;
+  transform: scale(0.9);
+  transition: all 0.5s ease;
+}
+
+.slide.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.slider-image {
+  height: 100%;
   
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 15px;
-    text-align: center;
-  }
+  object-fit: cover;
+  border-radius: 10px;
+  transition: opacity 1s ease-in-out;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.arrow.left {
+  left: 20px;
+}
+
+.arrow.right {
+  right: 20px;
+}
+
+.slider-indicator {
+  position: absolute;
+  bottom: 20px; /* 이미지 안쪽으로 위치 */
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10; /* 이미지 위로 올라오게 */
+}
+
+.slider-dot {
+  width: 12px;
+  height: 12px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.slider-dot.active {
+  background-color: white;
+}
+
+.chat-floating-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #00c4ff;
+  color: white;
+  padding: 14px 20px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1000;
+}
+/* 기존 슬라이더 관련 스타일 유지 */
+
+/* ------------------ 신상 메뉴 스타일 ------------------ */
+.main-new-menu-section {
+  padding: 40px 0;
+  text-align: center; /* 텍스트 가운데 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 내부 요소 가운데 정렬 */
+}
+
+.main-new-menu-section h3 {
+  font-size: 18px;
+  color: #888;
+  margin-bottom: 5px;
+}
+
+.main-new-menu-section h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+/* 메뉴 전체 박스 */
+.main-new-menu-box {
+  display: flex;
+  gap: 30px;
+  max-width: 1000px;
+  width: 100%;
+  justify-content: center;
+}
+
+/* 왼쪽 메인 아이템 */
+.main-new-item {
+  flex: 2;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.main-new-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+.main-new-desc {
+  padding: 16px;
+}
+
+.main-brand {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.main-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.main-desc {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.main-price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #e60023;
+}
+
+/* 오른쪽 사이드 신상들 */
+.main-side-new-items {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.main-side-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 12px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+}
+
+.side-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.main-desc-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.side-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.main-desc-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}.buy-icon-button {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  transition: transform 0.2s;
+}
+.buy-button-container {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  margin-top: 12px;
+}
+
+.buy-button {
+  display: inline-flex;
+  justify-content: center; /* 추가: 가로 정렬 */
+  align-items: center;      /* 세로 정렬 */
+  gap: 8px;
+  width: 48px;
+  height: 48px;
+  margin-top: 12px;
+  color: white;
+  font-weight: bold;
+  background-color: #00c4ff;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+.buy-button:hover {
+  background-color: #3f5c64;
+}
+
+.buy-button img {
+  width: 24px;
+  height: 24px;
+}
+
+.more-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.more-button {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.more-button:hover {
+  background-color: #f1f1f1;
+  border-color: #999;
+}
+.discount-section {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.discount-subtitle {
+  color: #888;
+  font-size: 16px;
+  text-align: center;
+}
+
+.discount-title {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.discount-items {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 1200px;
+}
+
+.discount-item {
+  width: 200px;
+  position: relative;
+  text-align: center;
+}
+
+.discount-image {
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
+}
+
+.discount-brand {
+  font-size: 13px;
+  color: #888;
+  margin-top: 8px;
+}
+
+.discount-name {
+  font-size: 15px;
+  font-weight: 500;
+  margin: 4px 0;
+  height: 38px;
+  overflow: hidden;
+  line-height: 1.2;
+}
+
+.discount-rating {
+  font-size: 14px;
+  color: #f5a623;
+}
+
+.discount-reviews {
+  color: #666;
+}
+
+.discount-price-box {
+  margin-top: 4px;
+}
+
+.discount-original {
+  text-decoration: line-through;
+  font-size: 13px;
+  color: #999;
+}
+
+.discount-final-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.discount-rate {
+  color: red;
+  font-weight: bold;
+}
+
+.discount-final {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+
+
+.more-button-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.more-button {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s;
   
-  .category-item {
-    cursor: pointer;
-    transition: transform 0.3s;
-  }
-  
-  .category-item:hover {
-    transform: translateY(-5px);
-  }
-  
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-  }
-  
-  .product-card {
-    border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 8px;
-  }
-  
-  .discount {
-    color: red;
-    margin-right: 10px;
-  }
+}
+
+.more-button:hover {
+  background-color: #f1f1f1;
+  border-color: #999;
+}
+
+
+.category-best-section {
+  max-width: 1400px;
+  margin: 0 auto; /* 가운데 정렬 핵심 */
+margin-top: 40px;
+  text-align: center; /* 텍스트와 내부 요소 가운데 정렬 */
+}
+.category-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.category-tab {
+  padding: 10px 20px;
+  font-size: 1.2rem;         /* 글씨 크게 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.category-tab.active {
+  font-weight: 700;
+  color: #00796b;              /* 강조 색상 */
+  border-color: #00796b;       /* 밑줄 강조 */
+}
+.category-products {
+  display: flex;
+  justify-content: center;      /* ✅ 가운데 정렬 */
+  flex-wrap: wrap;              /* ✅ 줄바꿈 허용 */
+  gap: 2rem;                    /* ✅ 카드 간 간격 */
+  max-width: 1200px;            /* ✅ 전체 폭 제한 (선택) */
+  margin: 0 auto; 
+}
+.category-item {
+  width: 180px;
+}
+.category-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.category-name {
+  margin-top: 8px;
+  font-weight: bold;
+}
+.category-price {
+  margin-top: 4px;
+  color: #666;
+}

@@ -17,7 +17,7 @@ const Category = () => {
             .then((response) => {
                 const filteredProducts = response.data.filter((product) => {
                     if (category === '구이류') return product.category === 'ROAST';
-                    if (category === '국물 요리') return product.category === 'SOUP';
+                    if (category === '국물요리') return product.category === 'SOUP';
                     if (category === '파스타') return product.category === 'PASTA';
                     if (category === '안주') return product.category === 'ANJU';
                     return true;

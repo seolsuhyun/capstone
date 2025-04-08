@@ -20,6 +20,7 @@ import { CartProvider } from "./context/CartContext";
 import Cart from "./routes/Cart";
 import axios from "axios";
 import Orders from "./routes/Orders";
+import MainPage from "./Layout/MainPage.js";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -30,8 +31,8 @@ function App() {
   return (
     <CartProvider>
       <Routes>
-
-        <Route path="/" element={<Home />} />
+        <Route path="/all" element={<Home />} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/Location" element={<Location />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/Signup" element={<Signup />} />

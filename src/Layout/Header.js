@@ -75,7 +75,7 @@ const Header = () => {
         <img src='/Logo.png' className='logo' onClick={() => navigate('/')} />
         <div className="search">
           <form onSubmit={(e) => { e.preventDefault(); navigate(`/search?query=${encodeURIComponent(searchTerm)}`); }} className="search-form">
-            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="매장운영이 쉬워지는 식자재몰, 푸딩팩토리" className="search-bar" />
+            <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="부기푸드" className="search-bar" />
             <button type="submit" className="search-btn">
               <img src={search_img} alt="Search" className="search-img" />
             </button>
@@ -95,6 +95,7 @@ const Header = () => {
             {isDropdownOpen && (
               <div className="dropdown-menu">
                 <ul>
+                  <li onClick={() => navigate('/all')}>전체</li>
                   <li onClick={() => navigate('/category/구이류')}>구이/볶음</li>
                   <li onClick={() => navigate('/category/국물요리')}>국물 요리</li>
                   <li onClick={() => navigate('/category/파스타')}>파스타</li>

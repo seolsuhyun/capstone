@@ -57,7 +57,7 @@ const Detail = () => {
         </div>
 
         <div className="product-info">
-          <h1>{product.title}</h1>
+          <h1>{product.name}</h1>
           <h2>{product.price}원</h2>
           <p>{product.content}</p>
           <div className="button-container">
@@ -73,7 +73,6 @@ const Detail = () => {
         <h2>상품 상세 정보</h2>
         <p>
           여기에 상품 상세 설명이 들어감. <br />
-          다양한 제품의 특징, 재질, 크기, 세탁 방법 등의 정보를 확인할 수 있게 추가할 예정.
         </p>
       </div>
     </div>

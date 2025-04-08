@@ -14,7 +14,7 @@ function Order() {
   // 주문 상태와 정보를 담을 useState 선언
   const [paymentMethod, setPaymentMethod] = useState('card');  // 결제 방법 기본값
   const [payPg, setPayPg] = useState('kicc');
-  const [paymentMethodName, setPaymentMethodName] = useState('신용카드드');
+  const [paymentMethodName, setPaymentMethodName] = useState('신용카드');
   const [bankName, setBankName] = useState('');  // 입금은행
   const [depositor, setDepositor] = useState('');  // 입금자 이름
   const [depositDate, setDepositDate] = useState('');  // 입금 예정일

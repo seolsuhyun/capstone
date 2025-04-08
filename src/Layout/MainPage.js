@@ -1,95 +1,241 @@
-import React, { useState, useEffect } from "react";
-import Slider from "react-slick"; // 이미지 슬라이더 라이브러리
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import "./MainPage.css"
+import React, { useEffect, useState, useRef } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import './MainPage.css';
+import { Link } from "react-router-dom";
+import shopping_cart_img from "./shopping_cart.png";
 
-// 임시 데이터 (실제로는 API에서 불러옵니다)
-const foodCategories = [
-  { id: 1, name: "과일", icon: "🍎" },
-  { id: 2, name: "채소", icon: "🥬" },
-  { id: 3, name: "정육", icon: "🥩" },
-  { id: 4, name: "수산물", icon: "🍣" },
-  { id: 5, name: "유제품", icon: "🧀" },
-];
-
-const weeklyDeals = [
-  { id: 1, name: "유기농 사과 1kg", price: 12000, discount: "20%", image: "/images/apple.jpg" },
-  { id: 2, name: "한우 등심 200g", price: 25000, discount: "15%", image: "/images/beef.jpg" },
+const events = [
+  { id: 1, image: '/event1.jpg', alt: '이벤트 1' },
+  { id: 2, image: '/event2.jpg', alt: '이벤트 2' },
+  { id: 3, image: '/event3.jpg', alt: '이벤트 3' },
+  { id: 4, image: '/event4.jpg', alt: '이벤트 4' },
+  { id: 5, image: '/event5.jpg', alt: '이벤트 5' },
 ];
 
 const MainPage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [products, setProducts] = useState([]);
+  const categoryMap = {
+    전체: null,
+    '구이/볶음': 'ROAST',
+    '국물요리': 'SOUP',
+    '파스타': 'PASTA',
+    '안주': 'ANJU',
+  };
+  
+  const categories = Object.keys(categoryMap); // ['전체', '구이/볶음', '국물요리', '파스타', '안주']
+  
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [allItems, setAllItems] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
 
-  // API에서 상품 데이터 불러오기 (예시)
+  const timeoutRef = useRef(null);
+  const delay = 4000;
+  const navigate = useNavigate();
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === events.length - 1 ? 0 : prev + 1));
+  };
+  const resetTimeout = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+  };
+
+  const handleClick = () => {
+    navigate('/qapage');
+  };
+
   useEffect(() => {
-    // fetch("/api/products").then(...)
-    setProducts(weeklyDeals); // 임시 데이터 사용
+    resetTimeout();
+    timeoutRef.current = setTimeout(() => {
+      goToNext();
+    }, delay);
+    return () => resetTimeout();
+  }, [currentIndex]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/items/list")
+      .then((response) => {
+        const allItems = response.data;
+        const shuffled = [...allItems].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 4); // 무작위 4개
+  
+        setAllItems(allItems); // 전체 저장
+        setProducts(selected); // 신상용 무작위 4개 저장
+      })
+      .catch((error) => {
+        console.error("에러", error);
+      });
   }, []);
 
-  // 슬라이더 설정
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    autoplay: true,
+  useEffect(() => {
+    const backendCategory = categoryMap[selectedCategory];
+  
+    if (!backendCategory) {
+      setFilteredItems(allItems); // 전체
+    } else {
+      const filtered = allItems.filter(item => item.category === backendCategory);
+      setFilteredItems(filtered);
+    }
+  }, [selectedCategory, allItems]);
+  
+ 
+
+  if (products.length === 0) return null;
+
+  const mainItem = products[0];
+  const sideItems = products.slice(1);
+
+
+
+  const goToPrev = () => {
+    setCurrentIndex((prev) => (prev === 0 ? events.length - 1 : prev - 1));
   };
+
+
 
   return (
     <div className="main-page">
-      {/* 1. 히어로 배너 (메인 슬라이더) */}
-      <section className="hero-banner">
-        <Slider {...sliderSettings}>
-          <div>
-            <img src="/banners/summer-sale.jpg" alt="여름 특가" />
-          </div>
-          <div>
-            <img src="/banners/organic-food.jpg" alt="유기농 특집" />
-          </div>
-        </Slider>
-      </section>
-
-      {/* 2. 음식 카테고리 아이콘 */}
-      <section className="category-section">
-        <h2>카테고리</h2>
-        <div className="category-grid">
-          {foodCategories.map((category) => (
-            <div key={category.id} className="category-item">
-              <span className="category-icon">{category.icon}</span>
-              <p>{category.name}</p>
+      <div className='main-slider'>
+        <div className="slider-track" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+          {events.map((event, idx) => (
+            <div key={event.id} className={`slide ${idx === currentIndex ? 'active' : ''}`}>
+              <img src={event.image} alt={event.alt} className="slider-image" />
             </div>
           ))}
         </div>
-      </section>
 
-      {/* 3. 주간 특가 상품 */}
-      <section className="weekly-deals">
-        <h2>🔥 이번 주 특가</h2>
-        <div className="product-grid">
-          {products.map((product) => (
-            <div key={product.id} className="product-card">
-              <img src={product.image} alt={product.name} />
-              <h3>{product.name}</h3>
-              <p>
-                <span className="discount">{product.discount}</span>
-                <span className="price">{product.price.toLocaleString()}원</span>
-              </p>
+
+        <div className="slider-indicator">
+          {events.map((_, idx) => (
+            <div
+              key={idx}
+              className={`slider-dot ${idx === currentIndex ? 'active' : ''}`}
+              onClick={() => setCurrentIndex(idx)}
+            />
+          ))}  </div>
+
+        <button className="arrow left" onClick={goToPrev}><ChevronLeft /></button>
+        <button className="arrow right" onClick={goToNext}><ChevronRight /></button>
+      </div>
+      {/* 무엇이든 물어보세요 버튼 */}
+      <button className="chat-floating-button" onClick={handleClick}>
+        
+        <span className="chat-text">무엇이든 물어보세요 😊</span>
+      </button>
+
+      <div className="main-new-menu-section">
+        <h3>야심차게 준비한</h3>
+        <h2>이번주 신상메뉴</h2>
+        <div className="main-new-menu-box">
+          {/* 메인 아이템 */}
+          <div className="main-new-item">
+            <img src={mainItem.image} alt={mainItem.name} className="main-new-image" />
+            <div className="main-new-desc">
+              <div className="main-brand">{mainItem.category}</div>
+              <div className="main-title">{mainItem.name}</div>
+              <div className="main-desc">{mainItem.content}</div>
+              <div className="main-price">
+                <span className="main-original">{mainItem.price.toLocaleString()}원</span>
+                <div className="buy-button-container">
+                  <Link to={`/detail/${mainItem.id}`} state={mainItem} className="buy-button">
+                    <img src={shopping_cart_img} alt="장바구니" />
+
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 사이드 아이템 */}
+          <div className="main-side-new-items">
+            {sideItems.map((item, idx) => (
+              <div key={idx} className="main-side-item">
+                <img src={item.image} alt={item.name} className="side-image" />
+                <div className="main-desc-box">
+                  <div className="main-title">{item.name}</div>
+                  <div className="side-price-row">
+                    <span className="main-original">{item.price.toLocaleString()}원</span>
+                    <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
+                      <img src={shopping_cart_img} alt="장바구니" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+        <div className="more-button-wrapper">
+          <button className="more-button" onClick={() => navigate('/category/new')}>신상품 더보기 &gt;</button>
+        </div>
+        
+      </div>
+      
+      <hr className='main-hr'/>
+      <div className="discount-section">
+        
+        <h4 className="discount-subtitle">놓치면 안되는 득템찬스!</h4>
+        <h2 className="discount-title">금주할인특가</h2>
+
+        <div className="discount-items">
+          {products.map((item, idx) => (
+            <div key={idx} className="discount-item">
+              <img src={item.image} alt={item.name} className="discount-image" />
+              <div className="discount-brand">푸딩팩토리</div>
+              <div className="discount-name">{item.name}</div>
+
+              <div className="discount-price-box">
+                <div className="discount-final-row">
+                  <div className="discount-original">{item.price.toLocaleString()}원</div>
+                  <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
+                    <img src={shopping_cart_img} alt="장바구니" />
+                  </Link>
+                </div>
+              </div>
             </div>
           ))}
         </div>
-      </section>
 
-      {/* 4. 신선 식품 추천 */}
-      <section className="fresh-recommendation">
-        <h2>🍃 오늘의 신선 식품</h2>
-        {/* 동적 데이터로 구현 가능 */}
-      </section>
+        <div className="more-button-wrapper">
+          <button className="more-button" onClick={() => navigate('/category/discount')}>상품 더보기 &gt;</button>
+        </div>
+      </div>
+     
+      <div className="category-best-section">
+       <hr/>
+        <h2>카테고리별 베스트</h2>
 
-      {/* 5. 이벤트 배너 */}
-      <section className="event-banner">
-        <img src="/banners/first-order-discount.jpg" alt="첫 주문 30% 할인" />
-      </section>
+        <div className="category-tabs">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`category-tab ${selectedCategory === cat ? 'active' : ''}`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        <div className="category-products">
+          {filteredItems.slice(0, 5).map((item) => (
+            <div key={item.id} className="category-item">
+              <img src={item.image} alt={item.name} className="category-img" />
+              <div className="category-name">{item.name}</div>
+              <div className="category-price">{item.price.toLocaleString()}원</div>
+              <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
+                <img src={shopping_cart_img} alt="장바구니" />
+              </Link>
+            </div>
+          ))}
+        </div>
+        <div className="more-button-wrapper">
+          <button className="more-button" onClick={() => navigate('/category/best')}>상품 더보기 &gt;</button>
+        </div>
+      </div>
     </div>
   );
 };

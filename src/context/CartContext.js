@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
-
+import { useLogin } from "./LoginContext";
 const CartContext = createContext();
 
-import { useLogin } from "./LoginContext";
+
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
