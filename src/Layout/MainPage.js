@@ -42,7 +42,7 @@ const MainPage = () => {
   };
 
   const handleClick = () => {
-    navigate('/qapage');
+    navigate('/Q&A');
   };
 
   useEffect(() => {
@@ -122,7 +122,7 @@ const MainPage = () => {
       {/* 무엇이든 물어보세요 버튼 */}
       <button className="chat-floating-button" onClick={handleClick}>
         
-        <span className="chat-text">무엇이든 물어보세요 😊</span>
+        <span className="chat-text" >무엇이든 물어보세요 😊</span>
       </button>
 
       <div className="main-new-menu-section">
