@@ -13,12 +13,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const formData = new FormData();
       formData.append('email', email); 
       formData.append('password', password);
-
+  
       // 백엔드 로그인 요청
       const response = await axios({
         url: 'http://localhost:8080/loginProc',
@@ -26,26 +26,29 @@ const Login = () => {
         data: formData,
         withCredentials: true,
       });
-
+  
       // 로그인 성공 처리
       if (response.status === 200) {
         alert('로그인 성공!');
         console.log('유저 이메일: ' + response.data.email);
         console.log('권한: ' + response.data.authorities);
-        login(response.data.name,response.data.email,response.data.role);
+        login(response.data.name, response.data.email, response.data.role);
         navigate('/', { state: { userData: response.data } });
       } else {
-        // 로그인 실패 시 오류 메시지
         alert('아이디 또는 비밀번호가 틀렸습니다.');
         setEmail('');
         setPassword('');
       }
     } catch (error) {
-      // 서버 오류 처리
-      console.error("Login error:", error);
-      alert('서버에 문제가 발생했습니다. 다시 시도해주세요.');
+      if (error.response && error.response.status === 401) {
+        alert('아이디 또는 비밀번호가 틀렸습니다.');
+      } else {
+        console.error("Login error:", error);
+        alert('서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+      }
     }
   };
+  
 
   return (
     
