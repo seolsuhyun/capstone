@@ -31,7 +31,7 @@ const Mypage = () => {
       .then(() => {
         alert("주문이 취소되었습니다.");
         window.location.reload();
-        setOrders(prevOrders => 
+        setOrders(prevOrders =>
           prevOrders.filter(order => order.id !== orderId) // 취소된 주문만 제외
         );
       })
@@ -40,17 +40,17 @@ const Mypage = () => {
         console.error("주문 취소 에러", error);
       });
   };
-  
+
 
   const calculateTotalPrice = () => {
     let totalProductPrice = 0;
     orders.forEach(order => {
       // 주문 상태가 'CANCEL'이 아닌 경우만 가격을 더한다
-    
-        order.orderItemDtoList.forEach(item => {
-          totalProductPrice += item.price * item.count;
-        });
-      
+
+      order.orderItemDtoList.forEach(item => {
+        totalProductPrice += item.price * item.count;
+      });
+
     });
     return totalProductPrice;
   };
@@ -83,11 +83,15 @@ const Mypage = () => {
         <div className="mypage-order-items">
           {orders.length > 0 ? (
             orders.map((order, index) => (
-       
+
               (
                 <div key={index} className="mypage-order-item">
                   <div className="mypage-order-item-details">
-                    <p>주문일: {order.orderDate}</p>
+                    <div className="mypage-order-header">
+                      <p>주문일: {order.orderDate}</p>
+                      <button className="cancel-button" onClick={() => handleCancelOrder(order.orderId)}>주문 취소</button>
+                    </div>
+
                     {order.orderItemDtoList.map((item, itemIndex) => (
                       <div key={itemIndex} className="mypage-order-item-detail">
                         <img src={item.image} alt={item.name} className="mypage-product-image" />
@@ -99,7 +103,7 @@ const Mypage = () => {
                             <p className="mypage-quantity">수량: {item.count}</p>
                           </div>
                           <p>주문 상태 : {order.status}</p>
-                          <button className="cancel-button" onClick={() => handleCancelOrder(order.orderId)}>주문 취소</button>
+
                         </div>
                       </div>
                     ))}

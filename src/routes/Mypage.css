@@ -1,10 +1,12 @@
 .mypage-container {
-  padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */
+  padding-top: 200px;
+  /* 헤더 높이만큼 여백 추가 */
   /* 푸터 높이만큼 여백 추가 */
-  
+
   width: 80%;
-   /* 화면 크기에 맞춰 너비 조정 */
-  margin: 0 auto;  /* 수평 가운데 정렬 */
+  /* 화면 크기에 맞춰 너비 조정 */
+  margin: 0 auto;
+  /* 수평 가운데 정렬 */
   position: relative;
 
 
@@ -44,7 +46,8 @@
 
 .grade {
   font-weight: bold;
-  color: #f39c12; /* 등급 색상 */
+  color: #f39c12;
+  /* 등급 색상 */
 }
 
 .user-details {
@@ -92,81 +95,126 @@
 
 .mypage-order-item-detail {
   display: flex;
-  align-items: flex-start;  /* 텍스트와 이미지 상단을 맞추기 위해 상단 정렬 */
-  gap: 20px;  /* 이미지와 텍스트 사이 간격 */
-  margin-bottom: 20px;  /* 각 항목 사이 간격 */
+  align-items: flex-start;
+  /* 텍스트와 이미지 상단을 맞추기 위해 상단 정렬 */
+  gap: 20px;
+  /* 이미지와 텍스트 사이 간격 */
+  margin-bottom: 20px;
+  /* 각 항목 사이 간격 */
 }
+
+.mypage-order-header {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.mypage-order-header p {
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+}
+
+
 
 .mypage-product-image {
   width: 200px;
   height: 200px;
-  object-fit: cover;  /* 이미지 비율 맞추기 */
+  object-fit: cover;
+  /* 이미지 비율 맞추기 */
 }
 
 .mypage-product-info {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;  /* 텍스트를 위쪽에 정렬 */
-  gap: 8px;  /* 텍스트 간격 */
+  justify-content: flex-start;
+  /* 텍스트를 위쪽에 정렬 */
+  gap: 8px;
+  /* 텍스트 간격 */
 }
 
 .mypage-product-info h4 {
   font-size: 40px;
   font-weight: bold;
-  margin: 0;  /* 기본 여백 제거 */
+  margin: 0;
+  /* 기본 여백 제거 */
 }
 
 .mypage-product-info p {
   font-size: 18px;
-  margin: 0;  /* 기본 여백 제거 */
+  margin: 0;
+  /* 기본 여백 제거 */
 }
 
 
 
 .mypage-price-quantity {
   display: flex;
-  justify-content: space-between;  /* 가격과 수량을 양쪽 끝으로 배치 */
+  justify-content: space-between;
+  /* 가격과 수량을 양쪽 끝으로 배치 */
   align-items: center;
   width: 100%;
   margin-top: 10px;
-  gap:20px;
+  gap: 20px;
 }
 
 .mypage-price {
-  font-size: 22px;  /* 글자 크기를 22px로 키움 */
-  font-weight: bold;  /* 글자 두껍게 */
-  margin: 0;  /* 간격을 없애서 더 깔끔하게 */
+  font-size: 22px;
+  /* 글자 크기를 22px로 키움 */
+  font-weight: bold;
+  /* 글자 두껍게 */
+  margin: 0;
+  /* 간격을 없애서 더 깔끔하게 */
 }
+
 .mypage-product-info .quantity {
-  color: #888;  /* 회색으로 색깔 변경 */
-  font-size: 16px;  /* 가격보다 조금 작게 설정 */
+  color: #888;
+  /* 회색으로 색깔 변경 */
+  font-size: 16px;
+  /* 가격보다 조금 작게 설정 */
 }
+
 .cancel-button {
-  padding: 10px 20px; /* 버튼 크기 조절 */
-  background-color: #e74c3c; /* 빨간색 배경 */
-  color: white; /* 흰색 글자 */
-  border: none; /* 기본 테두리 제거 */
-  border-radius: 5px; /* 둥근 모서리 */
-  font-size: 16px; /* 폰트 크기 */
-  cursor: pointer; /* 마우스를 올렸을 때 클릭 가능하도록 커서 변경 */
-  transition: background-color 0.3s, transform 0.2s; /* 배경색 변경과 클릭 효과를 부드럽게 전환 */
+  margin-left: 40px;
+  padding: 10px 20px;
+  /* 버튼 크기 조절 */
+  background-color: #e74c3c;
+  /* 빨간색 배경 */
+  color: white;
+  /* 흰색 글자 */
+  border: none;
+  /* 기본 테두리 제거 */
+  border-radius: 5px;
+  /* 둥근 모서리 */
+  font-size: 16px;
+  /* 폰트 크기 */
+  cursor: pointer;
+  /* 마우스를 올렸을 때 클릭 가능하도록 커서 변경 */
+  transition: background-color 0.3s, transform 0.2s;
+  /* 배경색 변경과 클릭 효과를 부드럽게 전환 */
 }
 
 /* 버튼 호버 시 배경색 변화 */
 .cancel-button:hover {
-  background-color: #c0392b; /* 호버 시 색깔 변화 */
-  transform: scale(1.05); /* 버튼이 약간 커지도록 효과 */
+  background-color: #c0392b;
+  /* 호버 시 색깔 변화 */
+  transform: scale(1.05);
+  /* 버튼이 약간 커지도록 효과 */
 }
 
 /* 버튼 클릭 시 애니메이션 효과 */
 .cancel-button:active {
-  transform: scale(0.98); /* 클릭 시 버튼이 살짝 눌리는 효과 */
+  transform: scale(0.98);
+  /* 클릭 시 버튼이 살짝 눌리는 효과 */
 }
 
 /* 버튼 비활성화 상태 */
 .cancel-button:disabled {
-  background-color: #bdc3c7; /* 비활성화 시 색상 */
-  cursor: not-allowed; /* 클릭 불가 상태 */
+  background-color: #bdc3c7;
+  /* 비활성화 시 색상 */
+  cursor: not-allowed;
+  /* 클릭 불가 상태 */
 }
 
 .mypage-delivery-info {
@@ -175,44 +223,59 @@
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* 전체 폭을 조정 */
+  /* 전체 폭을 조정 */
   margin-left: auto;
-  margin-right: auto;  /* 중앙 정렬 */
+  margin-right: auto;
+  /* 중앙 정렬 */
 }
 
 .delivery-details {
   margin-top: 10px;
-  width: 100%;  /* 부모 요소에 맞춰 100% */
+  width: 100%;
+  /* 부모 요소에 맞춰 100% */
 }
 
 .delivery-item {
   display: flex;
-  justify-content: flex-start;  /* 왼쪽 정렬 */
-  align-items: center;  /* 수직 정렬 */
-  padding: 8px 0;  /* 상하 여백을 조금 더 늘림 */
+  justify-content: flex-start;
+  /* 왼쪽 정렬 */
+  align-items: center;
+  /* 수직 정렬 */
+  padding: 8px 0;
+  /* 상하 여백을 조금 더 늘림 */
   border-bottom: 1px solid #eee;
-  width: 100%;  /* 전체 폭을 사용 */
+  width: 100%;
+  /* 전체 폭을 사용 */
 }
 
 .label {
-  font-weight: bold;  /* 글자 두껍게 */
+  font-weight: bold;
+  /* 글자 두껍게 */
   color: #333;
-  font-size: 18px;  /* 글자 크기 키움 */
-  margin-right: 150px;  /* 라벨과 값 사이의 간격을 줄임 */
-  width: 120px;  /* 라벨의 고정된 너비 */
-  text-align: left;  /* 라벨은 오른쪽 정렬 */
+  font-size: 18px;
+  /* 글자 크기 키움 */
+  margin-right: 150px;
+  /* 라벨과 값 사이의 간격을 줄임 */
+  width: 120px;
+  /* 라벨의 고정된 너비 */
+  text-align: left;
+  /* 라벨은 오른쪽 정렬 */
 }
 
 .value {
   color: #555;
-  font-size: 18px;  /* 글자 크기 키움 */
-  font-weight: bold;  /* 글자 두껍게 */
-  flex-grow: 1;  /* 값을 가득 차게 만들어 정렬 */
-  text-align: left;  /* 왼쪽 정렬 */
+  font-size: 18px;
+  /* 글자 크기 키움 */
+  font-weight: bold;
+  /* 글자 두껍게 */
+  flex-grow: 1;
+  /* 값을 가득 차게 만들어 정렬 */
+  text-align: left;
+  /* 왼쪽 정렬 */
 }
 
 .mypage-price-info {
- 
+
   margin-bottom: 30px;
 
 }
@@ -225,13 +288,15 @@
   margin-top: 30px;
   display: flex;
   align-items: center;
-  justify-content: space-between; /* 항목들 사이에 간격을 주기 위해 */
-    /* 전체 너비 */
+  justify-content: space-between;
+  /* 항목들 사이에 간격을 주기 위해 */
+  /* 전체 너비 */
 }
 
 .mypage-price-item {
   text-align: center;
-  margin: 0 10px;  /* 양옆에 간격 추가 */
+  margin: 0 10px;
+  /* 양옆에 간격 추가 */
 }
 
 .mypage-price-item h3 {
@@ -245,7 +310,8 @@
   color: #555;
 }
 
-.mypage-plus-sign, .mypage-equals-sign {
+.mypage-plus-sign,
+.mypage-equals-sign {
   font-size: 24px;
   font-weight: bold;
   color: #333;
@@ -263,5 +329,6 @@
 .mypage-total-price p {
   font-size: 20px;
   font-weight: bold;
-  color: #f39c12; /* 총 결제 금액 강조 색 */
+  color: #f39c12;
+  /* 총 결제 금액 강조 색 */
 }
