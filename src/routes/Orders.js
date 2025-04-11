@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
@@ -27,6 +27,7 @@ function Orders() {
     const [detailAddress, setDetailAddress] = useState("");
     const [deliveryMemo, setDeliveryMemo] = useState("");
     const [deliveryOption, setDeliveryOption] = useState("standard");
+    const [hasSavedAddress, setHasSavedAddress] = useState(false);
 
     // 할인/포인트
     const [couponDiscount, setCouponDiscount] = useState(0);
@@ -77,7 +78,25 @@ function Orders() {
         setZonecode(data.zonecode);
         setRoadAddress(fullAddress);
     };
+    useEffect(() => {
+        fetchUserAddress();
+    }, []);
 
+    
+    const fetchUserAddress = async () => {
+        try {
+            const res = await axios.get("/address", { withCredentials: true });
+            if (res.data && res.data.length > 0) {
+                const latest = res.data[res.data.length - 1]; // 최근 주소 사용
+                setRoadAddress(latest.address);
+                setDetailAddress(latest.addressDetail);
+                setHasSavedAddress(true); // 👉 주소가 이미 저장되어 있다는 의미
+            }
+        } catch (err) {
+            console.error("주소 불러오기 실패:", err);
+        }
+    };
+    
     const handleClick = () => {
         open({ onComplete: handleComplete });
     };
@@ -86,12 +105,26 @@ function Orders() {
     const handleDeliveryOptionChange = (e) => setDeliveryOption(e.target.value);
 
     const validateAddress = () => {
-        if (!zonecode || !roadAddress || !detailAddress) {
+        if ( !roadAddress || !detailAddress) {
             alert("배송 정보를 모두 입력해주세요.");
             return false;
         }
         return true;
     };
+    const saveAddressToServer = async () => {
+        try {
+            const data = {
+                address: roadAddress,
+                addressDetail: detailAddress,
+            };
+    
+            await axios.post("/address", data, { withCredentials: true });
+            console.log("주소 저장 성공");
+        } catch (error) {
+            console.error("주소 저장 실패:", error);
+        }
+    };
+    
 
     const handleCouponApply = () => {
         const validCoupons = [
@@ -158,12 +191,19 @@ function Orders() {
             alert("모든 동의사항을 체크해주세요.");
             return;
         }
-
+    
+        if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
+            const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
+            if (wantToSave) {
+                await saveAddressToServer();
+            }
+        }
+    
         const orderDtos = products.map(item => ({
             id: item.itemId,
             count: item.count
         }));
-
+    
         try {
             await axios.post("/orders", orderDtos, { withCredentials: true });
             await fetchCart();
@@ -174,7 +214,7 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
-
+    
     return (
         <div className="order">
             <h1>장바구니 결제하기</h1>

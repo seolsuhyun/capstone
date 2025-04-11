@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Mypage.css";
 import { useLogin } from "../context/LoginContext";
-
+import AddressPopup from "./AddressPopup";
 const Mypage = () => {
-  const { userName, userEmail } = useLogin();
+  const { userName, userEmail, userId } = useLogin();
+  const [address, setAddress] = useState(null);
+  const [showAddressPopup, setShowAddressPopup] = useState(false);
 
   const points = 1250;
   const coupons = 5;
@@ -25,6 +27,23 @@ const Mypage = () => {
       });
   }, [userEmail]);
 
+  useEffect(() => {
+    if (userEmail) {
+      axios.get("http://localhost:8080/address", {
+        withCredentials: true, // 인증 쿠키 필요 시
+      })
+        .then(response => {
+          if (response.data.length > 0) {
+            setAddress(response.data[0]); // 첫 번째 주소를 기본 주소로 사용
+          }
+        })
+        .catch(error => {
+          console.error("주소 조회 실패:", error);
+        });
+    }
+  }, [userEmail]);
+
+
   const handleCancelOrder = (orderId) => {
     // 서버에 주문 취소 요청 보내기
     axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
@@ -40,6 +59,64 @@ const Mypage = () => {
         console.error("주문 취소 에러", error);
       });
   };
+  const handleWithdraw = async () => {
+    console.log("userId", userId);
+    const confirmed = window.confirm("정말 회원 탈퇴하시겠습니까?");
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/${userId}/deleteMember`, {
+        method: "POST",
+      });
+
+      if (response.ok) {
+        alert("회원 탈퇴가 완료되었습니다.");
+        // 탈퇴 후 로그아웃 처리 또는 메인 페이지로 리디렉션
+        window.location.href = "/";
+      } else {
+        alert("탈퇴에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("에러 발생:", error);
+      alert("서버 오류가 발생했습니다.");
+    }
+  };
+  const handleDeleteAddress = () => {
+    console.log("주소 삭제 요청:", address.addressId);
+    const confirmed = window.confirm("배송지를 삭제하시겠습니까?");
+    if (!confirmed) return;
+
+    axios
+      .delete(`http://localhost:8080/address/${address.addressId}/delete`)
+      .then(() => {
+        alert("배송지가 삭제되었습니다.");
+        setAddress(null);
+      })
+      .catch((error) => {
+        console.error("주소 삭제 실패:", error);
+        alert("주소 삭제에 실패했습니다.");
+      });
+  };
+  const handleAddressSaved = () => {
+    axios.get("http://localhost:8080/address", {
+      withCredentials: true,
+    })
+      .then(response => {
+        if (response.data.length > 0) {
+          setAddress(response.data[0]);
+        }
+      })
+      .catch(error => {
+        console.error("주소 재조회 실패:", error);
+      });
+  };
+
+  const handleRegisterAddress = () => {
+    setShowAddressPopup(true);
+
+  };
+
+
 
 
   const calculateTotalPrice = () => {
@@ -76,6 +153,9 @@ const Mypage = () => {
             <p>{coupons} 개</p>
           </div>
         </div>
+        <button className="withdraw-button" onClick={handleWithdraw}>
+          회원 탈퇴
+        </button>
       </div>
       <div className="order-details">
         <h2>주문상세</h2>
@@ -122,7 +202,30 @@ const Mypage = () => {
         <div className="delivery-details">
           <div className="delivery-item"><span className="label">받는 분:</span> <span className="value">홍길동</span></div>
           <div className="delivery-item"><span className="label">휴대폰 번호:</span> <span className="value">010-1234-5678</span></div>
-          <div className="delivery-item"><span className="label">배송지:</span> <span className="value">서울특별시 강남구 테헤란로 123</span></div>
+          <div className="delivery-item">
+            <span className="label">배송지:</span>{" "}
+            <span className="value">
+              {address
+                ? `${address.address} ${address.addressDetail}`
+                : "등록된 주소가 없습니다."}
+            </span>
+            {address ? (
+              <button
+                className="delete-address-button"
+                onClick={handleDeleteAddress}
+              >
+                주소 삭제
+              </button>
+            ) : (
+              <button
+                className="register-address-button"
+                onClick={handleRegisterAddress}
+              >
+                주소 등록
+              </button>
+            )}
+          </div>
+
         </div>
       </div>
       <div className="mypage-price-info">
@@ -137,6 +240,12 @@ const Mypage = () => {
           <div className="mypage-total-price"><h3>총 결제 금액</h3><p>{totalPrice.toLocaleString()} 원</p></div>
         </div>
       </div>
+      {showAddressPopup && (
+  <AddressPopup
+    onClose={() => setShowAddressPopup(false)}
+    onSaved={handleAddressSaved}
+  />
+)}
     </div>
   );
 };

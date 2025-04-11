@@ -14,23 +14,27 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const checkLoginStatus = async () => {
+    const timer = setTimeout(async () => {
       try {
         const response = await axios.get('http://localhost:8080/loginOk', {
           withCredentials: true,
         });
-
+  
         if (response.status === 200) {
-          login(response.data.name,response.data.email,response.data.role); // 로그인 상태 업데이트
+          login(response.data.name, response.data.email, response.data.role, response.data.id);
         }
       } catch (error) {
-        logout();
+        if (error.response && (error.response.status === 404 || error.response.status === 401)) {
+          logout();
+        } else {
+          console.error("로그인 상태 확인 실패:", error);
+        }
       }
-    };
-
-    checkLoginStatus();
+    }, 300); // 💡 300ms 지연
+  
+    return () => clearTimeout(timer);
   }, [login, logout]);
-
+  
   const handleLogout = async (e) => {
     e.preventDefault();
 
@@ -83,9 +87,35 @@ const Header = () => {
         </div>
 
         <nav className="icon-menu">
-          <img src={mypage_img} alt="mypage" className="nav-icon" title="마이페이지" onClick={() => navigate('/MyPage')} />
-          <img src={shopping_cart_img} alt="shopping_cart" className="nav-icon" title="장바구니" onClick={() => navigate('/Cart')} />
-        </nav>
+  <img
+    src={mypage_img}
+    alt="mypage"
+    className="nav-icon"
+    title="마이페이지"
+    onClick={() => {
+      if (isLoggedIn) {
+        navigate('/MyPage');
+      } else {
+        alert("로그인 후 이용해주세요.");
+        navigate('/');
+      }
+    }}
+  />
+  <img
+    src={shopping_cart_img}
+    alt="shopping_cart"
+    className="nav-icon"
+    title="장바구니"
+    onClick={() => {
+      if (isLoggedIn) {
+        navigate('/Cart');
+      } else {
+        alert("로그인 후 이용해주세요.");
+        navigate('/');
+      }
+    }}
+  />
+</nav>
       </div>
 
       <div className="header-bottom">
