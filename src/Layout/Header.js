@@ -6,12 +6,15 @@ import './Header.css';
 import search_img from "./reading-glasses.png";
 import mypage_img from "./person.png";
 import shopping_cart_img from "./shopping_cart.png";
+import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const navigate = useNavigate();
   const { isLoggedIn, logout, login, userName } = useLogin();
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { cartItems, cartVersion } = useCart();
+
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -31,10 +34,25 @@ const Header = () => {
         }
       }
     }, 300); // 💡 300ms 지연
+<<<<<<< HEAD
   
     return () => clearTimeout(timer);
   }, [login, logout]);
   
+=======
+
+    return () => clearTimeout(timer);
+  }, [login, logout]);
+
+  useEffect(() => {
+    console.log('장바구니 상태 변경됨:', cartItems);
+  }, [cartItems]);
+
+  useEffect(() => {
+    console.log("카트 버전 변경 감지됨:", cartVersion);
+  }, [cartVersion]);
+
+>>>>>>> 0fa5476 (장바구니 개수 표시)
   const handleLogout = async (e) => {
     e.preventDefault();
 
@@ -71,7 +89,7 @@ const Header = () => {
             <a href="/Signup">회원가입</a>
           </>
         )}
-      
+
         <a href="/Q&A">고객문의</a>
       </div>
 
@@ -87,6 +105,7 @@ const Header = () => {
         </div>
 
         <nav className="icon-menu">
+<<<<<<< HEAD
   <img
     src={mypage_img}
     alt="mypage"
@@ -116,6 +135,45 @@ const Header = () => {
     }}
   />
 </nav>
+=======
+          <img
+            src={mypage_img}
+            alt="mypage"
+            className="nav-icon"
+            title="마이페이지"
+            onClick={() => {
+              if (isLoggedIn) {
+                navigate('/MyPage');
+              } else {
+                alert("로그인 후 이용해주세요.");
+                navigate('/');
+              }
+            }}
+          />
+          <div className="cart-icon-wrapper">
+            <img
+              src={shopping_cart_img}
+              alt="shopping_cart"
+              className="nav-icon"
+              title="장바구니"
+              onClick={() => {
+                if (isLoggedIn) {
+                  navigate('/Cart');
+                } else {
+                  alert("로그인 후 이용해주세요.");
+                  navigate('/');
+                }
+              }}
+            />
+            {cartItems.length > 0 && ( //장바구니 숫자 반영
+              <div className="cart-badge">
+                {cartItems.reduce((sum, item) => sum + item.count, 0)}
+              </div>
+            )}
+          </div>
+
+        </nav>
+>>>>>>> 0fa5476 (장바구니 개수 표시)
       </div>
 
       <div className="header-bottom">

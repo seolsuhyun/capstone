@@ -21,6 +21,7 @@ import Cart from "./routes/Cart";
 import axios from "axios";
 import Orders from "./routes/Orders";
 import MainPage from "./Layout/MainPage.js";
+import Header from "./Layout/Header";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -30,6 +31,7 @@ function App() {
 
   return (
     <CartProvider>
+      <Header />
       <Routes>
         <Route path="/all" element={<Home />} />
         <Route path="/" element={<MainPage />} />

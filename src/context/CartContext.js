@@ -7,6 +7,7 @@ const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    const [cartVersion, setCartVersion] = useState(0);
     const { userEmail } = useLogin(); // 로그인한 사용자의 이메일
 
     const fetchCart = async () => {
@@ -30,7 +31,9 @@ export const CartProvider = ({ children }) => {
                 };
             });
 
-            setCartItems(enrichedItems);
+            setCartItems([...enrichedItems]);
+            setCartVersion(prev => prev + 1);
+
         } catch (err) {
             console.error("장바구니 불러오기 실패:", err);
             setCartItems([]);
@@ -48,19 +51,35 @@ export const CartProvider = ({ children }) => {
     // 🛒 장바구니에 상품 추가
     const addToCart = async (product) => {
         try {
-            const body = {
-                itemId: product.id, // 백엔드에 필요한 필드
-                count: 1
-            };
+            const body = { itemId: product.id, count: 1 };
             await axios.post("/cart", body, { withCredentials: true });
-            fetchCart(); // 최신 장바구니 다시 불러오기
+
+
+            // fetch 대신 미리 업데이트
+            const updatedCart = await axios.get("/cart", { withCredentials: true });
+            const itemListRes = await axios.get("/items/list", { withCredentials: true });
+            const allItems = itemListRes.data;
+
+            const enrichedItems = updatedCart.data.cartItemDtoList.map((cartItem) => {
+                const matchedItem = allItems.find((item) => item.id === cartItem.itemId);
+                return {
+                    ...cartItem,
+                    name: matchedItem?.name || `상품 #${cartItem.itemId}`,
+                    price: matchedItem?.price || 0,
+                };
+            });
+
+            setCartItems([...enrichedItems]);
+            setCartVersion(prev => prev + 1);
+
         } catch (err) {
             console.error("장바구니 추가 실패:", err);
             alert("장바구니 추가 중 오류가 발생했습니다.");
         }
     };
 
-    // ❌ 장바구니 항목 삭제
+
+    // 장바구니 항목 삭제
     const removeFromCart = async (itemId) => {
         try {
             await axios.delete(`/cart/${itemId}/delete`, { withCredentials: true });
@@ -68,6 +87,8 @@ export const CartProvider = ({ children }) => {
         } catch (err) {
             console.error("삭제 실패:", err);
         }
+        await fetchCart();
+        setCartVersion(prev => prev + 1);
     };
 
     const updateQuantity = async (itemId, newCount) => {
@@ -104,6 +125,8 @@ export const CartProvider = ({ children }) => {
         } catch (err) {
             console.error("수량 업데이트 실패:", err);
         }
+        await fetchCart();
+        setCartVersion(prev => prev + 1);
     };
 
 
@@ -116,14 +139,18 @@ export const CartProvider = ({ children }) => {
         } catch (err) {
             console.error("수량 감소 실패:", err);
         }
+        await fetchCart();
+        setCartVersion(prev => prev + 1);
     };
 
     return (
         <CartContext.Provider
-            value={{ cartItems, addToCart, removeFromCart, decreaseQuantity, updateQuantity, fetchCart }}
+            value={{ cartItems, addToCart, removeFromCart, decreaseQuantity, updateQuantity, fetchCart, cartVersion }}
         >
             {children}
         </CartContext.Provider>
+
+
     );
 
 };
