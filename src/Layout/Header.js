@@ -22,7 +22,7 @@ const Header = () => {
         const response = await axios.get('http://localhost:8080/loginOk', {
           withCredentials: true,
         });
-  
+
         if (response.status === 200) {
           login(response.data.name, response.data.email, response.data.role, response.data.id);
         }
@@ -34,12 +34,6 @@ const Header = () => {
         }
       }
     }, 300); // 💡 300ms 지연
-<<<<<<< HEAD
-  
-    return () => clearTimeout(timer);
-  }, [login, logout]);
-  
-=======
 
     return () => clearTimeout(timer);
   }, [login, logout]);
@@ -52,7 +46,6 @@ const Header = () => {
     console.log("카트 버전 변경 감지됨:", cartVersion);
   }, [cartVersion]);
 
->>>>>>> 0fa5476 (장바구니 개수 표시)
   const handleLogout = async (e) => {
     e.preventDefault();
 
@@ -105,37 +98,6 @@ const Header = () => {
         </div>
 
         <nav className="icon-menu">
-<<<<<<< HEAD
-  <img
-    src={mypage_img}
-    alt="mypage"
-    className="nav-icon"
-    title="마이페이지"
-    onClick={() => {
-      if (isLoggedIn) {
-        navigate('/MyPage');
-      } else {
-        alert("로그인 후 이용해주세요.");
-        navigate('/');
-      }
-    }}
-  />
-  <img
-    src={shopping_cart_img}
-    alt="shopping_cart"
-    className="nav-icon"
-    title="장바구니"
-    onClick={() => {
-      if (isLoggedIn) {
-        navigate('/Cart');
-      } else {
-        alert("로그인 후 이용해주세요.");
-        navigate('/');
-      }
-    }}
-  />
-</nav>
-=======
           <img
             src={mypage_img}
             alt="mypage"
@@ -173,7 +135,6 @@ const Header = () => {
           </div>
 
         </nav>
->>>>>>> 0fa5476 (장바구니 개수 표시)
       </div>
 
       <div className="header-bottom">
