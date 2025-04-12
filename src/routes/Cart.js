@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import "./Cart.css";
+import axios from "axios";
 
 const Cart = () => {
     const { cartItems, removeFromCart, updateQuantity } = useCart();
+    const [recommendedItems, setRecommendedItems] = useState([]);
     const navigate = useNavigate();
+    const { addToCart } = useCart();
 
     console.log("현재 장바구니 데이터:", cartItems);
+
+    useEffect(() => {
+        // 백엔드 상품 목록 불러와서 랜덤 추천
+        const fetchRecommendations = async () => {
+            try {
+                const res = await axios.get("/items/list", { withCredentials: true }); //데이터베이스 변경하면 이 부분 고치기기
+                const allItems = res.data;
+
+                // 상품 무작위
+                const shuffled = [...allItems].sort(() => 0.5 - Math.random());
+                // 3개만 잘라서 추천
+                const selected = shuffled.slice(0, 3);
+                setRecommendedItems(selected);
+            } catch (err) {
+                console.error("추천 상품 불러오기 실패:", err);
+            }
+        };
+
+        fetchRecommendations();
+    }, []);
+
 
     const handleCheckout = () => {
         if (cartItems.length === 0) {
@@ -58,6 +82,30 @@ const Cart = () => {
                     <div className="total-price">
                         <h2>총 가격: {totalPrice.toLocaleString()}원</h2>
                     </div>
+                    <div className="recommended-section">
+                        <h2 className="recommended-title">고객님, 이 상품도 함께 보시면 좋아요!</h2>
+                        <div className="recommended-items">
+                            {recommendedItems.map((item) => (
+                                <div key={item.id} className="recommended-card">
+                                    <img src={item.image} alt={item.name} className="recommended-img" />
+                                    <div className="recommended-info">
+                                        <h3>{item.name}</h3>
+                                        <p>{item.price.toLocaleString()}원</p>
+                                        <button
+                                            className="add-button"
+                                            onClick={() => {
+                                                addToCart(item);
+                                                alert("상품이 장바구니에 담겼습니다!");
+                                            }}
+                                        >
+                                            + 장바구니
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
                     <div className="checkout-container">
                         <button className="checkout-button" onClick={handleCheckout}>
                             주문하기
