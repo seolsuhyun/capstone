@@ -231,7 +231,12 @@
   cursor: not-allowed;
   /* 클릭 불가 상태 */
 }
-
+.delivery-info-header {
+  display: flex;
+  justify-content: space-between; /* 양쪽 정렬 */
+  align-items: center;            /* 수직 정렬 */
+  margin-bottom: 10px;
+}
 .mypage-delivery-info {
   margin-top: 30px;
   background-color: #fff;

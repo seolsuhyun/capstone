@@ -5,7 +5,8 @@ import { useLogin } from "../context/LoginContext";
 import AddressPopup from "./AddressPopup";
 const Mypage = () => {
   const { userName, userEmail, userId } = useLogin();
-  const [address, setAddress] = useState(null);
+  const [addresses, setAddresses] = useState([]);
+
   const [showAddressPopup, setShowAddressPopup] = useState(false);
 
   const points = 1250;
@@ -30,18 +31,17 @@ const Mypage = () => {
   useEffect(() => {
     if (userEmail) {
       axios.get("http://localhost:8080/address", {
-        withCredentials: true, // 인증 쿠키 필요 시
+        withCredentials: true,
       })
         .then(response => {
-          if (response.data.length > 0) {
-            setAddress(response.data[0]); // 첫 번째 주소를 기본 주소로 사용
-          }
+          setAddresses(response.data); // 모든 주소 저장
         })
         .catch(error => {
           console.error("주소 조회 실패:", error);
         });
     }
   }, [userEmail]);
+  
 
 
   const handleCancelOrder = (orderId) => {
@@ -81,18 +81,16 @@ const Mypage = () => {
       alert("서버 오류가 발생했습니다.");
     }
   };
-  const handleDeleteAddress = () => {
-    console.log("주소 삭제 요청:", address.addressId);
+  const handleDeleteAddress = (addressId) => {
     const confirmed = window.confirm("배송지를 삭제하시겠습니까?");
     if (!confirmed) return;
-
-    axios
-      .delete(`http://localhost:8080/address/${address.addressId}/delete`)
+  
+    axios.delete(`http://localhost:8080/address/${addressId}/delete`)
       .then(() => {
         alert("배송지가 삭제되었습니다.");
-        setAddress(null);
+        setAddresses(prev => prev.filter(addr => addr.addressId !== addressId));
       })
-      .catch((error) => {
+      .catch(error => {
         console.error("주소 삭제 실패:", error);
         alert("주소 삭제에 실패했습니다.");
       });
@@ -102,9 +100,7 @@ const Mypage = () => {
       withCredentials: true,
     })
       .then(response => {
-        if (response.data.length > 0) {
-          setAddress(response.data[0]);
-        }
+        setAddresses(response.data);
       })
       .catch(error => {
         console.error("주소 재조회 실패:", error);
@@ -153,7 +149,7 @@ const Mypage = () => {
             <p>{coupons} 개</p>
           </div>
         </div>
-        <button className="withdraw-button" onClick={handleWithdraw}>
+        <button className="withdraw-button" onClick={handleWithdraw}> 
           회원 탈퇴
         </button>
       </div>
@@ -197,37 +193,37 @@ const Mypage = () => {
         </div>
       </div>
       <div className="mypage-delivery-info">
-        <h2>배송정보</h2>
-        <hr />
-        <div className="delivery-details">
-          <div className="delivery-item"><span className="label">받는 분:</span> <span className="value">홍길동</span></div>
-          <div className="delivery-item"><span className="label">휴대폰 번호:</span> <span className="value">010-1234-5678</span></div>
-          <div className="delivery-item">
-            <span className="label">배송지:</span>{" "}
-            <span className="value">
-              {address
-                ? `${address.address} ${address.addressDetail}`
-                : "등록된 주소가 없습니다."}
-            </span>
-            {address ? (
-              <button
-                className="delete-address-button"
-                onClick={handleDeleteAddress}
-              >
-                주소 삭제
-              </button>
-            ) : (
-              <button
-                className="register-address-button"
-                onClick={handleRegisterAddress}
-              >
-                주소 등록
-              </button>
-            )}
-          </div>
-
+  <div className="delivery-info-header">
+    <h2>배송정보</h2>
+    <button className="register-address-button" onClick={handleRegisterAddress}>
+      주소 추가
+    </button>
+  </div>
+  <hr />
+  <div className="delivery-item"><span className="label">받는 분:</span> <span className="value">{userName}</span></div>
+  <div className="delivery-item"><span className="label">휴대폰 번호:</span> <span className="value">010-1234-5678</span></div>
+  {addresses.length > 0 ? (
+    <div className="delivery-list">
+      {addresses.map((addr) => (
+        <div key={addr.addressId} className="delivery-item">
+          <span className="label">배송지:</span>{" "}
+          <span className="value">
+            {addr.address} {addr.addressDetail}
+          </span>
+          <button
+            className="delete-address-button"
+            onClick={() => handleDeleteAddress(addr.addressId)}
+          >
+            삭제
+          </button>
         </div>
-      </div>
+      ))}
+    </div>
+  ) : (
+    <p>등록된 주소가 없습니다.</p>
+  )}
+</div>
+
       <div className="mypage-price-info">
         <h2>주문 금액 정보</h2>
         <div className="mypage-price-details">
