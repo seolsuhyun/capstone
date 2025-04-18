@@ -16,7 +16,7 @@ const events = [
 
 const MainPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [products, setProducts] = useState([]);
+
   const categoryMap = {
     전체: null,
     '구이/볶음': 'ROAST',
@@ -28,7 +28,8 @@ const MainPage = () => {
   const categories = Object.keys(categoryMap); // ['전체', '구이/볶음', '국물요리', '파스타', '안주']
   
   const [selectedCategory, setSelectedCategory] = useState('전체');
-  const [allItems, setAllItems] = useState([]);
+  const [newProducts, setNewProducts] = useState([]);
+  const [bestProducts, setBestProducts] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
 
   const timeoutRef = useRef(null);
@@ -58,34 +59,39 @@ const MainPage = () => {
       .get("http://localhost:8080/items/list")
       .then((response) => {
         const allItems = response.data;
-        const shuffled = [...allItems].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 4); // 무작위 4개
   
-        setAllItems(allItems); // 전체 저장
-        setProducts(selected); // 신상용 무작위 4개 저장
+        const newItems = allItems.filter(item => item.itemStatus === 'NEW');
+      const shuffledNew = [...newItems].sort(() => 0.5 - Math.random());
+      const selectedNew = shuffledNew.slice(0, 4);
+        const bestItems = allItems.filter(item => item.itemStatus === 'BEST');
+  
+      
+        setNewProducts(selectedNew);
+        setBestProducts(bestItems);
       })
       .catch((error) => {
         console.error("에러", error);
       });
   }, []);
+  
 
   useEffect(() => {
     const backendCategory = categoryMap[selectedCategory];
   
     if (!backendCategory) {
-      setFilteredItems(allItems); // 전체
+      setFilteredItems(bestProducts); // BEST 상품 중 전체
     } else {
-      const filtered = allItems.filter(item => item.category === backendCategory);
+      const filtered = bestProducts.filter(item => item.category === backendCategory);
       setFilteredItems(filtered);
     }
-  }, [selectedCategory, allItems]);
+  }, [selectedCategory, bestProducts]);
   
- 
 
-  if (products.length === 0) return null;
+  if (newProducts.length === 0) return null;
 
-  const mainItem = products[0];
-  const sideItems = products.slice(1);
+  const mainItem = newProducts[0];
+  const sideItems = newProducts.slice(1);
+  
 
 
 
@@ -181,7 +187,7 @@ const MainPage = () => {
         <h2 className="discount-title">금주할인특가</h2>
 
         <div className="discount-items">
-          {products.map((item, idx) => (
+          {bestProducts.map((item, idx) => (
             <div key={idx} className="discount-item">
               <img src={item.image} alt={item.name} className="discount-image" />
               <div className="discount-brand">푸딩팩토리</div>

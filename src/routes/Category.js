@@ -16,10 +16,13 @@ const Category = () => {
         axios.get('http://localhost:8080/items/list')
             .then((response) => {
                 const filteredProducts = response.data.filter((product) => {
+                    console.log(product);
                     if (category === '구이류') return product.category === 'ROAST';
                     if (category === '국물요리') return product.category === 'SOUP';
                     if (category === '파스타') return product.category === 'PASTA';
                     if (category === '안주') return product.category === 'ANJU';
+                    if(category === "new") return product.itemStatus === 'NEW';
+                    if(category === "best") return product.itemStatus === 'BEST';
                     return true;
                 });
                 setProducts(filteredProducts);
