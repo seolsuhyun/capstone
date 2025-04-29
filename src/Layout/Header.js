@@ -10,7 +10,7 @@ import { useCart } from '../context/CartContext';
 
 const Header = () => {
   const navigate = useNavigate();
-  const { isLoggedIn, logout, login, userName } = useLogin();
+  const { isLoggedIn, logout, login, userName, userRole } = useLogin();  // userRole 추가
   const [searchTerm, setSearchTerm] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { cartItems, cartVersion } = useCart();
@@ -63,7 +63,6 @@ const Header = () => {
     }
   };
 
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -71,6 +70,9 @@ const Header = () => {
   return (
     <header className="Header">
       <div className="nav-links">
+        {userRole === 'ROLE_ADMIN' && (
+          <a href="/Adminpage">관리자 페이지</a>  
+        )}
         {isLoggedIn ? (
           <>
             <a href="/" onClick={handleLogout}>로그아웃</a>

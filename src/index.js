@@ -13,10 +13,8 @@ root.render(
   <BrowserRouter>
     <LoginProvider>
       <CartProvider>
-        <Header />
         <ScrollToTop />
         <App />
-        <Footer />
       </CartProvider>
     </LoginProvider>
   </BrowserRouter>

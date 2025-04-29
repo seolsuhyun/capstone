@@ -1,0 +1,32 @@
+/* UserManagement.css */
+.user-management {
+  padding: 20px;
+}
+
+.user-management table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user-management th,
+.user-management td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.user-management th {
+  background-color: #f4f4f4;
+}
+
+.user-management button {
+  background-color: #f44336; /* 빨간색 */
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.user-management button:hover {
+  background-color: #d32f2f; /* hover 시 색상 변경 */
+}
