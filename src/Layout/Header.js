@@ -71,7 +71,7 @@ const Header = () => {
     <header className="Header">
       <div className="nav-links">
         {userRole === 'ROLE_ADMIN' && (
-          <a href="/Adminpage">관리자 페이지</a>  
+          <a href="/Adminpage">관리자 페이지</a>
         )}
         {isLoggedIn ? (
           <>
@@ -89,7 +89,9 @@ const Header = () => {
       </div>
 
       <div className="header-top">
-        <img src='/Logo.png' className='logo' onClick={() => navigate('/')} />
+
+        <img src='/mainlogo.png' className='main-logo-text' alt="Main Logo" onClick={() => navigate('/')} />
+
         <div className="search">
           <form onSubmit={(e) => { e.preventDefault(); navigate(`/search?query=${encodeURIComponent(searchTerm)}`); }} className="search-form">
             <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="부기푸드" className="search-bar" />
@@ -147,10 +149,41 @@ const Header = () => {
               <div className="dropdown-menu">
                 <ul>
                   <li onClick={() => navigate('/all')}>전체</li>
-                  <li onClick={() => navigate('/category/구이류')}>구이/볶음</li>
-                  <li onClick={() => navigate('/category/국물요리')}>국물 요리</li>
-                  <li onClick={() => navigate('/category/파스타')}>파스타</li>
-                  <li onClick={() => navigate('/category/안주')}>안주</li>
+                  <li className="category-item subcategory-parent" onClick={() => navigate('/category/구이류')}>
+                    구이/볶음
+                    <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
+                      <ul>
+                        <li onClick={() => navigate('/subcategory/FRIED')}>튀김류</li>
+                        <li onClick={() => navigate('/subcategory/BOKKEUM')}>볶음류</li>
+                        <li onClick={() => navigate('/subcategory/SUSHI')}>초밥</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="category-item subcategory-parent" onClick={() => navigate('/category/국물요리')}>국물 요리
+                    <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
+                      <ul>
+                        <li onClick={() => navigate('/subcategory/JJIGAE')}>국/찌개</li>
+                        <li onClick={() => navigate('/subcategory/TANG')}>탕류</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="category-item subcategory-parent" onClick={() => navigate('/category/면류')}>면류
+                    <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
+                      <ul>
+                        <li onClick={() => navigate('/subcategory/Noodle')}>파스타</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="category-item subcategory-parent" onClick={() => navigate('/category/안주')}>안주
+                    <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
+                      <ul>
+                        <li onClick={() => navigate('/subcategory/SORBET')}>샤베트</li>
+                      </ul>
+                    </div>
+                  </li>
                 </ul>
               </div>
             )}

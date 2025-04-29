@@ -10,23 +10,19 @@
   padding: 10px 0;
 }
 
-/* 헤더 상단 (로고, 검색창, 로그인 네비) */
 .header-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  margin-top: 20px;
+  justify-content: center;
+  padding: 10px 100px;
+  gap: 40px;
 }
 
-/* 🔥 검색창과 아이콘을 감싸는 컨테이너 */
 .search-icon-container {
   display: flex;
   align-items: center;
   gap: 20px;
-  /* 검색창과 아이콘 사이 간격 */
   flex-grow: 1;
-  /* 검색창 크기 조절 */
   justify-content: center;
 }
 
@@ -193,4 +189,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.main-logo-text {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.subcategory-parent {
+  position: relative;
+}
+
+.subcategory-menu {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  /* 오른쪽으로 펼쳐지게 */
+  background: white;
+  border: 1px solid #ddd;
+  width: 150px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.subcategory-parent:hover .subcategory-menu {
+  display: block;
+}
+
+.subcategory-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.subcategory-menu li {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: center;
+}
+
+.subcategory-menu li:hover {
+  background: #f5f5f5;
 }

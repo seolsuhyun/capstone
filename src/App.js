@@ -28,6 +28,7 @@ import SearchResults from "./routes/SearchResults";
 import Cart from "./routes/Cart";
 import Orders from "./routes/Orders";
 import AdminPage from "./routes/AdminPage";
+import SubCategoryPage from "./routes/SubCategoryPage";
 
 axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
@@ -35,39 +36,40 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
     <CartProvider>
-    
-        <Routes>
 
-          {/* 일반 사용자용 레이아웃 */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/all" element={<Home />} />
-            <Route path="/Location" element={<Location />} />
-            <Route path="/Login" element={<Login />} />
-            <Route path="/Signup" element={<Signup />} />
-            <Route path="/detail/:id" element={<Detail />} />
-            <Route path="/order" element={<Order />} />
-            <Route path="/Signup/SignupOk" element={<SignupOk />} />
-            <Route path="/Mypage" element={<Mypage />} />
-            <Route path="/order/ordersuccess" element={<OrderSuccess />} />
-            <Route path="/category/:category" element={<Category />} />
-            <Route path="/FaQ" element={<FaQ />} />
-            <Route path="/Q&A" element={<QAPage />} />
-            <Route path="/Q&A/BoardWrite" element={<InquiryWrite />} />
-            <Route path="/Q&A/content/:questionId" element={<QAContent />} />
-            <Route path="/Q&A/modify/:questionId" element={<QAModify />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/search" element={<SearchResults />} />
-            <Route path="/orders" element={<Orders />} />
-          </Route>
+      <Routes>
 
-          {/* 관리자용 레이아웃 (헤더/푸터 없음) */}
-          <Route element={<AdminLayout />}>
-            <Route path="/Adminpage" element={<AdminPage />} />
-          </Route>
+        {/* 일반 사용자용 레이아웃 */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/all" element={<Home />} />
+          <Route path="/Location" element={<Location />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/order" element={<Order />} />
+          <Route path="/Signup/SignupOk" element={<SignupOk />} />
+          <Route path="/Mypage" element={<Mypage />} />
+          <Route path="/order/ordersuccess" element={<OrderSuccess />} />
+          <Route path="/category/:category" element={<Category />} />
+          <Route path="/FaQ" element={<FaQ />} />
+          <Route path="/Q&A" element={<QAPage />} />
+          <Route path="/Q&A/BoardWrite" element={<InquiryWrite />} />
+          <Route path="/Q&A/content/:questionId" element={<QAContent />} />
+          <Route path="/Q&A/modify/:questionId" element={<QAModify />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchResults />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/subcategory/:subcategory" element={<SubCategoryPage />} />
+        </Route>
 
-        </Routes>
-  
+        {/* 관리자용 레이아웃 (헤더/푸터 없음) */}
+        <Route element={<AdminLayout />}>
+          <Route path="/Adminpage" element={<AdminPage />} />
+        </Route>
+
+      </Routes>
+
     </CartProvider>
   );
 }
