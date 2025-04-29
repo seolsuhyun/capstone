@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
@@ -28,6 +28,8 @@ function Orders() {
     const [deliveryMemo, setDeliveryMemo] = useState("");
     const [deliveryOption, setDeliveryOption] = useState("standard");
     const [hasSavedAddress, setHasSavedAddress] = useState(false);
+    const [addressList, setAddressList] = useState([]);
+    const [selectedAddressId, setSelectedAddressId] = useState(null);
 
     // 할인/포인트
     const [couponDiscount, setCouponDiscount] = useState(0);
@@ -77,26 +79,31 @@ function Orders() {
         }
         setZonecode(data.zonecode);
         setRoadAddress(fullAddress);
+        setSelectedAddressId(null); // 새 주소 수동 입력 시 선택 초기화
+
     };
     useEffect(() => {
         fetchUserAddress();
     }, []);
 
-    
+
     const fetchUserAddress = async () => {
         try {
             const res = await axios.get("/address", { withCredentials: true });
             if (res.data && res.data.length > 0) {
-                const latest = res.data[res.data.length - 1]; // 최근 주소 사용
+                setAddressList(res.data);
+                const latest = res.data[res.data.length - 1];
+                setSelectedAddressId(latest.addressId);
                 setRoadAddress(latest.address);
                 setDetailAddress(latest.addressDetail);
-                setHasSavedAddress(true); // 👉 주소가 이미 저장되어 있다는 의미
+                setHasSavedAddress(true);
             }
         } catch (err) {
             console.error("주소 불러오기 실패:", err);
         }
     };
-    
+
+
     const handleClick = () => {
         open({ onComplete: handleComplete });
     };
@@ -105,7 +112,7 @@ function Orders() {
     const handleDeliveryOptionChange = (e) => setDeliveryOption(e.target.value);
 
     const validateAddress = () => {
-        if ( !roadAddress || !detailAddress) {
+        if (!roadAddress || !detailAddress) {
             alert("배송 정보를 모두 입력해주세요.");
             return false;
         }
@@ -117,14 +124,36 @@ function Orders() {
                 address: roadAddress,
                 addressDetail: detailAddress,
             };
-    
+
             await axios.post("/address", data, { withCredentials: true });
             console.log("주소 저장 성공");
         } catch (error) {
             console.error("주소 저장 실패:", error);
         }
     };
-    
+    const handleAddressChange = (e) => {
+        const selectedId = Number(e.target.value);
+        const selected = addressList.find(addr => addr.addressId === selectedId);
+
+        console.log("선택된 주소 ID:", selectedId);
+        console.log("찾아낸 주소 객체:", selected);
+
+        if (selected) {
+            setSelectedAddressId(selected.addressId);
+            setRoadAddress(selected.address);
+            setDetailAddress(selected.addressDetail);
+            setZonecode(selected.zonecode);
+        } else {
+            setSelectedAddressId(null);
+            setRoadAddress("");
+            setDetailAddress("");
+            setZonecode("");
+        }
+    };
+
+
+
+
 
     const handleCouponApply = () => {
         const validCoupons = [
@@ -191,19 +220,19 @@ function Orders() {
             alert("모든 동의사항을 체크해주세요.");
             return;
         }
-    
+
         if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
             const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
             if (wantToSave) {
                 await saveAddressToServer();
             }
         }
-    
+
         const orderDtos = products.map(item => ({
             id: item.itemId,
             count: item.count
         }));
-    
+
         try {
             await axios.post("/orders", orderDtos, { withCredentials: true });
             await fetchCart();
@@ -214,7 +243,7 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
-    
+
     return (
         <div className="order">
             <h1>장바구니 결제하기</h1>
@@ -245,6 +274,23 @@ function Orders() {
                     {/* 배송 정보 */}
                     <div className="delivery_info">
                         <h2>배송 정보</h2>
+                        <div className="input-group">
+    <label htmlFor="addressSelect">주소 선택</label>
+    <select
+        id="addressSelect"
+        className="styled-select"
+        value={selectedAddressId || ""}
+        onChange={handleAddressChange}
+    >
+        <option value="">주소를 선택하세요</option>
+        {addressList.map((addr) => (
+            <option key={addr.addressId} value={addr.addressId}>
+                {addr.address} {addr.addressDetail}
+            </option>
+        ))}
+    </select>
+</div>
+
                         <div className="input-group">
                             <label>우편번호</label>
                             <div className="input-container">

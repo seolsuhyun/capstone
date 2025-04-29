@@ -206,7 +206,7 @@ const Mypage = () => {
     <div className="delivery-list">
       {addresses.map((addr) => (
         <div key={addr.addressId} className="delivery-item">
-          <span className="label">배송지:</span>{" "}
+          <span className="label">{addr.addressId}번 배송지:</span>{" "}
           <span className="value">
             {addr.address} {addr.addressDetail}
           </span>
