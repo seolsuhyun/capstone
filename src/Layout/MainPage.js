@@ -24,9 +24,9 @@ const MainPage = () => {
     '파스타': 'PASTA',
     '안주': 'ANJU',
   };
-  
+
   const categories = Object.keys(categoryMap); // ['전체', '구이/볶음', '국물요리', '파스타', '안주']
-  
+
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [newProducts, setNewProducts] = useState([]);
   const [bestProducts, setBestProducts] = useState([]);
@@ -58,14 +58,15 @@ const MainPage = () => {
     axios
       .get("http://localhost:8080/items/list")
       .then((response) => {
+        console.log("서버 응답 데이터:", response.data);
         const allItems = response.data;
-  
+
         const newItems = allItems.filter(item => item.itemStatus === 'NEW');
-      const shuffledNew = [...newItems].sort(() => 0.5 - Math.random());
-      const selectedNew = shuffledNew.slice(0, 4);
+        const shuffledNew = [...newItems].sort(() => 0.5 - Math.random());
+        const selectedNew = shuffledNew.slice(0, 4);
         const bestItems = allItems.filter(item => item.itemStatus === 'BEST');
-  
-      
+
+
         setNewProducts(selectedNew);
         setBestProducts(bestItems);
       })
@@ -73,11 +74,11 @@ const MainPage = () => {
         console.error("에러", error);
       });
   }, []);
-  
+
 
   useEffect(() => {
     const backendCategory = categoryMap[selectedCategory];
-  
+
     if (!backendCategory) {
       setFilteredItems(bestProducts); // BEST 상품 중 전체
     } else {
@@ -85,13 +86,13 @@ const MainPage = () => {
       setFilteredItems(filtered);
     }
   }, [selectedCategory, bestProducts]);
-  
+
 
   if (newProducts.length === 0) return null;
 
   const mainItem = newProducts[0];
   const sideItems = newProducts.slice(1);
-  
+
 
 
 
@@ -103,6 +104,12 @@ const MainPage = () => {
 
   return (
     <div className="main-page">
+      <div className="banner-wrapper">
+        <img src="/banner2.png" alt="배너 이미지" className="banner-image" />
+      </div>
+
+
+
       <div className='main-slider'>
         <div className="slider-track" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           {events.map((event, idx) => (
@@ -127,7 +134,7 @@ const MainPage = () => {
       </div>
       {/* 무엇이든 물어보세요 버튼 */}
       <button className="chat-floating-button" onClick={handleClick}>
-        
+
         <span className="chat-text" >무엇이든 물어보세요 😊</span>
       </button>
 
@@ -177,12 +184,12 @@ const MainPage = () => {
         <div className="more-button-wrapper">
           <button className="more-button" onClick={() => navigate('/category/new')}>신상품 더보기 &gt;</button>
         </div>
-        
+
       </div>
-      
-      <hr className='main-hr'/>
+
+      <hr className='main-hr' />
       <div className="discount-section">
-        
+
         <h4 className="discount-subtitle">놓치면 안되는 득템찬스!</h4>
         <h2 className="discount-title">금주할인특가</h2>
 
@@ -209,9 +216,9 @@ const MainPage = () => {
           <button className="more-button" onClick={() => navigate('/category/discount')}>상품 더보기 &gt;</button>
         </div>
       </div>
-     
+
       <div className="category-best-section">
-       <hr/>
+        <hr />
         <h2>카테고리별 베스트</h2>
 
         <div className="category-tabs">

@@ -1,4 +1,4 @@
-.main-page{
+.main-page {
   position: relative;
   width: 100%;
   overflow: hidden;
@@ -10,9 +10,10 @@
   width: 100%;
   height: 400px;
   overflow: hidden;
- 
+
 }
-.main-hr{
+
+.main-hr {
   width: 64%;
 }
 
@@ -25,7 +26,8 @@
 
 .slide {
   min-width: 100%;
-  height: auto; /* ✅ 변경 */
+  height: auto;
+  /* ✅ 변경 */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -41,7 +43,7 @@
 
 .slider-image {
   height: 100%;
-  
+
   object-fit: cover;
   border-radius: 10px;
   transition: opacity 1s ease-in-out;
@@ -69,12 +71,14 @@
 
 .slider-indicator {
   position: absolute;
-  bottom: 20px; /* 이미지 안쪽으로 위치 */
+  bottom: 20px;
+  /* 이미지 안쪽으로 위치 */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
-  z-index: 10; /* 이미지 위로 올라오게 */
+  z-index: 10;
+  /* 이미지 위로 올라오게 */
 }
 
 .slider-dot {
@@ -102,19 +106,22 @@
   align-items: center;
   gap: 10px;
   font-weight: bold;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   z-index: 1000;
 }
+
 /* 기존 슬라이더 관련 스타일 유지 */
 
 /* ------------------ 신상 메뉴 스타일 ------------------ */
 .main-new-menu-section {
   padding: 40px 0;
-  text-align: center; /* 텍스트 가운데 */
+  text-align: center;
+  /* 텍스트 가운데 */
   display: flex;
   flex-direction: column;
-  align-items: center; /* 내부 요소 가운데 정렬 */
+  align-items: center;
+  /* 내부 요소 가운데 정렬 */
 }
 
 .main-new-menu-section h3 {
@@ -142,7 +149,7 @@
   flex: 2;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .main-new-image {
@@ -194,7 +201,7 @@
   background: white;
   padding: 12px;
   border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 16px;
 }
 
@@ -223,7 +230,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-}.buy-icon-button {
+}
+
+.buy-icon-button {
   margin-top: 10px;
   background: none;
   border: none;
@@ -232,16 +241,20 @@
   border-radius: 8px;
   transition: transform 0.2s;
 }
+
 .buy-button-container {
   display: flex;
-  justify-content: flex-end; /* 오른쪽 정렬 */
+  justify-content: flex-end;
+  /* 오른쪽 정렬 */
   margin-top: 12px;
 }
 
 .buy-button {
   display: inline-flex;
-  justify-content: center; /* 추가: 가로 정렬 */
-  align-items: center;      /* 세로 정렬 */
+  justify-content: center;
+  /* 추가: 가로 정렬 */
+  align-items: center;
+  /* 세로 정렬 */
   gap: 8px;
   width: 48px;
   height: 48px;
@@ -287,6 +300,7 @@
   background-color: #f1f1f1;
   border-color: #999;
 }
+
 .discount-section {
   margin-top: 60px;
   display: flex;
@@ -398,7 +412,7 @@
   color: #333;
   cursor: pointer;
   transition: all 0.3s;
-  
+
 }
 
 .more-button:hover {
@@ -409,19 +423,24 @@
 
 .category-best-section {
   max-width: 1400px;
-  margin: 0 auto; /* 가운데 정렬 핵심 */
-margin-top: 40px;
-  text-align: center; /* 텍스트와 내부 요소 가운데 정렬 */
+  margin: 0 auto;
+  /* 가운데 정렬 핵심 */
+  margin-top: 40px;
+  text-align: center;
+  /* 텍스트와 내부 요소 가운데 정렬 */
 }
+
 .category-tabs {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
   margin: 2rem 0;
 }
+
 .category-tab {
   padding: 10px 20px;
-  font-size: 1.2rem;         /* 글씨 크게 */
+  font-size: 1.2rem;
+  /* 글씨 크게 */
   background: none;
   border: none;
   cursor: pointer;
@@ -432,31 +451,55 @@ margin-top: 40px;
 
 .category-tab.active {
   font-weight: 700;
-  color: #00796b;              /* 강조 색상 */
-  border-color: #00796b;       /* 밑줄 강조 */
+  color: #00796b;
+  /* 강조 색상 */
+  border-color: #00796b;
+  /* 밑줄 강조 */
 }
+
 .category-products {
   display: flex;
-  justify-content: center;      /* ✅ 가운데 정렬 */
-  flex-wrap: wrap;              /* ✅ 줄바꿈 허용 */
-  gap: 2rem;                    /* ✅ 카드 간 간격 */
-  max-width: 1200px;            /* ✅ 전체 폭 제한 (선택) */
-  margin: 0 auto; 
+  justify-content: center;
+  /* ✅ 가운데 정렬 */
+  flex-wrap: wrap;
+  /* ✅ 줄바꿈 허용 */
+  gap: 2rem;
+  /* ✅ 카드 간 간격 */
+  max-width: 1200px;
+  /* ✅ 전체 폭 제한 (선택) */
+  margin: 0 auto;
 }
+
 .category-item {
   width: 180px;
 }
+
 .category-img {
   width: 100%;
   height: 140px;
   object-fit: cover;
   border-radius: 8px;
 }
+
 .category-name {
   margin-top: 8px;
   font-weight: bold;
 }
+
 .category-price {
   margin-top: 4px;
   color: #666;
+}
+
+.banner-wrapper {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.banner-image {
+  height: 800px;
+  object-fit: contain;
+  position: relative;
 }
