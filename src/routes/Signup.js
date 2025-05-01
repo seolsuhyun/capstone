@@ -1,12 +1,12 @@
 import './Signup.css';
 import React, { useState } from 'react';
-import axios from 'axios';  
-
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 const Signup = () => {
   const [user, setUser] = useState({
     name: '',
-    email: '',
+    userCode: '',
     password: '',
   });
 
@@ -14,17 +14,12 @@ const Signup = () => {
     const { id, value } = e.target;
     setUser({ ...user, [id]: value });
   };
+
   const navigate = useNavigate();
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!emailRegex.test(user.email)) {
-      alert('유효한 이메일 주소를 입력해주세요.');
-      return; // 이메일이 유효하지 않으면 회원가입을 진행하지 않음
-    }
     try {
-      // 서버에 사용자 데이터 전송
       await axios.post('http://localhost:8080/join', user);
       alert('회원가입 완료');
       navigate("/Signup/SignupOk", { state: { userName: user.name } });
@@ -32,7 +27,6 @@ const Signup = () => {
       console.log('회원가입 에러: ' + error);
     }
   };
-  
 
   return (
     <div className="Signup">
@@ -69,14 +63,14 @@ const Signup = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">이메일</label>
+          <label htmlFor="id">아이디</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={user.email}
+            type="text"
+            id="userCode"  // <- id와 name 모두 userCode로
+            name="userCode"
+            value={user.userCode}
             onChange={handleChange}
-            placeholder="이메일을 입력하세요"
+            placeholder="아이디를 입력하세요"
             required
           />
         </div>

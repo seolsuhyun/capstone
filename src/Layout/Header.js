@@ -24,7 +24,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name, response.data.email, response.data.role, response.data.id);
+          login(response.data.name, response.data.userCode, response.data.role, response.data.id);
         }
       } catch (error) {
         if (error.response && (error.response.status === 404 || error.response.status === 401)) {
@@ -33,7 +33,7 @@ const Header = () => {
           console.error("로그인 상태 확인 실패:", error);
         }
       }
-    }, 300); // 💡 300ms 지연
+    }, 400); // 💡 300ms 지연
 
     return () => clearTimeout(timer);
   }, [login, logout]);
