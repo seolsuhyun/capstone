@@ -23,7 +23,7 @@ const deleteMember = (id, name) => {
   const confirmDelete = window.confirm(`${name} 회원을 삭제하시겠습니까?`);
   if (!confirmDelete) return;  // 취소 클릭 시 삭제하지 않음
 
-  axios.post(`/admin/members/${id}/deleteMember`)  // 경로 수정
+  axios.post(`/admin/${id}/deleteMember`)  // 경로 수정
     .then(() => {
       // 삭제 후 회원 목록 새로고침
       setMembers(members.filter((member) => member.id !== id));
@@ -60,6 +60,7 @@ const deleteMember = (id, name) => {
               <td>
   <button onClick={() => deleteMember(member.id, member.name)}>삭제</button>
 </td>
+
 
             </tr>
           ))}

@@ -7,7 +7,7 @@ const MainLayout = () => (
   <>
     <Header />
     <Outlet />
-    {/* <Footer /> 필요하면 주석 해제 */}
+     <Footer /> 
   </>
 );
 

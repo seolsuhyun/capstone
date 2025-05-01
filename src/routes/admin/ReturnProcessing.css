@@ -1,0 +1,91 @@
+.returnprocessing {
+    padding: 20px;
+  }
+  
+  .returnprocessing-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .returnprocessing-order-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #fafafa;
+  }
+  
+  .returnprocessing-order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  
+  .returnprocessing-order-table th,
+  .returnprocessing-order-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .returnprocessing-product-image {
+    width: 80px;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .returnprocessing-button-group {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .returnprocessing-button-group button {
+    padding: 6px 12px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* 버튼에 hover 상태 추가 */
+  .returnprocessing-button-group button:hover {
+    background-color: #1565c0;
+  }
+  
+  /* 비활성화된 버튼 스타일 */
+  .returnprocessing-button-group button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+  }
+  
+  .returnprocessing-button-group button:disabled:hover {
+    background-color: #b0bec5;
+  }
+/* 반품하기 버튼 스타일 */
+.returnprocessing-return-button {
+    padding: 6px 12px;
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .returnprocessing-return-button:hover {
+    background-color: #e64a19;
+  }
+  
+  /* 비활성화된 반품 버튼 스타일 */
+  .returnprocessing-return-button:disabled {
+    background-color: #b0bec5;
+    cursor: not-allowed;
+  }
+  
+  .returnprocessing-return-button:disabled:hover {
+    background-color: #b0bec5;
+  }
+    
