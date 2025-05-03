@@ -122,9 +122,6 @@ const MainPage = () => {
   const mainItem = newProducts[0];
   const sideItems = newProducts.slice(1);
 
-
-
-
   const goToPrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? events.length - 1 : prev - 1));
   };
