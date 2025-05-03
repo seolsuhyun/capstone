@@ -4,9 +4,8 @@ import "./Mypage.css";
 import { useLogin } from "../context/LoginContext";
 import AddressPopup from "./AddressPopup";
 const Mypage = () => {
-  const { userName, userEmail, userId } = useLogin();
+  const { userName, userCode, userId } = useLogin();
   const [addresses, setAddresses] = useState([]);
-
   const [showAddressPopup, setShowAddressPopup] = useState(false);
 
   const points = 1250;
@@ -17,8 +16,8 @@ const Mypage = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    console.log("현재 로그인된 이메일:", userEmail);
-    axios.get(`http://localhost:8080/orders/${encodeURIComponent(userEmail)}`)
+    console.log("현재 로그인된 이메일:", userCode);
+    axios.get(`http://localhost:8080/orders/${encodeURIComponent(userCode)}`)
       .then((response) => {
         setOrders(response.data);
         console.log(orders);
@@ -26,10 +25,10 @@ const Mypage = () => {
       .catch((error) => {
         console.error("에러", error);
       });
-  }, [userEmail]);
+  }, [userCode]);
 
   useEffect(() => {
-    if (userEmail) {
+    if (userCode) {
       axios.get("http://localhost:8080/address", {
         withCredentials: true,
       })
@@ -40,11 +39,28 @@ const Mypage = () => {
           console.error("주소 조회 실패:", error);
         });
     }
-  }, [userEmail]);
+  }, [userCode]);
+
+  const getDeliveryStatus = (delivery) => {
+    switch (delivery) {
+      case 'GO':
+        return '배송중';
+      case 'DONE':
+        return '배송완료';
+      case 'NOT':
+      default:
+        return '배송전';
+    }
+  };
+
+
+  const handleCancelOrder = (orderId, deliveryStatus) => {
+    // 배송중 또는 배송완료일 경우 취소 불가
+    if (deliveryStatus === 'GO' || deliveryStatus === 'DONE') {
+      alert("배송중 또는 배송완료된 상품은 주문을 취소할 수 없습니다.");
+      return; // 취소 처리 중단
+    }
   
-
-
-  const handleCancelOrder = (orderId) => {
     // 서버에 주문 취소 요청 보내기
     axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
       .then(() => {
@@ -84,7 +100,7 @@ const Mypage = () => {
   const handleDeleteAddress = (addressId) => {
     const confirmed = window.confirm("배송지를 삭제하시겠습니까?");
     if (!confirmed) return;
-  
+
     axios.delete(`http://localhost:8080/address/${addressId}/delete`)
       .then(() => {
         alert("배송지가 삭제되었습니다.");
@@ -149,7 +165,7 @@ const Mypage = () => {
             <p>{coupons} 개</p>
           </div>
         </div>
-        <button className="withdraw-button" onClick={handleWithdraw}> 
+        <button className="withdraw-button" onClick={handleWithdraw}>
           회원 탈퇴
         </button>
       </div>
@@ -165,9 +181,15 @@ const Mypage = () => {
                   <div className="mypage-order-item-details">
                     <div className="mypage-order-header">
                       <p>주문일: {order.orderDate}</p>
-                      <button className="cancel-button" onClick={() => handleCancelOrder(order.orderId)}>주문 취소</button>
+                    
+                      <button
+                        className="cancel-button"
+                        onClick={() => handleCancelOrder(order.orderId, order.delivery)}
+                        disabled={order.delivery === 'GO' || order.delivery === 'DONE'} // 배송중일 경우 버튼 비활성화
+                      >
+                        주문 취소
+                      </button>
                     </div>
-
                     {order.orderItemDtoList.map((item, itemIndex) => (
                       <div key={itemIndex} className="mypage-order-item-detail">
                         <img src={item.image} alt={item.name} className="mypage-product-image" />
@@ -178,8 +200,7 @@ const Mypage = () => {
                             <p className="mypage-price">가격: {item.price} 원</p>
                             <p className="mypage-quantity">수량: {item.count}</p>
                           </div>
-                          <p>주문 상태 : {order.status}</p>
-
+                          <p>주문 상태 : {getDeliveryStatus(order.delivery)}</p>
                         </div>
                       </div>
                     ))}
@@ -193,36 +214,36 @@ const Mypage = () => {
         </div>
       </div>
       <div className="mypage-delivery-info">
-  <div className="delivery-info-header">
-    <h2>배송정보</h2>
-    <button className="register-address-button" onClick={handleRegisterAddress}>
-      주소 추가
-    </button>
-  </div>
-  <hr />
-  <div className="delivery-item"><span className="label">받는 분:</span> <span className="value">{userName}</span></div>
-  <div className="delivery-item"><span className="label">휴대폰 번호:</span> <span className="value">010-1234-5678</span></div>
-  {addresses.length > 0 ? (
-    <div className="delivery-list">
-      {addresses.map((addr) => (
-        <div key={addr.addressId} className="delivery-item">
-          <span className="label">{addr.addressId}번 배송지:</span>{" "}
-          <span className="value">
-            {addr.address} {addr.addressDetail}
-          </span>
-          <button
-            className="delete-address-button"
-            onClick={() => handleDeleteAddress(addr.addressId)}
-          >
-            삭제
+        <div className="delivery-info-header">
+          <h2>배송정보</h2>
+          <button className="register-address-button" onClick={handleRegisterAddress}>
+            주소 추가
           </button>
         </div>
-      ))}
-    </div>
-  ) : (
-    <p>등록된 주소가 없습니다.</p>
-  )}
-</div>
+        <hr />
+        <div className="delivery-item"><span className="label">받는 분:</span> <span className="value">{userName}</span></div>
+        <div className="delivery-item"><span className="label">휴대폰 번호:</span> <span className="value">010-1234-5678</span></div>
+        {addresses.length > 0 ? (
+          <div className="delivery-list">
+            {addresses.map((addr) => (
+              <div key={addr.addressId} className="delivery-item">
+                <span className="label">{addr.addressId}번 배송지:</span>{" "}
+                <span className="value">
+                  {addr.address} {addr.addressDetail}
+                </span>
+                <button
+                  className="delete-address-button"
+                  onClick={() => handleDeleteAddress(addr.addressId)}
+                >
+                  삭제
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>등록된 주소가 없습니다.</p>
+        )}
+      </div>
 
       <div className="mypage-price-info">
         <h2>주문 금액 정보</h2>
@@ -237,11 +258,11 @@ const Mypage = () => {
         </div>
       </div>
       {showAddressPopup && (
-  <AddressPopup
-    onClose={() => setShowAddressPopup(false)}
-    onSaved={handleAddressSaved}
-  />
-)}
+        <AddressPopup
+          onClose={() => setShowAddressPopup(false)}
+          onSaved={handleAddressSaved}
+        />
+      )}
     </div>
   );
 };

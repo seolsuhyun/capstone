@@ -8,7 +8,7 @@ import kakao from "./kakaoImg.png";
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useLogin();  // 로그인 상태를 변경하는 함수
-  const [email, setEmail] = useState('');
+const [userCode, setuserCode] = useState('');  // userCode 상태 추가
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
@@ -16,7 +16,7 @@ const Login = () => {
   
     try {
       const formData = new FormData();
-      formData.append('email', email); 
+      formData.append('userCode', userCode); 
       formData.append('password', password);
   
       // 백엔드 로그인 요청
@@ -31,11 +31,11 @@ const Login = () => {
       if (response.status === 200) {
         alert('로그인 성공!');
         
-        login(response.data.name, response.data.email, response.data.role,response.data.id);  // 로그인 상태 업데이트
+        login(response.data.name, response.data.userCode, response.data.role,response.data.id);  // 로그인 상태 업데이트
         navigate('/', { state: { userData: response.data } });
       } else {
         alert('아이디 또는 비밀번호가 틀렸습니다.');
-        setEmail('');
+        setuserCode('');
         setPassword('');
       }
     } catch (error) {
@@ -60,11 +60,11 @@ const Login = () => {
           <div className="input_group">
             <input
               type="text"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}  // setEmail로 email 상태 업데이트
+              value={userCode}
+              onChange={(e) => setuserCode(e.target.value)}  // setEmail로 email 상태 업데이트
               id="email"
               name="email"
-              placeholder="이메일"
+              placeholder="아이디"
               required
             />
           </div>

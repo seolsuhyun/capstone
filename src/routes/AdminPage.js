@@ -28,7 +28,7 @@ const AdminPage = () => {
       <nav className="admin-sidebar">
         <ul>
           <li><button onClick={() => setActiveTab('user')}>회원 관리</button></li>
-          <li><button onClick={() => setActiveTab('return')}>반품 처리</button></li>
+          <li><button onClick={() => setActiveTab('return')}>주문 처리</button></li>
           <li><button onClick={() => setActiveTab('product')}>상품 등록</button></li>
         </ul>
       </nav>
