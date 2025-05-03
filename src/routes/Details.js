@@ -72,7 +72,7 @@ const Detail = () => {
       <div className="product-details">
         <h2>상품 상세 정보</h2>
         <p>
-          여기에 상품 상세 설명이 들어감. <br />
+          {product.content} <br />
         </p>
       </div>
     </div>
