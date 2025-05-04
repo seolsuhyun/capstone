@@ -48,12 +48,20 @@ const Detail = () => {
     }
   };
 
+  // 이미지 경로 처리 (상대 경로가 있을 경우 절대 경로로 변환)
+  const getImageUrl = (imagePath) => {
+    return imagePath.startsWith("/images/item/")
+      ? `http://localhost:8080${imagePath}`
+      : imagePath;
+  };
+  
 
   return (
     <div className="product">
       <div className="product-container">
         <div className="product-image-container">
-          <img src={product.image} alt={product.name} className="product-image" />
+        <img src={getImageUrl(product.image)} alt={product.name} className="product-image" />
+
         </div>
 
         <div className="product-info">

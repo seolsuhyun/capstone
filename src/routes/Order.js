@@ -19,7 +19,7 @@ function Order() {
   const [depositor, setDepositor] = useState('');  // 입금자 이름
   const [depositDate, setDepositDate] = useState('');  // 입금 예정일
   const [zonecode, setZonecode] = useState('');  // 우편번호
-  const [roadAddress, setLoadAddress] = useState('');  // 도로명 주소
+  const [roadAddress, setRoadAddress] = useState('');  // 도로명 주소
   const [detailAddress, setDetailAddress] = useState('');  // 상세 주소
   const [deliveryMemo, setDeliveryMemo] = useState('');  // 배송 메모
   const [deliveryOption, setDeliveryOption] = useState('standard');  // 배송 옵션
@@ -33,6 +33,11 @@ function Order() {
   const [count, setcount] = useState(1);  // 상품 수량
   const { userName, userEmail } = useLogin();  // 로그인한 사용자 정보
   const [isAddressValid, setIsAddressValid] = useState(true);
+  const [addressList, setAddressList] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [hasSavedAddress, setHasSavedAddress] = useState(false);
+  
+
   // 주소 유효성 체크
   const [errors, setErrors] = useState({
     zonecode: false,
@@ -50,7 +55,13 @@ function Order() {
   // 주문 생성 함수 (주소 검증 후 서버에 요청)
   const createOrder = async () => {
     if (!validateAddress()) return;  // 주소 검증 실패 시 종료
-
+   
+    if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
+      const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
+      if (wantToSave) {
+          await saveAddressToServer();
+      }
+  }
     try {
       await axios.post(`${API_URL}/order`, { id: product.id, count }, {
         withCredentials: true,  // 쿠키를 포함한 요청
@@ -97,7 +108,7 @@ function Order() {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 
       setZonecode(data.zonecode);  // 우편번호
-      setLoadAddress(fullAddress);  // 도로명 주소
+      setRoadAddress(fullAddress);  // 도로명 주소
     }
   };
 
@@ -239,9 +250,54 @@ function Order() {
     // 결제 진행
     createOrder();
   };
+  const handleAddressChange = (e) => {
+    const selectedId = Number(e.target.value);
+    const selected = addressList.find(addr => addr.addressId === selectedId);
 
+    console.log("선택된 주소 ID:", selectedId);
+    console.log("찾아낸 주소 객체:", selected);
 
+    if (selected) {
+      setSelectedAddressId(selected.addressId);
+      setRoadAddress(selected.address);
+      setDetailAddress(selected.addressDetail);
+      setZonecode(selected.zonecode);
+    } else {
+      setSelectedAddressId(null);
+      setRoadAddress("");
+      setDetailAddress("");
+      setZonecode("");
+    }
+  };
 
+  const fetchUserAddress = async () => {
+    try {
+      const res = await axios.get("/address", { withCredentials: true });
+      if (res.data && res.data.length > 0) {
+        setAddressList(res.data);
+        const latest = res.data[res.data.length - 1];
+        setSelectedAddressId(latest.addressId);
+        setRoadAddress(latest.address);
+        setDetailAddress(latest.addressDetail);
+        setHasSavedAddress(true);
+      }
+    } catch (err) {
+      console.error("주소 불러오기 실패:", err);
+    }
+  };
+  const saveAddressToServer = async () => {
+    try {
+        const data = {
+            address: roadAddress,
+            addressDetail: detailAddress,
+        };
+
+        await axios.post("/address", data, { withCredentials: true });
+        console.log("주소 저장 성공");
+    } catch (error) {
+        console.error("주소 저장 실패:", error);
+    }
+};
 
   return (
     <div className="order">
@@ -302,7 +358,22 @@ function Order() {
 
           <div className="delivery_info">
             <h2>배송 정보</h2>
-
+            <div className="input-group">
+              <label htmlFor="addressSelect">주소 선택</label>
+              <select
+                id="addressSelect"
+                className="styled-select"
+                value={selectedAddressId || ""}
+                onChange={handleAddressChange}
+              >
+                <option value="">주소를 선택하세요</option>
+                {addressList.map((addr) => (
+                  <option key={addr.addressId} value={addr.addressId}>
+                    {addr.address} {addr.addressDetail}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="input-group">
               <label htmlFor="zone-code">우편번호</label>
               <div className="input-container">
