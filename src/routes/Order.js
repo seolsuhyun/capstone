@@ -554,7 +554,6 @@ function Order() {
               </label>
             </div>
 
-
             <div>
               <button
                 className="pay-button"
