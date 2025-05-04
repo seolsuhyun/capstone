@@ -60,8 +60,7 @@ const Detail = () => {
     <div className="product">
       <div className="product-container">
         <div className="product-image-container">
-        <img src={getImageUrl(product.image)} alt={product.name} className="product-image" />
-
+          <img src={getImageUrl(product.image)} alt={product.name} className="product-image" />
         </div>
 
         <div className="product-info">

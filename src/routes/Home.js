@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 10;
 
   useEffect(() => {
     axios
@@ -18,6 +18,7 @@ const Home = () => {
         console.error("에러", error);
       });
   }, []);
+
 
   // 현재 페이지에 맞는 상품 목록 자르기
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -32,9 +33,11 @@ const Home = () => {
       <h1>상품 목록</h1>
       <ul className="products">
         {currentItems.map((product) => {
-          const imageUrl = product.image.startsWith("/images/item/")
-            ? `http://localhost:8080${product.image}`
-            : product.image; // 이미 절대 경로로 들어온 경우 그대로 사용
+          const imageUrl =
+            product.image && product.image.startsWith("/images/item/")
+              ? `http://localhost:8080${product.image}`
+              : product.image; // 이미지 경로가 null이 아니면 절대 경로로 설정
+
           return (
             <li key={product.id}>
               <h2>{product.name}</h2>
@@ -44,6 +47,7 @@ const Home = () => {
               <Link to={`/detail/${product.id}`} state={product}>
                 상품 상세 보기
               </Link>
+           
             </li>
           );
         })}
