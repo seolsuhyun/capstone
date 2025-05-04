@@ -10,7 +10,7 @@ function Orders() {
     const location = useLocation();
     const navigate = useNavigate();
     const open = useDaumPostcodePopup();
-    const { userName, userEmail } = useLogin();
+    const { userName, userCode } = useLogin();
     const products = location.state?.product || [];
 
     // 결제 관련 상태
@@ -184,7 +184,7 @@ function Orders() {
             amount: calculateTotalPrice(),
             name: orderName,
             buyer_name: userName,
-            buyer_email: userEmail,
+
             buyer_addr: roadAddress + " " + detailAddress,
             buyer_postcode: zonecode,
         };
@@ -267,6 +267,7 @@ function Orders() {
                         <h2>주문자 정보</h2>
                         <p>이름: {userName || "로그인 필요"}</p>
                         <p>전화번호: 010-1234-1234</p>
+                      
                     </div>
 
                     {/* 배송 정보 */}

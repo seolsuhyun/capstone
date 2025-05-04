@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // useNavigate import
 import './AdminPage.css';
 import UserManagement from './admin/UserManagement';
 import ReturnProcessing from './admin/ReturnProcessing';
@@ -9,6 +10,7 @@ import ProductDelete from './admin/ProductDelete';
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('user');
   const [productId, setProductId] = useState(null); // 수정과 삭제용 상품 ID
+  const navigate = useNavigate();  // useNavigate 훅 사용
 
   const renderContent = () => {
     switch (activeTab) {
@@ -46,6 +48,9 @@ const AdminPage = () => {
       <main className="admin-main">
         {renderContent()}
       </main>
+      <footer className="admin-footer">
+        <button onClick={() => navigate('/')}>메인 페이지로 돌아가기</button> {/* 메인 페이지로 이동하는 버튼 */}
+      </footer>
     </div>
   );
 };

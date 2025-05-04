@@ -1,40 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import classNames from 'classnames'; // classnames 라이브러리 import
-import './ProductDelete.css'; // 삭제 페이지 CSS
+import './ProductDelete.css';
 
 const ProductDelete = () => {
-  const [productId, setProductId] = useState('');
+  const [products, setProducts] = useState([]);
 
-  const handleChange = (e) => {
-    setProductId(e.target.value);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get('/items/list');
+      setProducts(res.data);
+    } catch (error) {
+      console.error('상품 목록 조회 실패:', error);
+    }
   };
 
-  const handleSubmit = async () => {
+  const deleteProduct = async (id, name) => {
+    const confirmDelete = window.confirm(`${name} 상품을 삭제하시겠습니까?`);
+    if (!confirmDelete) return;
+
     try {
-      await axios.delete(`/admin/item/${productId}/delete`);
+      await axios.delete(`/admin/item/${id}/delete`);
+      setProducts(products.filter((product) => product.id !== id));
       alert('상품 삭제 성공!');
     } catch (error) {
-      console.error(error);
-      alert('상품 삭제 실패: ' + (error.response?.data?.error || error.message));
+      console.error('상품 삭제 실패:', error);
+      alert('삭제 중 오류 발생');
     }
   };
 
   return (
-    <div className="product-delete-container">
-      <input
-        className={classNames('input-field', 'delete-input')}
-        type="text"
-        value={productId}
-        onChange={handleChange}
-        placeholder="삭제할 상품 ID 입력"
-      />
-      <button
-        className={classNames('submit-btn', 'product-delete-btn')}
-        onClick={handleSubmit}
-      >
-        상품 삭제
-      </button>
+    <div className="product-delete-page">
+      <h2>상품 관리</h2>
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              
+              <td>{product.name}</td>
+              <td>{product.price}원</td>
+              <td>
+                <button onClick={() => deleteProduct(product.id, product.name)}>
+                  삭제
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
