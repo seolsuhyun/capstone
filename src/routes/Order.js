@@ -351,9 +351,8 @@ function Order() {
 
           <div className="orderer_info">
             <h2>주문자 정보</h2>
-            <p>주문자 이름 :{userName || "로그인 필요"}</p>
-            <p>010-1234-1234</p>
-            <p>이메일 : {userEmail || "로그인 필요"}</p>
+            <p>이름 :{userName || "로그인 필요"}</p>
+            <p>전화번호: 010-1234-1234</p>
           </div>
 
           <div className="delivery_info">
@@ -625,7 +624,6 @@ function Order() {
                 결제 동의합니다.
               </label>
             </div>
-
 
             <div>
               <button
