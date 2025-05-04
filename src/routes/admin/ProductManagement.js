@@ -1,30 +1,64 @@
-import React, { useState } from 'react';
-import ProductRegistration from './ProductRegistration';
-import ProductUpdate from './ProductUpdate';
-import ProductDelete from './ProductDelete';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './ProductManagement.css';
 
-const ProductManagement = () => {
-  const [selectedTab, setSelectedTab] = useState('register'); // 기본 탭은 상품 등록
+const ProductManagement = ({ onEditClick }) => {  
+  const [products, setProducts] = useState([]);
 
-  const handleTabChange = (tab) => {
-    setSelectedTab(tab);
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get('/items/list');
+      setProducts(res.data);
+    } catch (error) {
+      console.error('상품 목록 조회 실패:', error);
+    }
+  };
+
+  const deleteProduct = async (id, name) => {
+    const confirmDelete = window.confirm(`${name} 상품을 삭제하시겠습니까?`);
+    if (!confirmDelete) return;
+
+    try {
+      await axios.delete(`/admin/item/${id}/delete`);
+      setProducts(products.filter((product) => product.id !== id));
+      alert('상품 삭제 성공!');
+    } catch (error) {
+      console.error('상품 삭제 실패:', error);
+      alert('삭제 중 오류 발생');
+    }
   };
 
   return (
-    <div className="product-management">
+    <div className="product-delete-page">
       <h2>상품 관리</h2>
-      
-      <div className="tabs">
-        <button onClick={() => handleTabChange('register')}>상품 등록</button>
-        <button onClick={() => handleTabChange('update')}>상품 수정</button>
-        <button onClick={() => handleTabChange('delete')}>상품 삭제</button>
-      </div>
-
-      <div className="tab-content">
-        {selectedTab === 'register' && <ProductRegistration />}
-        {selectedTab === 'update' && <ProductUpdate />}
-        {selectedTab === 'delete' && <ProductDelete />}
-      </div>
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>상품명</th>
+            <th>가격</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>{product.name}</td>
+              <td>{product.price}원</td>
+              <td>
+                {/* 수정 버튼 클릭 시 해당 상품의 ID만 넘김 */}
+                <button onClick={() => onEditClick(product.id)}>수정</button>
+                <button onClick={() => deleteProduct(product.id, product.name)}>삭제</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // useNavigate import
+import { useNavigate } from 'react-router-dom';
 import './AdminPage.css';
 import UserManagement from './admin/UserManagement';
 import ReturnProcessing from './admin/ReturnProcessing';
 import ProductRegistration from './admin/ProductRegistration';
 import ProductUpdate from './admin/ProductUpdate';
 import ProductDelete from './admin/ProductDelete';
+import ProductManagement from './admin/ProductManagement';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('user');
-  const [productId, setProductId] = useState(null); // 수정과 삭제용 상품 ID
+  const [productId, setProductId] = useState(null);  // 수정할 상품의 ID
   const navigate = useNavigate();  // useNavigate 훅 사용
+
+  // onEditClick 핸들러: 수정 버튼 클릭 시 해당 상품 ID로 tab 변경
+  const handleEditClick = (id) => {
+    setProductId(id);
+    setActiveTab('product-update');  // 해당 탭으로 전환
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -21,9 +28,9 @@ const AdminPage = () => {
       case 'product-registration':
         return <ProductRegistration />;
       case 'product-update':
-        return <ProductUpdate productId={productId} />;
-      case 'product-delete':
-        return <ProductDelete />;
+        return <ProductUpdate productId={productId} />;  // 넘긴 productId로 수정
+      case 'product-management':
+        return <ProductManagement onEditClick={handleEditClick} />;
       default:
         return <p>관리자 기능을 선택하세요.</p>;
     }
@@ -38,11 +45,8 @@ const AdminPage = () => {
         <ul>
           <li><button onClick={() => setActiveTab('user')}>회원 관리</button></li>
           <li><button onClick={() => setActiveTab('return')}>주문 처리</button></li>
-          <li>
-            <button onClick={() => setActiveTab('product-registration')}>상품 등록</button>
-            <button onClick={() => setActiveTab('product-update')}>상품 수정</button>
-            <button onClick={() => setActiveTab('product-delete')}>상품 삭제</button>
-          </li>
+          <li><button onClick={() => setActiveTab('product-registration')}>상품 등록</button></li>
+          <li><button onClick={() => setActiveTab('product-management')}>상품 관리</button></li>
         </ul>
       </nav>
       <main className="admin-main">

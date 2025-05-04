@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import classNames from 'classnames';
 import './ProductUpdate.css';
 
-const ProductUpdate = () => {
-  const [productId, setProductId] = useState('');
+const ProductUpdate = ({ productId }) => {
   const [form, setForm] = useState({
     name: '',
     price: '',
@@ -17,6 +16,8 @@ const ProductUpdate = () => {
   });
   
   const [images, setImages] = useState([]);
+
+   // productId가 바뀔 때마다 데이터 새로 불러옴
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -52,19 +53,17 @@ const ProductUpdate = () => {
       alert('상품 수정 실패: ' + (error.response?.data?.error || error.message));
     }
   };
-  
 
   return (
     <div className="product-update-container">
       <h2 className="title">상품 수정</h2>
       <form className="product-form" onSubmit={handleSubmit}>
+        {/* ID는 자동으로 입력되는 필드로 수정 */}
         <input
           className={classNames('input-field', 'product-id')}
           name="productId"
           value={productId}
-          onChange={(e) => setProductId(e.target.value)}
-          placeholder="수정할 상품 ID"
-          type="number"
+          readOnly // ID는 수정 불가능하게
         />
         <input
           className={classNames('input-field', 'product-name')}
