@@ -268,28 +268,27 @@ function Orders() {
                         <h2>주문자 정보</h2>
                         <p>이름: {userName || "로그인 필요"}</p>
                         <p>전화번호: 010-1234-1234</p>
-                        <p>이메일: {userEmail || "로그인 필요"}</p>
                     </div>
 
                     {/* 배송 정보 */}
                     <div className="delivery_info">
                         <h2>배송 정보</h2>
                         <div className="input-group">
-    <label htmlFor="addressSelect">주소 선택</label>
-    <select
-        id="addressSelect"
-        className="styled-select"
-        value={selectedAddressId || ""}
-        onChange={handleAddressChange}
-    >
-        <option value="">주소를 선택하세요</option>
-        {addressList.map((addr) => (
-            <option key={addr.addressId} value={addr.addressId}>
-                {addr.address} {addr.addressDetail}
-            </option>
-        ))}
-    </select>
-</div>
+                            <label htmlFor="addressSelect">주소 선택</label>
+                            <select
+                                id="addressSelect"
+                                className="styled-select"
+                                value={selectedAddressId || ""}
+                                onChange={handleAddressChange}
+                            >
+                                <option value="">주소를 선택하세요</option>
+                                {addressList.map((addr) => (
+                                    <option key={addr.addressId} value={addr.addressId}>
+                                        {addr.address} {addr.addressDetail}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
                         <div className="input-group">
                             <label>우편번호</label>
