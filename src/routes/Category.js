@@ -7,7 +7,6 @@ const Category = () => {
     const { category } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
-
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
 
@@ -21,6 +20,7 @@ const Category = () => {
                     if (category === '구이류') return product.category === 'ROAST';
                     if (category === '국물요리') return product.category === 'SOUP';
                     if (category === '면류') return product.category === 'PASTA';
+                    if (category === '일식') return product.category === 'JFOOD';
                     if (category === '안주') return product.category === 'ANJU';
                     if (category === "new") return product.itemStatus === 'NEW';
                     if (category === "best") return product.itemStatus === 'BEST';
