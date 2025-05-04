@@ -103,7 +103,6 @@ function Orders() {
         }
     };
 
-
     const handleClick = () => {
         open({ onComplete: handleComplete });
     };
@@ -268,7 +267,7 @@ function Orders() {
                         <h2>주문자 정보</h2>
                         <p>이름: {userName || "로그인 필요"}</p>
                         <p>전화번호: 010-1234-1234</p>
-                        <p>이메일: {userCode || "로그인 필요"}</p>
+                      
                     </div>
 
                     {/* 배송 정보 */}
