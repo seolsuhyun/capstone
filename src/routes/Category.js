@@ -55,17 +55,23 @@ const Category = () => {
                     ) : (
                         <>
                             <ul className="products">
-                                {currentItems.map((product) => (
-                                    <li key={product.id}>
-                                        <h2>{product.name}</h2>
-                                        <img src={product.image} alt={product.name} />
-                                        <p>{product.content}</p>
-                                        <p>Price: {product.price}원</p>
-                                        <Link to={`/detail/${product.id}`} state={product}>
-                                            상품 상세 보기
-                                        </Link>
-                                    </li>
-                                ))}
+                                {currentItems.map((product) => {
+                                    const imageUrl = product.image.startsWith("/images/item/")
+                                        ? `http://localhost:8080${product.image}`
+                                        : product.image; // 이미 절대 경로로 들어온 경우 그대로 사용
+                                    return (
+                                        <li key={product.id}>
+                                            <h2>{product.name}</h2>
+                                            <img src={imageUrl} alt={product.name} />
+                                            <p>{product.content}</p>
+                                            <p>Price: {product.price}원</p>
+                                            <Link to={`/detail/${product.id}`} state={product}>
+                                                상품 상세 보기
+                                            </Link>
+                                        </li>
+                                    );
+                                })}
+
                             </ul>
 
                             {/* 페이지네이션 */}
