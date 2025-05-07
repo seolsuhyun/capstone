@@ -146,7 +146,11 @@ const Mypage = () => {
 
   const totalProductPrice = calculateTotalPrice();
   const totalPrice = totalProductPrice + discount + shippingCost;
-
+  const getImageUrl = (imagePath) => {
+    return imagePath.startsWith("/images/item/")
+      ? `http://localhost:8080${imagePath}`
+      : imagePath;
+  };
   return (
     <div className="mypage-container">
       <div className="mypage-header">
@@ -192,7 +196,7 @@ const Mypage = () => {
                     </div>
                     {order.orderItemDtoList.map((item, itemIndex) => (
                       <div key={itemIndex} className="mypage-order-item-detail">
-                        <img src={item.image} alt={item.name} className="mypage-product-image" />
+                        <img src={getImageUrl(item.image)}alt={item.name} className="mypage-product-image" />
                         <div className="mypage-product-info">
                           <h4>{item.name}</h4>
                           <p>{item.productContent}</p>
