@@ -61,7 +61,7 @@ const Cart = () => {
                     {cartItems.map((item) => (
                         <div key={item.itemId} className="cart-item">
                             <img
-                                src={item.image}
+                                src={getImageUrl(item.image)}
                                 alt={item.name || "상품 이미지"}
                                 className="cart-item-image"
                             />

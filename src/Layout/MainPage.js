@@ -127,7 +127,11 @@ const MainPage = () => {
   };
 
 
-
+  const getImageUrl = (imagePath) => {
+    return imagePath.startsWith("/images/item/")
+      ? `http://localhost:8080${imagePath}`
+      : imagePath;
+  };
   return (
     <div className="main-page">
       <div className="banner-wrapper">
@@ -141,7 +145,7 @@ const MainPage = () => {
           <div className="recommend-items">
             {likedItems.slice(0, 5).map((item, idx) => (
               <div key={idx} className="recommend-item">
-                <img src={item.image} alt={item.name} />
+                <img src={getImageUrl(item.image)} alt={item.name} />
                 <div className="recommend-name">{item.name}</div>
                 <div className="recommend-price">{item.price.toLocaleString()}원</div>
                 <Link to={`/detail/${mainItem.id}`} state={mainItem} className="buy-button small">
@@ -158,7 +162,7 @@ const MainPage = () => {
         <div className="slider-track" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           {events.map((event, idx) => (
             <div key={event.id} className={`slide ${idx === currentIndex ? 'active' : ''}`}>
-              <img src={event.image} alt={event.alt} className="slider-image" />
+              <img src={getImageUrl(event.image)} alt={event.alt} className="slider-image" />
             </div>
           ))}
         </div>
@@ -188,7 +192,7 @@ const MainPage = () => {
         <div className="main-new-menu-box">
           {/* 메인 아이템 */}
           <div className="main-new-item">
-            <img src={mainItem.image} alt={mainItem.name} className="main-new-image" />
+            <img src={getImageUrl(mainItem.image)} alt={mainItem.name} className="main-new-image" />
             <div className="main-new-desc">
               <div className="main-brand">{mainItem.category}</div>
               <div className="main-title">{mainItem.name}</div>
@@ -209,7 +213,7 @@ const MainPage = () => {
           <div className="main-side-new-items">
             {sideItems.map((item, idx) => (
               <div key={idx} className="main-side-item">
-                <img src={item.image} alt={item.name} className="side-image" />
+                <img src={getImageUrl(item.image)} alt={item.name} className="side-image" />
                 <div className="main-desc-box">
                   <div className="main-title">{item.name}</div>
                   <div className="side-price-row">
@@ -240,7 +244,7 @@ const MainPage = () => {
         <div className="discount-items">
           {bestProducts.map((item, idx) => (
             <div key={idx} className="discount-item">
-              <img src={item.image} alt={item.name} className="discount-image" />
+              <img src={getImageUrl(item.image)} alt={item.name} className="discount-image" />
               <div className="discount-brand">푸딩팩토리</div>
               <div className="discount-name">{item.name}</div>
 
@@ -280,7 +284,7 @@ const MainPage = () => {
         <div className="category-products">
           {filteredItems.slice(0, 5).map((item) => (
             <div key={item.id} className="category-item">
-              <img src={item.image} alt={item.name} className="category-img" />
+              <img src={getImageUrl(item.image)} alt={item.name} className="category-img" />
               <div className="category-name">{item.name}</div>
               <div className="category-price">{item.price.toLocaleString()}원</div>
               <Link to={`/detail/${item.id}`} state={item} className="buy-button small">

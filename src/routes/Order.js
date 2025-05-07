@@ -300,7 +300,11 @@ function Order() {
         console.error("주소 저장 실패:", error);
     }
 };
-
+const getImageUrl = (imagePath) => {
+  return imagePath.startsWith("/images/item/")
+    ? `http://localhost:8080${imagePath}`
+    : imagePath;
+};
   return (
     <div className="order">
       <h1>결제하기</h1>
@@ -312,7 +316,7 @@ function Order() {
             <h2>주문상품정보</h2>
             <div className="order_product_item">
               <img
-                src={product.image}
+                src={getImageUrl(product.image)}
                 alt={product.title}
                 style={{
                   width: "200px",

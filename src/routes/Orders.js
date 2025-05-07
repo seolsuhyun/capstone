@@ -242,7 +242,11 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
-
+    const getImageUrl = (imagePath) => {
+        return imagePath.startsWith("/images/item/")
+          ? `http://localhost:8080${imagePath}`
+          : imagePath;
+      };
     return (
         <div className="order">
             <h1>장바구니 결제하기</h1>
@@ -253,7 +257,7 @@ function Orders() {
                         <h2>주문상품정보</h2>
                         {products.map((item, idx) => (
                             <div key={idx} className="order_product_item">
-                                <img src={item.image} alt={item.name} style={{ width: "100px", height: "100px" }} />
+                                <img src={getImageUrl(item.image)} alt={item.name} style={{ width: "100px", height: "100px" }} />
                                 <div className="order_product_name_price">
                                     <h3>{item.name}</h3>
                                     <p>{item.count}개 / {(item.price * item.count).toLocaleString()}원</p>
