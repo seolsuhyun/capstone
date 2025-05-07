@@ -8,8 +8,13 @@ import kakao from "./kakaoImg.png";
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useLogin();  // 로그인 상태를 변경하는 함수
-const [userCode, setuserCode] = useState('');  // userCode 상태 추가
+  const [userCode, setuserCode] = useState('');  // userCode 상태 추가
   const [password, setPassword] = useState('');
+
+  // 카카오 로그인 URL 생성
+  const kakaoClientId = 'acfbac7198077c2aa2e004e4e3c797c5';  // 환경변수에서 받아온 값
+  const redirectUri = 'http://localhost:8080/oauth/login/callback';  // 환경변수에서 받아온 값
+  const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,8 +35,7 @@ const [userCode, setuserCode] = useState('');  // userCode 상태 추가
       // 로그인 성공 처리
       if (response.status === 200) {
         alert('로그인 성공!');
-        
-        login(response.data.name, response.data.userCode, response.data.role,response.data.id);  // 로그인 상태 업데이트
+        login(response.data.name, response.data.userCode, response.data.role, response.data.id);  // 로그인 상태 업데이트
         navigate('/', { state: { userData: response.data } });
       } else {
         alert('아이디 또는 비밀번호가 틀렸습니다.');
@@ -47,14 +51,11 @@ const [userCode, setuserCode] = useState('');  // userCode 상태 추가
       }
     }
   };
-  
 
   return (
-    
     <div className="login_container">
-        
       <div className="login_box">
-      <h2>LOGIN</h2>
+        <h2>LOGIN</h2>
         <img src="/Logo.png" className="logo_login"/>
         <form onSubmit={handleSubmit}>
           <div className="input_group">
@@ -91,7 +92,10 @@ const [userCode, setuserCode] = useState('');  // userCode 상태 추가
 
         <div className="sns_login">
           <label>다른 계정으로 <br /> 로그인하기</label>
-          <img src={kakao} alt="kakao" className="kakao_img" />
+          {/* 카카오 로그인 버튼 */}
+          <a href={kakaoLoginUrl}>
+            <img src={kakao} alt="카카오 로그인" className="kakao_img" />
+          </a>
         </div>
       </div>
     </div>
