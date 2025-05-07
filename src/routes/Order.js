@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./Order.css";
 import { useDaumPostcodePopup } from 'react-daum-postcode';
@@ -19,7 +19,7 @@ function Order() {
   const [depositor, setDepositor] = useState('');  // 입금자 이름
   const [depositDate, setDepositDate] = useState('');  // 입금 예정일
   const [zonecode, setZonecode] = useState('');  // 우편번호
-  const [roadAddress, setLoadAddress] = useState('');  // 도로명 주소
+  const [roadAddress, setRoadAddress] = useState('');  // 도로명 주소
   const [detailAddress, setDetailAddress] = useState('');  // 상세 주소
   const [deliveryMemo, setDeliveryMemo] = useState('');  // 배송 메모
   const [deliveryOption, setDeliveryOption] = useState('standard');  // 배송 옵션
@@ -33,6 +33,11 @@ function Order() {
   const [count, setcount] = useState(1);  // 상품 수량
   const { userName, userEmail } = useLogin();  // 로그인한 사용자 정보
   const [isAddressValid, setIsAddressValid] = useState(true);
+  const [addressList, setAddressList] = useState([]);
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [hasSavedAddress, setHasSavedAddress] = useState(false);
+  
+
   // 주소 유효성 체크
   const [errors, setErrors] = useState({
     zonecode: false,
@@ -43,14 +48,22 @@ function Order() {
     couponCode: false,
   });
 
-
+ useEffect(() => {
+        fetchUserAddress();
+    }, []);
   const API_URL = "http://localhost:8080";  // API 기본 URL
   const navigate = useNavigate();  // 페이지 이동을 위한 hook
 
   // 주문 생성 함수 (주소 검증 후 서버에 요청)
   const createOrder = async () => {
     if (!validateAddress()) return;  // 주소 검증 실패 시 종료
-
+   
+    if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
+      const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
+      if (wantToSave) {
+          await saveAddressToServer();
+      }
+  }
     try {
       await axios.post(`${API_URL}/order`, { id: product.id, count }, {
         withCredentials: true,  // 쿠키를 포함한 요청
@@ -97,7 +110,7 @@ function Order() {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
 
       setZonecode(data.zonecode);  // 우편번호
-      setLoadAddress(fullAddress);  // 도로명 주소
+      setRoadAddress(fullAddress);  // 도로명 주소
     }
   };
 
@@ -239,9 +252,54 @@ function Order() {
     // 결제 진행
     createOrder();
   };
+  const handleAddressChange = (e) => {
+    const selectedId = Number(e.target.value);
+    const selected = addressList.find(addr => addr.addressId === selectedId);
 
+    console.log("선택된 주소 ID:", selectedId);
+    console.log("찾아낸 주소 객체:", selected);
 
+    if (selected) {
+      setSelectedAddressId(selected.addressId);
+      setRoadAddress(selected.address);
+      setDetailAddress(selected.addressDetail);
+      setZonecode(selected.zonecode);
+    } else {
+      setSelectedAddressId(null);
+      setRoadAddress("");
+      setDetailAddress("");
+      setZonecode("");
+    }
+  };
 
+  const fetchUserAddress = async () => {
+    try {
+      const res = await axios.get("/address", { withCredentials: true });
+      if (res.data && res.data.length > 0) {
+        setAddressList(res.data);
+        const latest = res.data[res.data.length - 1];
+        setSelectedAddressId(latest.addressId);
+        setRoadAddress(latest.address);
+        setDetailAddress(latest.addressDetail);
+        setHasSavedAddress(true);
+      }
+    } catch (err) {
+      console.error("주소 불러오기 실패:", err);
+    }
+  };
+  const saveAddressToServer = async () => {
+    try {
+        const data = {
+            address: roadAddress,
+            addressDetail: detailAddress,
+        };
+
+        await axios.post("/address", data, { withCredentials: true });
+        console.log("주소 저장 성공");
+    } catch (error) {
+        console.error("주소 저장 실패:", error);
+    }
+};
 
   return (
     <div className="order">
@@ -294,291 +352,168 @@ function Order() {
 
 
           <div className="orderer_info">
-            <h2>주문자 정보</h2>
-            <p>주문자 이름 :{userName || "로그인 필요"}</p>
-            <p>010-1234-1234</p>
-            <p>이메일 : {userEmail || "로그인 필요"}</p>
-          </div>
+                        <h2>주문자 정보</h2>
+                        <p>이름: {userName || "로그인 필요"}</p>
+                        <p>전화번호: 010-1234-1234</p>
+                      
+                    </div>
 
-          <div className="delivery_info">
-            <h2>배송 정보</h2>
+                    {/* 배송 정보 */}
+                    <div className="delivery_info">
+                        <h2>배송 정보</h2>
+                        <div className="input-group">
+                            <label htmlFor="addressSelect">주소 선택</label>
+                            <select
+                                id="addressSelect"
+                                className="styled-select"
+                                value={selectedAddressId || ""}
+                                onChange={handleAddressChange}
+                            >
+                                <option value="">주소를 선택하세요</option>
+                                {addressList.map((addr) => (
+                                    <option key={addr.addressId} value={addr.addressId}>
+                                        {addr.address} {addr.addressDetail}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-            <div className="input-group">
-              <label htmlFor="zone-code">우편번호</label>
-              <div className="input-container">
-                <input
-                  id="zone-code"
-                  placeholder="우편번호"
-                  value={zonecode}
-                  readOnly
-                  className={!isAddressValid && !zonecode ? "input-error" : ""}
-                />
-                <button type="button" onClick={handleClick} className="postcode-btn">
-                  우편번호 찾기
-                </button>
-              </div>
+                        <div className="input-group">
+                            <label>우편번호</label>
+                            <div className="input-container">
+                                <input value={zonecode} readOnly />
+                                <button onClick={handleClick} className="postcode-btn">우편번호 찾기</button>
+                            </div>
+                        </div>
+                        <div className="input-group">
+                            <label>도로명 주소</label>
+                            <input value={roadAddress} readOnly />
+                        </div>
+                        <div className="input-group">
+                            <label>상세 주소</label>
+                            <input value={detailAddress} onChange={(e) => setDetailAddress(e.target.value)} />
+                        </div>
+                        <div className="input-group">
+                            <label>배송 옵션 선택</label>
+                            <select value={deliveryOption} onChange={handleDeliveryOptionChange} className="dropdown">
+                                <option value="standard">일반 배송</option>
+                                <option value="express">익스프레스 배송</option>
+                                <option value="overnight">하룻밤 배송</option>
+                            </select>
+                        </div>
+                        <div className="input-group">
+                            <label>배송 메모</label>
+                            <textarea value={deliveryMemo} onChange={handleMemoChange} rows="3" />
+                        </div>
+                    </div>
+
+                    {/* 쿠폰 / 포인트 */}
+                    <div className="coupon">
+                        <h2>쿠폰 / 포인트</h2>
+                        <div className="coupon-field">
+                            <label>쿠폰 코드</label>
+                            <div className="coupon-input-group">
+                                <input type="text" value={couponCode} onChange={(e) => setCouponCode(e.target.value)} />
+                                <button onClick={handleCouponApply}>쿠폰 적용</button>
+                            </div>
+                        </div>
+                        <div className="coupon-field">
+                            <label>포인트 사용</label>
+                            <div className="coupon-input-group">
+                                <input
+                                    type="number"
+                                    value={pointsUsage}
+                                    onChange={(e) => setPointsUsage(Number(e.target.value))}
+                                />
+                                <button onClick={() => setPointsUsage(totalPrice)}>전액 사용</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="cnt-right">
+                    {/* 최종 결제 금액 */}
+                    <div className="order-price">
+                        <h2>최종 결제 금액</h2>
+                        <div className="price-details">
+                            <div className="price-item"><label>상품 가격</label><p>{totalPrice.toLocaleString()} 원</p></div>
+                            <div className="price-item"><label>쿠폰 할인</label><p>{couponDiscount.toLocaleString()} 원</p></div>
+                            <div className="price-item"><label>포인트 사용</label><p>{pointsUsage.toLocaleString()} 원</p></div>
+                            <div className="price-item"><label>배송비</label><p>{shippingCost.toLocaleString()} 원</p></div>
+                        </div>
+                        <div className="final-price">
+                            <h3>최종 결제금액</h3>
+                            <p>{calculateTotalPrice().toLocaleString()} 원</p>
+                        </div>
+                    </div>
+
+                    {/* 결제 방법 */}
+                    <div className="pay-info">
+                        <h2>결제 방법 선택</h2>
+                        <table className="payment-table">
+                            <tbody>
+                                <tr>
+                                    <td onClick={() => handlePaymentSelection("kicc", "card", "신용카드")} className={`payment-option-cell ${paymentMethodName === "신용카드" ? 'selected' : ''}`}>
+                                        <label className="payment-option">신용카드</label>
+                                    </td>
+                                    <td onClick={() => handlePaymentSelection("kakaopay", "EASY_PAY", "카카오페이")} className={`payment-option-cell ${paymentMethodName === "카카오페이" ? 'selected' : ''}`}>
+                                        <label className="payment-option">카카오페이</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td onClick={() => handlePaymentSelection("무통장", "bank_transfer", "무통장입금")} className={`payment-option-cell ${paymentMethodName === "무통장입금" ? 'selected' : ''}`}>
+                                        <label className="payment-option">무통장 입금</label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p><span className="highlight">{paymentMethodName}</span>를 선택하셨습니다.</p>
+
+                        {paymentMethodName === "무통장입금" && (
+                            <div className="bank-details">
+                                <div>
+                                    <label>입금 은행</label>
+                                    <select value={bankName} onChange={(e) => setBankName(e.target.value)}>
+                                        <option value="">선택</option>
+                                        <option value="국민은행">국민은행 / 123-456-789</option>
+                                        <option value="하나은행">하나은행 / 456-789-123</option>
+                                        <option value="신한은행">신한은행 / 789-123-456</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>입금자 이름</label>
+                                    <input value={depositor} onChange={(e) => setDepositor(e.target.value)} />
+                                </div>
+                                <div>
+                                    <label>입금 예정일</label>
+                                    <input type="date" value={depositDate} onChange={(e) => setDepositDate(e.target.value)} min={today.toISOString().split('T')[0]} max={maxDateString} />
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 결제 동의 */}
+                    <div className="payment-cnt">
+                        <h2>결제 전 동의사항</h2>
+                        <div className="checkbox-container">
+                            <label><input type="checkbox" checked={isPersonalInfoAgreed} onChange={() => setIsPersonalInfoAgreed(!isPersonalInfoAgreed)} /> 개인정보 처리방침에 동의합니다.</label>
+                        </div>
+                        <div className="checkbox-container">
+                            <label><input type="checkbox" checked={isTermsAgreed} onChange={() => setIsTermsAgreed(!isTermsAgreed)} /> 이용약관에 동의합니다.</label>
+                        </div>
+                        <div className="checkbox-container">
+                            <label><input type="checkbox" checked={isPaymentAgreed} onChange={() => setIsPaymentAgreed(!isPaymentAgreed)} /> 결제에 동의합니다.</label>
+                        </div>
+
+                        <button className="pay-button" onClick={createOrder}>결제하기</button>
+                        <button className="real-pay-button" onClick={handlePaymentClick}>실제 결제하기</button>
+
+                    </div>
+
+                </div>
             </div>
-
-            <div className="input-group">
-              <label htmlFor="road-address">도로명 주소</label>
-              <input
-                id="road-address"
-                placeholder="도로명주소"
-                value={roadAddress}
-                readOnly
-                className={!isAddressValid && !roadAddress ? "input-error" : ""}
-              />
-            </div>
-
-            <div className="input-group">
-              <label htmlFor="detail-address">상세 주소</label>
-              <input
-                id="detail-address"
-                placeholder="상세주소"
-                value={detailAddress}
-                onChange={(e) => setDetailAddress(e.target.value)}
-                className={!isAddressValid && !detailAddress ? "input-error" : ""}
-              />
-            </div>
-
-
-            <div className="input-group">
-              <label htmlFor="delivery-option">배송 옵션 선택</label>
-              <select
-                id="delivery-option"
-                value={deliveryOption}
-                onChange={handleDeliveryOptionChange}
-                className="dropdown"
-              >
-                <option value="standard">일반 배송</option>
-                <option value="express">익스프레스 배송</option>
-                <option value="overnight">하룻밤 배송</option>
-              </select>
-            </div>
-
-
-            <div className="input-group">
-              <label htmlFor="delivery-memo">배송 메모</label>
-              <textarea
-                id="delivery-memo"
-                placeholder="배송 메모를 입력하세요"
-                value={deliveryMemo}
-                onChange={handleMemoChange}
-                rows="4"
-              />
-            </div>
-          </div>
-
-          <div className="coupon">
-            <h2>쿠폰/포인트</h2>
-
-            <div className="coupon-field">
-              <label htmlFor="coupon-code">쿠폰</label>
-              <div className="coupon-input-group">
-                <input
-                  type="text"
-                  id="coupon-code"
-                  placeholder="쿠폰 코드 입력"
-                  className={couponErrors.couponCode ? "input-error" : ""}  // 오류가 있으면 스타일 적용
-                />
-
-                <button className="apply-btn" onClick={handleCouponApply}>쿠폰 적용</button>
-              </div>
-            </div>
-
-            <div className="coupon-field">
-              <label htmlFor="coupon-number">쿠폰 번호</label>
-              <div className="coupon-input-group">
-                <input type="text" id="coupon-number" placeholder="쿠폰 번호 입력" />
-                <button className="verify-btn">번호 확인</button>
-              </div>
-            </div>
-
-            <div className="coupon-field">
-              <label htmlFor="points">포인트</label>
-              <div className="coupon-input-group">
-                <input type="number" id="points" placeholder="포인트 입력" />
-                <button className="use-full-btn">전액 사용</button>
-              </div>
-            </div>
-          </div>
         </div>
-        <div className="cnt-right">
-          <div className="order-price">
-            <h2>최종결제금액</h2>
-
-            <div className="price-details">
-              <div className="price-item">
-                <label>상품가격</label>
-                <p>{totalPrice.toLocaleString()}  원</p>
-              </div>
-              <div className="price-item">
-                <label>쿠폰할인</label>
-                <p>{couponDiscount > 0 ? couponDiscount.toLocaleString() : "0"} 원</p>
-              </div>
-              <div className="price-item">
-                <label>포인트사용</label>
-                <p>{pointsUsage > 0 ? pointsUsage.toLocaleString() : "0"} 원</p>
-              </div>
-              <div className="price-item">
-                <label>배송비</label>
-                <p>{shippingCost.toLocaleString()} 원</p>
-              </div>
-            </div>
-
-            <div className="final-price">
-              <h3>최종결제금액</h3>
-              <p>{calculateTotalPrice().toLocaleString()} 원</p>
-            </div>
-          </div>
-
-
-          <div className="pay-info">
-            <h2>결제 방법 선택</h2>
-            <table className="payment-table">
-              <tbody>
-                <tr>
-                  <td
-                    onClick={() => handlePaymentSelection("kicc", "card", "신용카드")}
-                    className={`payment-option-cell ${paymentMethodName === "신용카드" ? 'selected' : ''}`}
-                  >
-                    <label className="payment-option">신용카드</label>
-                  </td>
-                  <td
-                    onClick={() => handlePaymentSelection("kakaopay", "EASY_PAY", "카카오페이")}
-                    className={`payment-option-cell ${paymentMethodName === "카카오페이" ? 'selected' : ''}`}
-                  >
-                    <label className="payment-option">카카오페이</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    onClick={() => handlePaymentSelection("무통장", "bank_transfer", "무통장입금")}
-                    className={`payment-option-cell ${paymentMethodName === "무통장입금" ? 'selected' : ''}`}
-                  >
-                    <label className="payment-option">무통장 입금</label>
-                  </td>
-                  {/* <td
-                    onClick={() => handlePaymentSelection('virtual-account')}
-                    className={`payment-option-cell ${paymentMethod === 'virtual-account' ? 'selected' : ''}`}
-                  >
-                    <label className="payment-option">가상계좌</label>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-
-                    onClick={() => handlePaymentSelection('mobile-payment')}
-                    className={`payment-option-cell ${paymentMethod === 'mobile-payment' ? 'selected' : ''}`}
-                  >
-                    <label className="payment-option">핸드폰 결제</label>
-                  </td>
-                  <td className="empty-cell"></td> */}
-                </tr>
-
-
-              </tbody>
-            </table>
-            <p><span className="highlight">'{paymentMethodName ? paymentMethodName : '없음'}'</span>를 선택하셨습니다. 아래 주문하기를 눌러 결제를 이어가주세요..</p>
-            {paymentMethodName === "무통장입금" && (
-              <div className="bank-details">
-                <div>
-                  <label htmlFor="bank-name">입금은행</label>
-                  <select
-                    id="bank-name"
-                    value={bankName}
-                    onChange={(e) => setBankName(e.target.value)}
-                  >
-                    <option value="">입금은행선택</option>
-                    <option value="국민은행">국민은행 / 123412341234</option>
-                    <option value="하나은행">하나은행 / 123412341234</option>
-                    <option value="신한은행">신한은행 / 123412341234</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="depositor">입금자</label>
-                  <input
-                    id="depositor"
-                    type="text"
-                    placeholder="입금자 이름을 입력하세요"
-                    value={depositor}
-                    onChange={(e) => setDepositor(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="deposit-date">입금 예정 날짜</label>
-                  <input
-                    id="deposit-date"
-                    type="date"
-                    value={depositDate}
-                    onChange={(e) => setDepositDate(e.target.value)}
-                    min={today.toISOString().split('T')[0]} // 오늘 날짜 이후로만 선택 가능
-                    max={maxDateString} // 오늘로부터 7일 이후 날짜까지 선택 가능
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="payment-cnt">
-            <h2>결제 전 동의사항</h2>
-
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isPersonalInfoAgreed}
-                  onChange={() => setIsPersonalInfoAgreed(!isPersonalInfoAgreed)}
-                />
-                개인정보 처리방침에 동의합니다.
-              </label>
-            </div>
-
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isTermsAgreed}
-                  onChange={() => setIsTermsAgreed(!isTermsAgreed)}
-                />
-                이용약관에 동의합니다.
-              </label>
-            </div>
-
-            <div className="checkbox-container">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isPaymentAgreed}
-                  onChange={() => setIsPaymentAgreed(!isPaymentAgreed)}
-                />
-                결제 동의합니다.
-              </label>
-            </div>
-
-
-            <div>
-              <button
-                className="pay-button"
-
-                onClick={handleOrderClick}
-              >
-                결제하기
-              </button>
-              <button
-                className="real-pay-button"
-
-                onClick={handlePaymentClick}
-              >
-                실제 결제하기
-              </button>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  );
+    );
 }
 
 export default Order;

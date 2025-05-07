@@ -137,7 +137,6 @@ const Header = () => {
               </div>
             )}
           </div>
-
         </nav>
       </div>
 
@@ -155,7 +154,6 @@ const Header = () => {
                       <ul>
                         <li onClick={() => navigate('/subcategory/FRIED')}>튀김류</li>
                         <li onClick={() => navigate('/subcategory/BOKKEUM')}>볶음류</li>
-                        <li onClick={() => navigate('/subcategory/SUSHI')}>초밥</li>
                       </ul>
                     </div>
                   </li>
@@ -173,6 +171,14 @@ const Header = () => {
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
                         <li onClick={() => navigate('/subcategory/Noodle')}>파스타</li>
+                      </ul>
+                    </div>
+                  </li>
+
+                  <li className="category-item subcategory-parent" onClick={() => navigate('/category/일식')}>일식
+                    <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
+                      <ul>
+                        <li onClick={() => navigate('/subcategory/SUSHI')}>초밥</li>
                       </ul>
                     </div>
                   </li>

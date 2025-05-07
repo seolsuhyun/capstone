@@ -5,6 +5,7 @@ import axios from 'axios';
 import './MainPage.css';
 import { Link } from "react-router-dom";
 import shopping_cart_img from "./shopping_cart.png";
+import { useLogin } from "../context/LoginContext";
 
 const events = [
   { id: 1, image: '/event1.jpg', alt: '이벤트 1' },
@@ -25,12 +26,21 @@ const MainPage = () => {
     '안주': 'ANJU',
   };
 
+  function shuffleAndPick(array, count) {
+    const shuffled = [...array].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, count);
+  }
+
+
   const categories = Object.keys(categoryMap); // ['전체', '구이/볶음', '국물요리', '파스타', '안주']
 
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [newProducts, setNewProducts] = useState([]);
   const [bestProducts, setBestProducts] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+  const [likedItems, setLikedItems] = useState([]);
+
+  const { userName, userCode, userId } = useLogin();
 
   const timeoutRef = useRef(null);
   const delay = 4000;
@@ -75,6 +85,25 @@ const MainPage = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (!userCode) return;
+
+    axios.get(`http://localhost:8080/orders/${encodeURIComponent(userCode)}`)
+      .then((res) => {
+        const orders = res.data;
+
+        const liked = orders
+          .filter(order => order.recommend === "LIKE")
+          .flatMap(order => order.orderItemDtoList);
+
+        const randomFive = shuffleAndPick(liked, 5);
+        setLikedItems(randomFive);
+      })
+      .catch((err) => {
+        console.error("추천 상품 불러오기 실패", err);
+      });
+  }, [userCode]);
+
 
   useEffect(() => {
     const backendCategory = categoryMap[selectedCategory];
@@ -93,9 +122,6 @@ const MainPage = () => {
   const mainItem = newProducts[0];
   const sideItems = newProducts.slice(1);
 
-
-
-
   const goToPrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? events.length - 1 : prev - 1));
   };
@@ -108,6 +134,24 @@ const MainPage = () => {
         <img src="/banner2.png" alt="배너 이미지" className="banner-image" />
       </div>
 
+      {likedItems.length > 0 && (
+        <div className="recommend-section">
+          <h3 className="recommend-title">🎯 회원님을 위한 추천 상품</h3>
+          <h4 className="discount-subtitle">구매하셨던 상품들을 모아봤어요!</h4>
+          <div className="recommend-items">
+            {likedItems.slice(0, 5).map((item, idx) => (
+              <div key={idx} className="recommend-item">
+                <img src={item.image} alt={item.name} />
+                <div className="recommend-name">{item.name}</div>
+                <div className="recommend-price">{item.price.toLocaleString()}원</div>
+                <Link to={`/detail/${mainItem.id}`} state={mainItem} className="buy-button small">
+                  <img src={shopping_cart_img} alt="장바구니" />
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
 
       <div className='main-slider'>
