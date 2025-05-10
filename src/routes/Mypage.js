@@ -3,11 +3,14 @@ import axios from "axios";
 import "./Mypage.css";
 import { useLogin } from "../context/LoginContext";
 import AddressPopup from "./AddressPopup";
+import { useNavigate } from "react-router-dom";
+
 const Mypage = () => {
   const { userName, userCode, userId } = useLogin();
   const [addresses, setAddresses] = useState([]);
   const [showAddressPopup, setShowAddressPopup] = useState(false);
 
+  const navigate = useNavigate();
   const points = 1250;
   const coupons = 5;
   const userGrade = "VIP";
@@ -47,6 +50,8 @@ const Mypage = () => {
         return '배송중';
       case 'DONE':
         return '배송완료';
+      case 'RETURN':
+        return '반품됨';
       case 'NOT':
       default:
         return '배송전';
@@ -56,25 +61,12 @@ const Mypage = () => {
 
   const handleCancelOrder = (orderId, deliveryStatus) => {
     // 배송중 또는 배송완료일 경우 취소 불가
-    if (deliveryStatus === 'GO' || deliveryStatus === 'DONE') {
-      alert("배송중 또는 배송완료된 상품은 주문을 취소할 수 없습니다.");
+    if (deliveryStatus === 'NOT' || deliveryStatus === 'DONE') {
+      navigate("/Q&A");
       return; // 취소 처리 중단
     }
-  
-    // 서버에 주문 취소 요청 보내기
-    axios.patch(`http://localhost:8080/order/${orderId}/cancel`)
-      .then(() => {
-        alert("주문이 취소되었습니다.");
-        window.location.reload();
-        setOrders(prevOrders =>
-          prevOrders.filter(order => order.id !== orderId) // 취소된 주문만 제외
-        );
-      })
-      .catch(error => {
-        alert("주문 취소에 실패했습니다.");
-        console.error("주문 취소 에러", error);
-      });
   };
+
   const handleWithdraw = async () => {
     console.log("userId", userId);
     const confirmed = window.confirm("정말 회원 탈퇴하시겠습니까?");
@@ -127,8 +119,6 @@ const Mypage = () => {
     setShowAddressPopup(true);
 
   };
-
-
 
 
   const calculateTotalPrice = () => {
@@ -185,18 +175,23 @@ const Mypage = () => {
                   <div className="mypage-order-item-details">
                     <div className="mypage-order-header">
                       <p>주문일: {order.orderDate}</p>
-                    
+
                       <button
                         className="cancel-button"
                         onClick={() => handleCancelOrder(order.orderId, order.delivery)}
-                        disabled={order.delivery === 'GO' || order.delivery === 'DONE'} // 배송중일 경우 버튼 비활성화
+                        disabled={
+                          order.delivery === 'GO' || order.delivery === 'RETURN'
+                        }
                       >
-                        주문 취소
+                        {order.delivery === 'DONE' || order.delivery === 'RETURN'
+                          ? '반품 문의'
+                          : '주문 취소 문의'}
                       </button>
+
                     </div>
                     {order.orderItemDtoList.map((item, itemIndex) => (
                       <div key={itemIndex} className="mypage-order-item-detail">
-                        <img src={getImageUrl(item.image)}alt={item.name} className="mypage-product-image" />
+                        <img src={getImageUrl(item.image)} alt={item.name} className="mypage-product-image" />
                         <div className="mypage-product-info">
                           <h4>{item.name}</h4>
                           <p>{item.productContent}</p>
