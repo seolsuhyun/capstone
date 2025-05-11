@@ -1,53 +1,81 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import './SearchResults.css';
+import { Link } from "react-router-dom";
 
-function SearchResults() {
-  const [items, setItems] = useState([]);
+const SearchResults = () => {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const searchTerm = queryParams.get("query");
+  const recommendations = location.state?.recommendations || [];
 
+  const [products, setProducts] = useState([]);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [loading, setLoading] = useState(true);  // 로딩 상태
+
+  // 전체 상품 불러오기
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/items/list`, {
-          params: { search: searchTerm }
-        });
-        setItems(response.data);
+        const response = await axios.get('http://localhost:8080/items/list');
+        console.log("📥 전체 상품:", response.data);
+        setProducts(response.data);
       } catch (error) {
-        console.error("Error fetching search results:", error);
+        console.error('❌ 상품 불러오기 실패:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (searchTerm) {
-      fetchItems();
+    fetchItems();
+  }, []);
+
+  // 추천된 이름과 일치하는 상품 필터링
+  useEffect(() => {
+    if (products.length > 0 && recommendations.length > 0) {
+      const matchedItems = products.filter(item =>
+        recommendations.some(reco => {
+          const productName = item.name?.toLowerCase().trim();
+          const recoName = reco.name?.toLowerCase().trim();
+          return productName === recoName;
+        })
+      );
+      setFilteredItems(matchedItems);
     }
-  }, [searchTerm]);
+  }, [products, recommendations]);
 
   return (
     <div className="search-results-container">
-      <h2>검색 결과: "{searchTerm}"</h2>
-      {items.length > 0 ? (
+      <h2>추천 검색 결과</h2>
+
+      {loading ? (
+        <div className="loading">로딩 중...</div>
+      ) : filteredItems.length === 0 ? (
+        <p>해당 이름의 상품이 없습니다.</p>
+      ) : (
         <ul className="search-results-list">
-          {items.map((item) => (
-            <li key={item.id} className="search-results-item">
-              <h2>{item.name}</h2>
-              <img src={item.image} alt={item.name} className="search-results-image" />
+          {filteredItems.map((item, index) => (
+            <li key={index} className="search-result-item">
+              <h3>{item.name}</h3>
               <p>{item.content}</p>
               <p>Price: {item.price}원</p>
-              <Link to={`/detail/${item.id}`} state={item} className="search-results-detail-link">
+              {item.image && (
+                <img 
+                  src={item.image.startsWith("/images/item/") 
+                    ? `http://localhost:8080${item.image}` 
+                    : item.image} 
+                  alt={item.name} 
+                  className="search-result-image" 
+                />
+              )}
+              <Link to={`/detail/${item.id}`} state={item}>
                 상품 상세 보기
               </Link>
             </li>
           ))}
         </ul>
-      ) : (
-        <p>검색 결과가 없습니다.</p>
       )}
     </div>
   );
-}
+};
 
 export default SearchResults;
