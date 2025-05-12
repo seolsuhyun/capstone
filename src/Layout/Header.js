@@ -66,42 +66,6 @@ const Header = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  const fetchAiRecommendations = async (foodName) => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/ai/chat',
-        null,
-        {
-          params: { food: foodName }
-        }
-      );
-
-      console.log(response.data); // 응답 확인
-      // 응답에서 'results' 배열 반환
-      return response.data.results;  // { name, description } 형태의 배열 반환
-    } catch (error) {
-      console.error("AI 검색 추천 요청 실패:", error);
-      return null;
-    }
-  };
-
-  const onSubmit = async (e) => {
-    e.preventDefault();
-  
-    const result = await fetchAiRecommendations(searchTerm);
-  
-    if (result && Array.isArray(result) && result.length > 0) {
-      console.log('추천된 음식 목록:', result);
-      navigate(`/search?query=${searchTerm}`, { state: { recommendations: result } });
-    } else {
-      alert("추천 결과가 없습니다.");
-    }
-  };
-
-
-
-
-
 
   return (
     <header className="Header">
@@ -129,9 +93,7 @@ const Header = () => {
         <img src='/mainlogo.png' className='main-logo-text' alt="Main Logo" onClick={() => navigate('/')} />
 
         <div className="search">
-        <form onSubmit={onSubmit} className="search-form">
-
-
+          <form onSubmit={(e) => { e.preventDefault(); navigate(`/search?query=${encodeURIComponent(searchTerm)}`); }} className="search-form">
             <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="부기푸드" className="search-bar" />
             <button type="submit" className="search-btn">
               <img src={search_img} alt="Search" className="search-img" />
