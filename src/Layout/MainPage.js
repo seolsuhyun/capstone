@@ -6,6 +6,7 @@ import './MainPage.css';
 import { Link } from "react-router-dom";
 import shopping_cart_img from "./shopping_cart.png";
 import { useLogin } from "../context/LoginContext";
+import AIPopup from "../Popup/AIPopup";
 
 const events = [
   { id: 1, image: '/event1.jpg', alt: '이벤트 1' },
@@ -41,6 +42,8 @@ const MainPage = () => {
   const [likedItems, setLikedItems] = useState([]);
 
   const { userName, userCode, userId } = useLogin();
+  const [showPopup, setShowPopup] = useState(false);
+
 
   const timeoutRef = useRef(null);
   const delay = 4000;
@@ -84,7 +87,13 @@ const MainPage = () => {
         console.error("에러", error);
       });
   }, []);
-
+  useEffect(() => {
+    const popupTimer = setTimeout(() => {
+      setShowPopup(true);
+    }, ); // 3초 후 팝업 오픈
+  
+    return () => clearTimeout(popupTimer);
+  }, []);
   useEffect(() => {
     if (!userCode) return;
 
@@ -133,7 +142,9 @@ const MainPage = () => {
       : imagePath;
   };
   return (
+    
     <div className="main-page">
+      {showPopup && <AIPopup onClose={() => setShowPopup(false)} />}
       <div className="banner-wrapper">
         <img src="/banner2.png" alt="배너 이미지" className="banner-image" />
       </div>
