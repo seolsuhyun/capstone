@@ -1,60 +1,61 @@
 .search-results-container {
-  padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */  
-  height: auto;
-  text-align: center;
-}
-
-.search-results-container h2 {
-  font-size: 36px;
-  margin-bottom: 30px;
-  color: #333;
-}
-
-.search-results-list {
-  display: flex;
-  flex-wrap: wrap; /* 화면 크기에 따라 여러 줄로 자동 정렬 */
-  justify-content: center; /* 항목을 가운데 정렬 */
-  list-style-type: none;
-  padding: 0;
-}
-
-.search-results-item {
-  width: 250px; /* 각 상품 항목의 너비 설정 */
-  margin: 15px; /* 상품 간의 간격 설정 */
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  background-color: #fff;
-}
-
-.search-results-image {
-  width: 100%; /* 이미지가 항목 너비에 맞게 조정 */
-  height: 240px;
-  border-radius: 10px;
-}
-
-.search-results-item h2 {
-  font-size: 18px;
-  margin: 10px 0;
-}
-
-.search-results-item p {
-  font-size: 14px;
-  color: #555;
-}
-
-.search-results-detail-link {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 8px 15px;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-  text-decoration: none;
-}
-
-.search-results-detail-link:hover {
-  background-color: #45a049;
-}
+    padding-top: 200px;  /* 헤더 높이만큼 여백 추가 */  
+    height: auto;
+    text-align: center;
+  }
+  
+  .search-results-container h2 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .search-results-list {
+    display: flex;
+    flex-wrap: wrap; /* 화면 크기에 따라 여러 줄로 자동 정렬 */
+    justify-content: center; /* 항목을 가운데 정렬 */
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .search-results-item {
+    width: 250px; /* 각 상품 항목의 너비 설정 */
+    margin: 15px; /* 상품 간의 간격 설정 */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .search-results-image {
+    width: 100%; /* 이미지가 항목 너비에 맞게 조정 */
+    height: 240px;
+    border-radius: 10px;
+  }
+  
+  .search-results-item h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .search-results-item p {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .search-results-detail-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: #4caf50;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+  }
+  
+  .search-results-detail-link:hover {
+    background-color: #45a049;
+  }
+  

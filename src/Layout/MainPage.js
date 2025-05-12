@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import shopping_cart_img from "./shopping_cart.png";
 import { useLogin } from "../context/LoginContext";
 
-
-
 const events = [
   { id: 1, image: '/event1.jpg', alt: '이벤트 1' },
   { id: 2, image: '/event2.jpg', alt: '이벤트 2' },
@@ -148,7 +146,6 @@ const MainPage = () => {
   return (
     
     <div className="main-page">
-     
       <div className="banner-wrapper">
         <img src="/banner2.png" alt="배너 이미지" className="banner-image" />
       </div>
