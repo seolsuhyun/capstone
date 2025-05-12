@@ -6,7 +6,8 @@ import './MainPage.css';
 import { Link } from "react-router-dom";
 import shopping_cart_img from "./shopping_cart.png";
 import { useLogin } from "../context/LoginContext";
-import AIPopup from "../Popup/AIPopup";
+
+
 
 const events = [
   { id: 1, image: '/event1.jpg', alt: '이벤트 1' },
@@ -58,6 +59,9 @@ const MainPage = () => {
   const handleClick = () => {
     navigate('/Q&A');
   };
+  const handleAiClick = () => {
+   navigate('/Aisearch');
+  }
 
   useEffect(() => {
     resetTimeout();
@@ -144,7 +148,7 @@ const MainPage = () => {
   return (
     
     <div className="main-page">
-      {showPopup && <AIPopup onClose={() => setShowPopup(false)} />}
+     
       <div className="banner-wrapper">
         <img src="/banner2.png" alt="배너 이미지" className="banner-image" />
       </div>
@@ -191,6 +195,12 @@ const MainPage = () => {
         <button className="arrow left" onClick={goToPrev}><ChevronLeft /></button>
         <button className="arrow right" onClick={goToNext}><ChevronRight /></button>
       </div>
+      <img
+      src={"/AI_search.png"}
+      alt="AI 검색"
+      className="ai-floating-icon"
+      onClick={handleAiClick}
+    />
       {/* 무엇이든 물어보세요 버튼 */}
       <button className="chat-floating-button" onClick={handleClick}>
 

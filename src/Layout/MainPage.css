@@ -594,3 +594,31 @@
   align-items: center;
   gap: 8px;
 }
+
+/* 말풍선 스타일은 이미 있는 상태라면 유지 */
+.chat-floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+/* AI 아이콘 - 말풍선보다 약간 위에 위치 */
+.ai-floating-icon {
+  position: fixed;
+  bottom: 80px; /* 말풍선보다 위 */
+  right: 28px;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  z-index: 1001;
+}

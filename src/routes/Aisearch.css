@@ -1,0 +1,118 @@
+/* Aisearch.css */
+
+.ai-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+   
+    margin-top: 240px;  /* 상단 여백을 줄여서 헤더와 가까워지도록 설정 */
+    min-height: 500px; /* 최소 높이를 설정하여 화면 크기에 맞게 유동적으로 공간 확보 */
+    flex-direction: column;
+}
+
+
+.ai-search-form {
+    display: flex;
+    flex-direction: column; /* 텍스트는 세로로 배치 */
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .ai-search-label {
+    font-size: 30px;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .input-button-wrapper {
+    display: flex;
+    flex-direction: row; /* input과 버튼을 가로로 배치 */
+    align-items: center;
+    width: 100%;
+  }
+  
+  .ai-search-bar {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 30px 0 0 30px;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  
+  .ai-search-bar:focus {
+    border-color: #007bff;
+  }
+  
+  .ai-search-btn {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 15px;
+    margin-left: -1px;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .ai-search-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .ai-search-img {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+  }
+  .search-results {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .search-results h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .search-results-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .search-result-item {
+    width: 250px;
+    margin: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+  }
+  
+  .search-result-item img {
+    width: 100%;
+    height: 240px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+  
+  .search-result-item h4 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  .search-result-item p {
+    font-size: 14px;
+    color: #555;
+  }
+  
