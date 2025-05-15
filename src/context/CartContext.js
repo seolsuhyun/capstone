@@ -8,7 +8,7 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
     const [cartVersion, setCartVersion] = useState(0);
-    const { userEmail } = useLogin(); // 로그인한 사용자의 이메일
+    const { userCode } = useLogin(); // 로그인한 사용자의 이메일
 
     const fetchCart = async () => {
         try {
@@ -43,9 +43,9 @@ export const CartProvider = ({ children }) => {
 
     // 💡 email이 바뀌면 장바구니 다시 불러오기!
     useEffect(() => {
-        if (userEmail) fetchCart();
+        if (userCode) fetchCart();
         else setCartItems([]);
-    }, [userEmail]);
+    }, [userCode]);
 
 
     // 🛒 장바구니에 상품 추가
