@@ -54,7 +54,8 @@ const ProductManagement = ({ onEditClick }) => {
               <td>{product.stock}</td>
               <td>
                 {/* 수정 버튼 클릭 시 해당 상품의 ID만 넘김 */}
-                <button onClick={() => onEditClick(product.id)}>수정</button>
+                <button onClick={() => onEditClick(product)}>수정</button>
+
                 <button onClick={() => deleteProduct(product.id, product.name)}>삭제</button>
               </td>
             </tr>

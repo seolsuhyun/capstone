@@ -10,15 +10,15 @@ import ProductManagement from './admin/ProductManagement';
 
 const AdminPage = () => {
   const [activeTab, setActiveTab] = useState('user');
-  const [productId, setProductId] = useState(null);  // 수정할 상품의 ID
+  const [selectedProduct, setSelectedProduct] = useState(null); // 수정할 상품의 ID
   const navigate = useNavigate();  // useNavigate 훅 사용
 
   // onEditClick 핸들러: 수정 버튼 클릭 시 해당 상품 ID로 tab 변경
-  const handleEditClick = (id) => {
-    setProductId(id);
-    setActiveTab('product-update');  // 해당 탭으로 전환
+  const handleEditClick = (product) => {
+    setSelectedProduct(product); // 상품 전체 정보 저장
+    setActiveTab('product-update'); // 수정 탭으로 이동
   };
-
+  
   const renderContent = () => {
     switch (activeTab) {
       case 'user':
@@ -28,13 +28,14 @@ const AdminPage = () => {
       case 'product-registration':
         return <ProductRegistration />;
       case 'product-update':
-        return <ProductUpdate productId={productId} />;  // 넘긴 productId로 수정
+        return <ProductUpdate product={selectedProduct} />; // 이게 맞는 코드!
       case 'product-management':
         return <ProductManagement onEditClick={handleEditClick} />;
       default:
         return <p>관리자 기능을 선택하세요.</p>;
     }
   };
+  
 
   return (
     <div className="admin-container">

@@ -3,7 +3,7 @@ import axios from 'axios';
 import classNames from 'classnames';
 import './ProductUpdate.css';
 
-const ProductUpdate = ({ productId }) => {
+const ProductUpdate = ({ product }) => {
   const [form, setForm] = useState({
     name: '',
     price: '',
@@ -12,12 +12,29 @@ const ProductUpdate = ({ productId }) => {
     itemStatus: 'NEW',
     category: 'SOUP',
     subCategory: 'TANG',
-    itemImgIds: [2], // <- 이걸 추가
+    itemImgIds: [],
   });
-  
+
   const [images, setImages] = useState([]);
 
-   // productId가 바뀔 때마다 데이터 새로 불러옴
+  // productId 추출
+  const { id: productId } = product || {};
+
+  // product가 변경될 때 form 상태 초기화
+  useEffect(() => {
+    if (product) {
+      setForm({
+        name: product.name || '',
+        price: product.price || '',
+        content: product.content || '',
+        stock: product.stock || '',
+        itemStatus: product.itemStatus || 'NEW',
+        category: product.category || 'SOUP',
+        subCategory: product.subCategory || 'TANG',
+        itemImgIds: product.itemImgIds || [],
+      });
+    }
+  }, [product]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -28,18 +45,18 @@ const ProductUpdate = ({ productId }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // 필수: 폼 기본 동작 방지
-  
+    e.preventDefault();
+
     const formData = new FormData();
     formData.append(
       'itemFormDto',
       new Blob([JSON.stringify(form)], { type: 'application/json' })
     );
-  
+
     if (images.length > 0) {
       images.forEach((file) => formData.append('itemImgFile', file));
     }
-  
+
     try {
       const response = await axios.put(`/admin/item/${productId}/update`, formData, {
         headers: {
@@ -47,7 +64,7 @@ const ProductUpdate = ({ productId }) => {
         },
       });
       alert('상품 수정 성공! ID: ' + response.data);
-      window.location.reload(); // 수정 후 새로고침
+      window.location.reload();
     } catch (error) {
       console.error(error);
       alert('상품 수정 실패: ' + (error.response?.data?.error || error.message));
@@ -58,12 +75,11 @@ const ProductUpdate = ({ productId }) => {
     <div className="product-update-container">
       <h2 className="title">상품 수정</h2>
       <form className="product-form" onSubmit={handleSubmit}>
-        {/* ID는 자동으로 입력되는 필드로 수정 */}
         <input
           className={classNames('input-field', 'product-id')}
           name="productId"
-          value={productId}
-          readOnly // ID는 수정 불가능하게
+          value={productId || ''}
+          readOnly
         />
         <input
           className={classNames('input-field', 'product-name')}
