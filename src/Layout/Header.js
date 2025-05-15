@@ -179,6 +179,9 @@ const Header = () => {
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
                         <li onClick={() => navigate('/subcategory/SUSHI')}>초밥</li>
+                        <li onClick={() => navigate('/subcategory/FISH')}>생선류</li>
+                        <li onClick={() => navigate('/subcategory/JFRIED')}>튀김류</li>
+                        <li onClick={() => navigate('/subcategory/REST')}>기타</li>
                       </ul>
                     </div>
                   </li>

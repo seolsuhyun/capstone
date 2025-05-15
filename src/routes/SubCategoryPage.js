@@ -21,6 +21,10 @@ const SubCategoryPage = () => {
             case 'TANG': return '탕류';
             case 'Noodle': return '파스타';
             case 'SORBET': return '샤베트';
+            case 'FISH': return '생선류';
+            case 'JFRIED': return '튀김류';
+            case 'REST': return '기타';
+
             default: return code;
         }
     };
