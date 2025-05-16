@@ -160,7 +160,7 @@ const MainPage = () => {
                 <img src={getImageUrl(item.image)} alt={item.name} />
                 <div className="recommend-name">{item.name}</div>
                 <div className="recommend-price">{item.price.toLocaleString()}원</div>
-                <Link to={`/detail/${mainItem.id}`} state={mainItem} className="buy-button small">
+                <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
                   <img src={shopping_cart_img} alt="장바구니" />
                 </Link>
               </div>
