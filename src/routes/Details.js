@@ -50,9 +50,7 @@ const Detail = () => {
 
   // 이미지 경로 처리 (상대 경로가 있을 경우 절대 경로로 변환)
   const getImageUrl = (imagePath) => {
-    return imagePath.startsWith("/images/item/")
-      ? `http://localhost:8080${imagePath}`
-      : imagePath;
+    return  imagePath;
   };
 
 

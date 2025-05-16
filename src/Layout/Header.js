@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     const timer = setTimeout(async () => {
       try {
-        const response = await axios.get('http://localhost:8080/loginOk', {
+        const response = await axios.get('/loginOk', {
           withCredentials: true,
         });
 

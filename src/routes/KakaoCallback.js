@@ -12,7 +12,7 @@ const KakaoCallback = () => {
 
     if (code) {
       // 백엔드에 'code' 전송하여 로그인 처리
-      axios.post('http://localhost:8080/oauth/login/callback', { code })
+      axios.post('/oauth/login/callback', { code })
         .then((response) => {
           // 로그인 성공 시 메인 페이지로 리다이렉트
           navigate('/');

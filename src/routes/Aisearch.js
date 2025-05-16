@@ -15,7 +15,7 @@ const Aisearch = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get('http://localhost:8080/items/list');
+                const res = await axios.get('/items/list');
                 setProducts(res.data);
             } catch (err) {
                 console.error('상품 리스트 요청 실패:', err);
@@ -49,7 +49,7 @@ const Aisearch = () => {
 
     const fetchAiRecommendations = async (foodName) => {
         try {
-            const response = await axios.post('http://localhost:8080/ai/chat', null, {
+            const response = await axios.post('/ai/chat', null, {
                 params: { food: foodName },
             });
             return response.data.results || [];

@@ -27,7 +27,7 @@ const InquiryWrite = () => {
 
     try {
       // POST 요청 보내기 (세션 쿠키를 자동으로 포함)
-      const response = await axios.post('http://localhost:8080/boards/write', inquiryData, {
+      const response = await axios.post('/boards/write', inquiryData, {
         withCredentials: true, // 세션 쿠키를 자동으로 전송하도록 설정
        
       });

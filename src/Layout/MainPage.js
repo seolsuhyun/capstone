@@ -71,7 +71,7 @@ const MainPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/items/list")
+      .get("/items/list")
       .then((response) => {
         console.log("서버 응답 데이터:", response.data);
         const allItems = response.data;
@@ -99,7 +99,7 @@ const MainPage = () => {
   useEffect(() => {
     if (!userCode) return;
 
-    axios.get(`http://localhost:8080/orders/${encodeURIComponent(userCode)}`)
+    axios.get(`/orders/${encodeURIComponent(userCode)}`)
       .then((res) => {
         const orders = res.data;
 
@@ -139,9 +139,7 @@ const MainPage = () => {
 
 
   const getImageUrl = (imagePath) => {
-    return imagePath.startsWith("/images/item/")
-      ? `http://localhost:8080${imagePath}`
-      : imagePath;
+    return  imagePath;
   };
   return (
     

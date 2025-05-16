@@ -243,9 +243,7 @@ function Orders() {
         }
     };
     const getImageUrl = (imagePath) => {
-        return imagePath.startsWith("/images/item/")
-          ? `http://localhost:8080${imagePath}`
-          : imagePath;
+        return imagePath;
       };
     return (
         <div className="order">

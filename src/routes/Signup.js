@@ -20,7 +20,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8080/join', user);
+      await axios.post('/join', user);
       alert('회원가입 완료');
       navigate("/Signup/SignupOk", { state: { userName: user.name } });
     } catch (error) {
