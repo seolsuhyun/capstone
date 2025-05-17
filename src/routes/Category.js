@@ -46,7 +46,10 @@ const Category = () => {
     return (
         <div className="Category">
             <h1>상품 목록</h1>
-            <h2>{category} 카테고리</h2>
+            <h2>
+                {category}
+                {category !== '신상품' && category !== '베스트' && category !== '할인특가' ? ' 카테고리' : ''}
+            </h2>
             {loading ? (
                 <p>로딩 중...</p>
             ) : (
