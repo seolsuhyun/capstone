@@ -14,7 +14,7 @@ const Mypage = () => {
   const points = 1250;
   const coupons = 5;
   const userGrade = "VIP";
-  const discount = -20000;
+  const discount = 0;
   const shippingCost = 3000;
   const [orders, setOrders] = useState([]);
 
@@ -137,7 +137,7 @@ const Mypage = () => {
   const totalProductPrice = calculateTotalPrice();
   const totalPrice = totalProductPrice + discount + shippingCost;
   const getImageUrl = (imagePath) => {
-    return  imagePath;
+    return imagePath;
   };
   return (
     <div className="mypage-container">
