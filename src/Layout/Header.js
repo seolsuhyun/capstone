@@ -197,9 +197,9 @@ const Header = () => {
               </div>
             )}
           </li>
-          <li className="category-item" onClick={() => navigate('/category/new')}>신상품</li>
-          <li className="category-item" onClick={() => navigate('/category/best')}>베스트</li>
-          <li className="category-item" onClick={() => navigate('/category/discount')}>할인특가</li>
+          <li className="category-item" onClick={() => navigate('/category/신상품')}>신상품</li>
+          <li className="category-item" onClick={() => navigate('/category/베스트')}>베스트</li>
+          <li className="category-item" onClick={() => navigate('/category/할인특가')}>할인특가</li>
         </ul>
       </div>
 

@@ -22,8 +22,8 @@ const Category = () => {
                     if (category === '면류') return product.category === 'PASTA';
                     if (category === '일식') return product.category === 'JFOOD';
                     if (category === '안주') return product.category === 'ANJU';
-                    if (category === "new") return product.itemStatus === 'NEW';
-                    if (category === "best") return product.itemStatus === 'BEST';
+                    if (category === "신상품") return product.itemStatus === 'NEW';
+                    if (category === "베스트") return product.itemStatus === 'BEST';
                     return true;
                 });
                 setProducts(filteredProducts);
