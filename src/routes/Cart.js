@@ -48,7 +48,7 @@ const Cart = () => {
     );
     const getImageUrl = (imagePath) => {
         return imagePath;
-      };
+    };
     return (
         <div className="cart">
             <h1>장바구니</h1>
@@ -89,7 +89,7 @@ const Cart = () => {
                         <div className="recommended-items">
                             {recommendedItems.map((item) => (
                                 <div key={item.id} className="recommended-card">
-                                 <img src={getImageUrl(item.image)} alt={item.name} className="recommended-image" />
+                                    <img src={getImageUrl(item.image)} alt={item.name} className="recommended-image" />
                                     <div className="recommended-info">
                                         <h3>{item.name}</h3>
                                         <p>{item.price.toLocaleString()}원</p>

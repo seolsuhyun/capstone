@@ -79,6 +79,7 @@ const Footer = () => {
             </li>
           </ul>
         </div>
+
         <div className="footer-content">
           <h3>소셜 미디어</h3>
           <hr />
