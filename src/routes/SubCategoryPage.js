@@ -32,7 +32,7 @@ const SubCategoryPage = () => {
     useEffect(() => {
         setLoading(true);
         console.log("현재 URL에서 넘어온 subcategory:", subcategory);
-        axios.get('http://localhost:8080/items/list')
+        axios.get('/items/list')
             .then((response) => {
                 console.log(response.data.map(p => ({ name: p.name, subCategory: p.subCategory })));
                 const filteredProducts = response.data.filter((product) => {

@@ -18,7 +18,7 @@ const QAModify = () => {
 
         const fetchBoardData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/boards/${questionId}/read`, {
+                const response = await axios.get(`/boards/${questionId}/read`, {
                     withCredentials: true, // 세션 쿠키 포함
                 });
                 setBoardData({ title: response.data.title, content: response.data.content });
@@ -46,7 +46,7 @@ const QAModify = () => {
         setLoading(true); // 로딩 시작
         try {
             await axios.put(
-                `http://localhost:8080/boards/${questionId}/modify`,
+                `/boards/${questionId}/modify`,
                 boardData,
                 { withCredentials: true }
             );

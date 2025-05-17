@@ -12,7 +12,7 @@ function SearchResults() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/items/list`, {
+        const response = await axios.get(`/items/list`, {
           params: { search: searchTerm }
         });
         setItems(response.data);

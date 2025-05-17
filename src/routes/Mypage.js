@@ -20,7 +20,7 @@ const Mypage = () => {
 
   useEffect(() => {
     console.log("현재 로그인된 이메일:", userCode);
-    axios.get(`http://localhost:8080/orders/${encodeURIComponent(userCode)}`)
+    axios.get(`/orders/${encodeURIComponent(userCode)}`)
       .then((response) => {
         setOrders(response.data);
         console.log(orders);
@@ -32,7 +32,7 @@ const Mypage = () => {
 
   useEffect(() => {
     if (userCode) {
-      axios.get("http://localhost:8080/address", {
+      axios.get("/address", {
         withCredentials: true,
       })
         .then(response => {
@@ -73,7 +73,7 @@ const Mypage = () => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:8080/${userId}/deleteMember`, {
+      const response = await fetch(`/${userId}/deleteMember`, {
         method: "POST",
       });
 
@@ -93,7 +93,7 @@ const Mypage = () => {
     const confirmed = window.confirm("배송지를 삭제하시겠습니까?");
     if (!confirmed) return;
 
-    axios.delete(`http://localhost:8080/address/${addressId}/delete`)
+    axios.delete(`/address/${addressId}/delete`)
       .then(() => {
         alert("배송지가 삭제되었습니다.");
         setAddresses(prev => prev.filter(addr => addr.addressId !== addressId));
@@ -104,7 +104,7 @@ const Mypage = () => {
       });
   };
   const handleAddressSaved = () => {
-    axios.get("http://localhost:8080/address", {
+    axios.get("/address", {
       withCredentials: true,
     })
       .then(response => {
@@ -137,9 +137,7 @@ const Mypage = () => {
   const totalProductPrice = calculateTotalPrice();
   const totalPrice = totalProductPrice + discount + shippingCost;
   const getImageUrl = (imagePath) => {
-    return imagePath.startsWith("/images/item/")
-      ? `http://localhost:8080${imagePath}`
-      : imagePath;
+    return  imagePath;
   };
   return (
     <div className="mypage-container">

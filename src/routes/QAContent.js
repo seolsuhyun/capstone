@@ -23,7 +23,7 @@ const QAContent = () => {
 
         const fetchBoardData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/boards/${questionId}/read`, {
+                const response = await axios.get(`/boards/${questionId}/read`, {
                     withCredentials: true, // 세션 쿠키 포함
                 });
                 console.log("✅ API 응답 데이터:", response.data);
@@ -38,7 +38,7 @@ const QAContent = () => {
 
         const fetchComments = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/${questionId}/comment`, {
+                const response = await axios.get(`/${questionId}/comment`, {
                     withCredentials: true, // 세션 쿠키 포함
                 });
                 setComments(response.data);
@@ -55,7 +55,7 @@ const QAContent = () => {
         const isConfirmed = window.confirm("정말 삭제하시겠습니까?");
         if (isConfirmed) {
             try {
-                const response = await axios.patch(`http://localhost:8080/boards/${questionId}/delete`, {}, {
+                const response = await axios.patch(`/boards/${questionId}/delete`, {}, {
                     withCredentials: true,
                 });
                 window.alert("삭제되었습니다.");
@@ -93,7 +93,7 @@ const QAContent = () => {
     
         try {
             const response = await axios.post(
-                `http://localhost:8080/admin/${questionId}/comments`,
+                `/admin/${questionId}/comments`,
                 {
                     comment: newComment, // 실제 댓글 내용
                     member: { email: userEmail } // 로그인한 사용자의 이메일을 member로 전송
@@ -115,9 +115,9 @@ const QAContent = () => {
         const isConfirmed = window.confirm("정말 이 댓글을 삭제하시겠습니까?");
         if (isConfirmed) {
             try {
-                console.log(`DELETE 요청 보내기: http://localhost:8080/admin/${commentId}/deletecomment`);
+                console.log(`DELETE 요청 보내기: /admin/${commentId}/deletecomment`);
                 const response = await axios.patch(
-                    `http://localhost:8080/admin/${commentId}/deletecomment`,
+                    `/admin/${commentId}/deletecomment`,
                     {  }, // 요청 본문에 commentId를 보내기
                     { withCredentials: true } // 세션 쿠키 포함
                 );

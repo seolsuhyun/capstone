@@ -20,7 +20,7 @@ const QAPage = () => {
         const fetchQuestions = async () => {
             setLoading(true);
             try {
-                const response = await axios.get("http://localhost:8080/boards/mainboard", {
+                const response = await axios.get("/boards/mainboard", {
                     params: {
                         page: currentPage,
                         size: questionsPerPage,

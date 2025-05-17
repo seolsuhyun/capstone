@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     const timer = setTimeout(async () => {
       try {
-        const response = await axios.get('http://localhost:8080/loginOk', {
+        const response = await axios.get('/loginOk', {
           withCredentials: true,
         });
 
@@ -51,7 +51,7 @@ const Header = () => {
 
     if (isLoggedIn) {
       try {
-        await axios.get('http://localhost:8080/logout', { withCredentials: true });
+        await axios.get('/logout', { withCredentials: true });
         logout();
         alert("로그아웃 했습니다.");
         navigate('/'); // 로그아웃 후 홈으로 이동

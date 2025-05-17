@@ -12,7 +12,7 @@ const Category = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get('http://localhost:8080/items/list')
+        axios.get('/items/list')
             .then((response) => {
                 const filteredProducts = response.data.filter((product) => {
                     if (!product || !product.category) return false; // product가 없거나 category가 없으면 제외

@@ -47,9 +47,7 @@ const Cart = () => {
         0
     );
     const getImageUrl = (imagePath) => {
-        return imagePath.startsWith("/images/item/")
-          ? `http://localhost:8080${imagePath}`
-          : imagePath;
+        return imagePath;
       };
     return (
         <div className="cart">

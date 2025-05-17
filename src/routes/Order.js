@@ -51,7 +51,7 @@ function Order() {
  useEffect(() => {
         fetchUserAddress();
     }, []);
-  const API_URL = "http://localhost:8080";  // API 기본 URL
+ // API 기본 URL
   const navigate = useNavigate();  // 페이지 이동을 위한 hook
 
   // 주문 생성 함수 (주소 검증 후 서버에 요청)
@@ -65,7 +65,7 @@ function Order() {
       }
   }
     try {
-      await axios.post(`${API_URL}/order`, { id: product.id, count }, {
+      await axios.post(`/order`, { id: product.id, count }, {
         withCredentials: true,  // 쿠키를 포함한 요청
       });
       alert("Order Created!");
