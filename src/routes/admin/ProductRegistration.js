@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import classNames from 'classnames'; // classnames 라이브러리 import
-import './ProductRegistration.css'; // 기본 CSS 파일
+import classNames from 'classnames';
+import './ProductRegistration.css';
 
 const ProductRegistration = () => {
   const [form, setForm] = useState({
     name: '',
     price: '',
     content: '',
+    subcontent: '',  // 여기 추가
     stock: '',
     itemStatus: 'NEW',
     category: 'SOUP',
@@ -25,7 +26,7 @@ const ProductRegistration = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  // 폼 제출 시 페이지 리로딩 방지
+    e.preventDefault();
 
     const formData = new FormData();
     formData.append('itemFormDto', new Blob([JSON.stringify(form)], { type: 'application/json' }));
@@ -38,17 +39,17 @@ const ProductRegistration = () => {
         },
       });
       alert('상품 등록 성공! ID: ' + response.data);
-      window.location.reload(); // 상품 등록 성공 알림
+      window.location.reload();
     } catch (error) {
       console.error(error);
-      alert('상품 등록 실패: ' + (error.response?.data?.error || error.message)); // 오류 알림
+      alert('상품 등록 실패: ' + (error.response?.data?.error || error.message));
     }
   };
 
   return (
     <div>
       <h2 className="title">상품 등록</h2>
-      <form className="form" onSubmit={handleSubmit}> {/* form의 onSubmit에 핸들러 연결 */}
+      <form className="form" onSubmit={handleSubmit}>
         <input
           className={classNames('input-field')}
           name="name"
@@ -71,6 +72,13 @@ const ProductRegistration = () => {
           onChange={handleChange}
           placeholder="상품 설명"
         />
+        <textarea
+          className={classNames('input-field')}
+          name="subcontent"
+          value={form.subcontent}
+          onChange={handleChange}
+          placeholder="추가 설명"  // subcontent 입력 폼 추가
+        />
         <input
           className={classNames('input-field')}
           name="stock"
@@ -79,7 +87,6 @@ const ProductRegistration = () => {
           placeholder="재고"
           type="number"
         />
-
         <select
           className={classNames('input-field')}
           name="itemStatus"
@@ -89,7 +96,6 @@ const ProductRegistration = () => {
           <option value="BEST">BEST</option>
           <option value="NEW">NEW</option>
         </select>
-
         <select
           className={classNames('input-field')}
           name="category"
@@ -101,7 +107,6 @@ const ProductRegistration = () => {
           <option value="PASTA">Pasta</option>
           <option value="ANJU">Anju</option>
         </select>
-
         <select
           className={classNames('input-field')}
           name="subCategory"
@@ -114,14 +119,13 @@ const ProductRegistration = () => {
           <option value="SUSHI">Sushi</option>
           <option value="FRIED">Fried</option>
         </select>
-
         <input
           className={classNames('input-file')}
           type="file"
           multiple
           onChange={handleFileChange}
         />
-        <button className="submit-btn" type="submit">상품 등록</button> {/* type="submit"으로 변경 */}
+        <button className="submit-btn" type="submit">상품 등록</button>
       </form>
     </div>
   );

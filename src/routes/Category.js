@@ -16,7 +16,7 @@ const Category = () => {
             .then((response) => {
                 const filteredProducts = response.data.filter((product) => {
                     if (!product || !product.category) return false; // product가 없거나 category가 없으면 제외
-                    console.log(product);
+                  
                     if (category === '구이류') return product.category === 'ROAST';
                     if (category === '국물요리') return product.category === 'SOUP';
                     if (category === '면류') return product.category === 'PASTA';

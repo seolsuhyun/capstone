@@ -37,6 +37,7 @@ const SubCategoryPage = () => {
                 console.log(response.data.map(p => ({ name: p.name, subCategory: p.subCategory })));
                 const filteredProducts = response.data.filter((product) => {
                     return product.subCategory === subcategory;
+                    
                 });
 
                 setProducts(filteredProducts);

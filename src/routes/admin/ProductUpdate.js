@@ -8,6 +8,7 @@ const ProductUpdate = ({ product }) => {
     name: '',
     price: '',
     content: '',
+    subcontent: '',       // ← 추가
     stock: '',
     itemStatus: 'NEW',
     category: 'SOUP',
@@ -22,19 +23,20 @@ const ProductUpdate = ({ product }) => {
 
   // product가 변경될 때 form 상태 초기화
   useEffect(() => {
-    if (product) {
-      setForm({
-        name: product.name || '',
-        price: product.price || '',
-        content: product.content || '',
-        stock: product.stock || '',
-        itemStatus: product.itemStatus || 'NEW',
-        category: product.category || 'SOUP',
-        subCategory: product.subCategory || 'TANG',
-        itemImgIds: product.itemImgIds || [],
-      });
-    }
-  }, [product]);
+  if (product) {
+    setForm({
+      name: product.name || '',
+      price: product.price || '',
+      content: product.content || '',
+      subcontent: product.subcontent || '',  // ← 추가
+      stock: product.stock || '',
+      itemStatus: product.itemStatus || 'NEW',
+      category: product.category || 'SOUP',
+      subCategory: product.subCategory || 'TANG',
+      itemImgIds: product.itemImgIds || [],
+    });
+  }
+}, [product]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -96,13 +98,20 @@ const ProductUpdate = ({ product }) => {
           placeholder="가격"
           type="number"
         />
-        <textarea
+        <input
           className={classNames('input-field', 'product-description')}
           name="content"
           value={form.content}
           onChange={handleChange}
           placeholder="상품 설명"
         />
+        <textarea
+  className={classNames('input-field', 'product-subcontent')}
+  name="subcontent"
+  value={form.subcontent}
+  onChange={handleChange}
+  placeholder="부가 설명 (subcontent)"
+/>
         <input
           className={classNames('input-field', 'product-stock')}
           name="stock"

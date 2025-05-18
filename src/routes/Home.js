@@ -12,6 +12,7 @@ const Home = () => {
     axios
       .get("/items/list")
       .then((response) => {
+     
         setProducts(response.data);
       })
       .catch((error) => {
