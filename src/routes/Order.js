@@ -69,7 +69,7 @@ function Order() {
       await axios.post(`/order`, { id: product.id, count }, {
         withCredentials: true,
       });
-      alert("Order Created!");
+      alert("주문이 완료되었습니다.");
       navigate('/order/ordersuccess');
     } catch (error) {
       console.error("Error creating order", error);

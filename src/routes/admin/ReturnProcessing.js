@@ -55,6 +55,21 @@ const ReturnProcessing = () => {
         alert('오류가 발생했습니다.');
       });
   };
+  //취소요청
+  const handleCancelOrder = (orderId) => {
+    axios.patch(`/admin/${orderId}/ordercancel`)
+      .then(() => {
+        alert('주문이 취소되었습니다.');
+        return axios.get('/admin/orders');
+      })
+      .then((response) => {
+        setOrders(response.data);
+      })
+      .catch((error) => {
+        console.error('주문 취소 실패:', error);
+        alert('오류가 발생했습니다.');
+      });
+  };
 
   return (
     <div className="returnprocessing">
@@ -70,19 +85,20 @@ const ReturnProcessing = () => {
               <h3>주문번호: {order.orderId}</h3>
               <p>주문일자: {order.orderDate}</p>
               <p>주문 상태: {order.delivery}</p>
+              
               <p>회원 ID: {order.memberId}</p>
               <div className="returnprocessing-button-group">
                 <button
                   className={`returnprocessing-delivery-button ${order.delivery !== 'NOT' ? 'returnprocessing-button-disabled' : ''}`}
                   onClick={() => handleDeliveryUpdate(order.orderId, 'go')}
-                  disabled={order.delivery !== 'NOT'}
+                  disabled={order.delivery !== 'NOT'|| order.status === 'CANCEL'}
                 >
                   배송 시작
                 </button>
                 <button
                   className={`returnprocessing-delivery-button ${order.delivery !== 'GO' ? 'returnprocessing-button-disabled' : ''}`}
                   onClick={() => handleDeliveryUpdate(order.orderId, 'done')}
-                  disabled={order.delivery !== 'GO'}
+                  disabled={order.delivery !== 'GO'|| order.status === 'CANCEL'}
                 >
                   배송 완료
                 </button>
@@ -90,9 +106,16 @@ const ReturnProcessing = () => {
                 <button
                   className="returnprocessing-return-button"
                   onClick={() => handleReturnRequest(order.orderId)}
-                  disabled={order.delivery === 'RETURN'} // 반품 완료된 주문은 반품할 수 없음
+                  disabled={order.delivery === 'RETURN'|| order.status === 'CANCEL'} // 반품 완료된 주문은 반품할 수 없음
                 >
                   반품하기
+                </button>
+                <button
+                  className="returnprocessing-cancel-button"
+                  onClick={() => handleCancelOrder(order.orderId)}
+                  disabled={order.delivery !== 'NOT'} // 배송 전 상태만 취소 가능
+                >
+                  주문 취소
                 </button>
               </div>
               <h4>주문 상품</h4>

@@ -8,7 +8,7 @@ const ProductRegistration = () => {
     name: '',
     price: '',
     content: '',
-    subcontent: '',  // 여기 추가
+    subcontent: '', 
     stock: '',
     itemStatus: 'NEW',
     category: 'SOUP',
