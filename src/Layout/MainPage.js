@@ -98,22 +98,36 @@ const MainPage = () => {
   }, []);
   useEffect(() => {
     if (!userCode) return;
-
+  
     axios.get(`/orders/${encodeURIComponent(userCode)}`)
       .then((res) => {
         const orders = res.data;
-
-        const liked = orders
+  
+        // 추천상품 이름 리스트만 뽑기 (LIKE 추천 상품 중 orderItemDtoList를 flatten 해서 이름만 추출)
+        const likedNames = orders
           .filter(order => order.recommend === "LIKE")
-          .flatMap(order => order.orderItemDtoList);
-
-        const randomFive = shuffleAndPick(liked, 5);
+          .flatMap(order => order.orderItemDtoList)
+          .map(item => item.name);
+  
+        // 전체 상품 리스트(bestProducts나 newProducts 등)에 추천상품 이름과 같은 것만 필터링
+        const matchedItems = bestProducts.concat(newProducts).filter(item =>
+          likedNames.includes(item.name)
+        );
+  
+        // 중복제거 (있으면)
+        const uniqueMatchedItems = Array.from(new Set(matchedItems.map(i => i.id)))
+          .map(id => matchedItems.find(i => i.id === id));
+  
+        // 그 중에서 5개 무작위로 선택 (원한다면)
+        const randomFive = shuffleAndPick(uniqueMatchedItems, 5);
+  
         setLikedItems(randomFive);
       })
       .catch((err) => {
         console.error("추천 상품 불러오기 실패", err);
       });
-  }, [userCode]);
+  }, [userCode, bestProducts, newProducts]);
+  
 
 
   useEffect(() => {
@@ -158,7 +172,7 @@ const MainPage = () => {
                 <img src={getImageUrl(item.image)} alt={item.name} />
                 <div className="recommend-name">{item.name}</div>
                 <div className="recommend-price">{item.price.toLocaleString()}원</div>
-                <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
+                <Link to={`/detail/${item.itemId}`} state={item} className="buy-button small">
                   <img src={shopping_cart_img} alt="장바구니" />
                 </Link>
               </div>
@@ -261,7 +275,6 @@ const MainPage = () => {
           {bestProducts.map((item, idx) => (
             <div key={idx} className="discount-item">
               <img src={getImageUrl(item.image)} alt={item.name} className="discount-image" />
-              <div className="discount-brand">푸딩팩토리</div>
               <div className="discount-name">{item.name}</div>
 
               <div className="discount-price-box">

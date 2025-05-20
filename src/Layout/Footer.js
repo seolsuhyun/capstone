@@ -9,11 +9,7 @@ const Footer = () => {
           <h3>부기 푸드</h3>
           <hr />
           <ul className='footer-ul'>
-            <li>
-              <a href="/Info" className="footer-link">
-                브랜드 소개
-              </a>
-            </li>
+            
             <li>
               <a href="/Location" className="footer-link">
                 오는 길
@@ -25,13 +21,9 @@ const Footer = () => {
           <h3>고객 서비스</h3>
           <hr />
           <ul className='footer-ul'>
-            <li >
-              <a href="#brand-info" className="footer-link">
-                주문 배송 조회
-              </a>
-            </li>
+           
             <li>
-              <a href="#location" className="footer-link">
+              <a href="/Q&A" className="footer-link">
                 반품 신청
               </a>
             </li>
@@ -64,48 +56,33 @@ const Footer = () => {
             </li>
             <li>
               <a href="/category/구이류" className="footer-link">
-                구이류
+                구이/볶음
               </a>
             </li>
             <li>
-              <a href="/category/스프류" className="footer-link">
-                스프류
+              <a href="/category/국물요리" className="footer-link">
+                국물요리
               </a>
             </li>
             <li>
-              <a href="/category/파스타류" className="footer-link">
-                파스타류
+              <a href="/category/면류" className="footer-link">
+                면류
+              </a>
+            </li>
+            <li>
+              <a href="/category/일식" className="footer-link">
+                일식
+              </a>
+            </li>
+            <li>
+              <a href="/category/안주" className="footer-link">
+                안주
               </a>
             </li>
           </ul>
         </div>
 
-        <div className="footer-content">
-          <h3>소셜 미디어</h3>
-          <hr />
-          <ul className='footer-ul'>
-            <li >
-              <a href="#brand-info" className="footer-link">
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a href="#location" className="footer-link">
-                Facebook
-              </a>
-            </li>
-            <li>
-              <a href="#location" className="footer-link">
-                Youtube
-              </a>
-            </li>
-            <li>
-              <a href="#location" className="footer-link">
-                Twitter
-              </a>
-            </li>
-          </ul>
-        </div>
+       
       </div>
       <div>
       </div>

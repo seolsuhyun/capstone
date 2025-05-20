@@ -219,19 +219,26 @@ function Orders() {
             alert("모든 동의사항을 체크해주세요.");
             return;
         }
-
-        if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
-            const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
+    
+        const fullAddress = roadAddress.trim() + " " + detailAddress.trim();
+    
+        // 저장된 주소와 비교
+        const isDuplicateAddress = addressList.some(addr =>
+            (addr.address + " " + addr.addressDetail).trim() === fullAddress
+        );
+    
+        if (!isDuplicateAddress) {
+            const wantToSave = window.confirm("주소를 새로 추가하시겠습니까?");
             if (wantToSave) {
-                await saveAddressToServer();
+                await saveAddressToServer(); // 주소 저장 함수
             }
         }
-
+    
         const orderDtos = products.map(item => ({
             id: item.itemId,
             count: item.count
         }));
-
+    
         try {
             await axios.post("/orders", orderDtos, { withCredentials: true });
             await fetchCart();
@@ -242,6 +249,7 @@ function Orders() {
             alert("주문 처리 중 오류가 발생했습니다.");
         }
     };
+    
     const getImageUrl = (imagePath) => {
         return imagePath;
       };

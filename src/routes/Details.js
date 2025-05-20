@@ -13,7 +13,7 @@ const Detail = () => {
   // LoginContext에서 로그인 상태를 가져옵니다.
   const { isLoggedIn } = useLogin();
   const { addToCart } = useCart();
-  console.log("상세정보:", product.subcontent);
+  console.log("상세정보:", product);
   const handleOrderClick = () => {
     // 로그인이 되어 있지 않으면 경고문을 띄운 후 로그인 페이지로 이동
     if (!isLoggedIn) {

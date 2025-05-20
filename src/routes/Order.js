@@ -57,25 +57,38 @@ function Order() {
   // 주문 생성 함수 (주소 검증 후 서버에 요청)
   const createOrder = async () => {
     if (!validateAddress()) return;  // 주소 검증 실패 시 종료
-
-    if (!hasSavedAddress) { // 👉 주소가 없는 경우에만 confirm 띄우기
-      const wantToSave = window.confirm("다음에도 이 주소를 사용하시겠습니까?");
+  
+    if (isNewAddress()) {  // 새로운 주소면 저장할지 물어보기
+      const wantToSave = window.confirm(" 주소를 추가하시겠습니까?");
       if (wantToSave) {
         await saveAddressToServer();
       }
     }
+  
     try {
       await axios.post(`/order`, { id: product.id, count }, {
-        withCredentials: true,  // 쿠키를 포함한 요청
+        withCredentials: true,
       });
       alert("Order Created!");
-      navigate('/order/ordersuccess');  // 주문 생성 후 성공 페이지로 이동
+      navigate('/order/ordersuccess');
     } catch (error) {
       console.error("Error creating order", error);
       alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
     }
   };
 
+  const isNewAddress = () => {
+    console.log("주소 비교 중:", addressList, roadAddress, detailAddress);
+    return !addressList.some(addr => {
+      const match = 
+      addr.address.trim() === roadAddress.trim() &&
+      addr.addressDetail.trim() === detailAddress.trim();
+    
+    console.log(`비교: ${addr.address} vs ${roadAddress} -> ${match}`);
+    return match;
+    
+    });
+  };
   // 총 금액 계산 함수
   const calculateTotalPrice = () => {
     const total = totalPrice - couponDiscount - pointsUsage + shippingCost;
@@ -299,9 +312,7 @@ function Order() {
     }
   };
   const getImageUrl = (imagePath) => {
-    return imagePath.startsWith("/images/item/")
-      ? `http://localhost:8080${imagePath}`
-      : imagePath;
+    return imagePath;
   };
   return (
     <div className="order">

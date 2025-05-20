@@ -66,20 +66,14 @@ const Mypage = () => {
       return; // 취소 처리 중단
     }
   };
-
   const handleWithdraw = async () => {
-    console.log("userId", userId);
     const confirmed = window.confirm("정말 회원 탈퇴하시겠습니까?");
     if (!confirmed) return;
-
+  
     try {
-      const response = await fetch(`/${userId}/deleteMember`, {
-        method: "POST",
-      });
-
-      if (response.ok) {
+      const response = await axios.delete("/deleteMember");
+      if (response.status === 200) {
         alert("회원 탈퇴가 완료되었습니다.");
-        // 탈퇴 후 로그아웃 처리 또는 메인 페이지로 리디렉션
         window.location.href = "/";
       } else {
         alert("탈퇴에 실패했습니다.");
@@ -89,6 +83,8 @@ const Mypage = () => {
       alert("서버 오류가 발생했습니다.");
     }
   };
+  
+  
   const handleDeleteAddress = (addressId) => {
     const confirmed = window.confirm("배송지를 삭제하시겠습니까?");
     if (!confirmed) return;
@@ -147,16 +143,7 @@ const Mypage = () => {
       <div className="user-info">
         <p className="user-name">고객님, <span>{userName}</span>님</p>
         <p className="user-grade">현재 등급: <span className="grade">{userGrade}</span></p>
-        <div className="user-details">
-          <div className="points">
-            <h3>포인트</h3>
-            <p>{points} 포인트</p>
-          </div>
-          <div className="coupons">
-            <h3>쿠폰</h3>
-            <p>{coupons} 개</p>
-          </div>
-        </div>
+        
         <button className="withdraw-button" onClick={handleWithdraw}>
           회원 탈퇴
         </button>
