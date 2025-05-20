@@ -152,8 +152,8 @@ const Header = () => {
                     구이/볶음
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
-                        <li onClick={() => navigate('/subcategory/FRIED')}>튀김류</li>
-                        <li onClick={() => navigate('/subcategory/BOKKEUM')}>볶음류</li>
+                        <li onClick={() => navigate('/category/ROAST/subcategory/FRIED')}>튀김류</li>
+                        <li onClick={() => navigate('/category/ROAST/subcategory/BOKKEUM')}>볶음류</li>
                       </ul>
                     </div>
                   </li>
@@ -161,8 +161,8 @@ const Header = () => {
                   <li className="category-item subcategory-parent" onClick={() => navigate('/category/국물요리')}>국물 요리
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
-                        <li onClick={() => navigate('/subcategory/JJIGAE')}>국/찌개</li>
-                        <li onClick={() => navigate('/subcategory/TANG')}>탕류</li>
+                        <li onClick={() => navigate('/category/SOUP/subcategory/JJIGAE')}>국/찌개</li>
+                        <li onClick={() => navigate('/category/SOUP/subcategory/TANG')}>탕류</li>
                       </ul>
                     </div>
                   </li>
@@ -170,7 +170,7 @@ const Header = () => {
                   <li className="category-item subcategory-parent" onClick={() => navigate('/category/면류')}>면류
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
-                        <li onClick={() => navigate('/subcategory/Noodle')}>파스타</li>
+                        <li onClick={() => navigate('/category/PASTA/subcategory/Noodle')}>파스타</li>
                       </ul>
                     </div>
                   </li>
@@ -178,10 +178,10 @@ const Header = () => {
                   <li className="category-item subcategory-parent" onClick={() => navigate('/category/일식')}>일식
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
-                        <li onClick={() => navigate('/subcategory/SUSHI')}>초밥</li>
-                        <li onClick={() => navigate('/subcategory/FISH')}>생선류</li>
-                        <li onClick={() => navigate('/subcategory/JFRIED')}>튀김류</li>
-                        <li onClick={() => navigate('/subcategory/REST')}>기타</li>
+                        <li onClick={() => navigate('/category/JFOOD/subcategory/SUSHI')}>초밥</li>
+                        <li onClick={() => navigate('/category/JFOOD/subcategory/FISH')}>생선류</li>
+                        <li onClick={() => navigate('/category/JFOOD/subcategory/JFRIED')}>튀김류</li>
+                        <li onClick={() => navigate('/category/JFOOD/subcategory/REST')}>기타</li>
                       </ul>
                     </div>
                   </li>
@@ -189,7 +189,9 @@ const Header = () => {
                   <li className="category-item subcategory-parent" onClick={() => navigate('/category/안주')}>안주
                     <div className="subcategory-menu" onClick={(e) => e.stopPropagation()}>
                       <ul>
-                        <li onClick={() => navigate('/subcategory/SORBET')}>샤베트</li>
+                        <li onClick={() => navigate('/category/ANJU/subcategory/SORBET')}>샤베트</li>
+                        <li onClick={() => navigate('/category/ANJU/subcategory/GRILL')}>구운 안주</li>
+                        <li onClick={() => navigate('/category/ANJU/subcategory/REST')}>기타</li>
                       </ul>
                     </div>
                   </li>

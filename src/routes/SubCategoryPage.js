@@ -4,7 +4,7 @@ import axios from 'axios';
 import "./Category.css"; // ✅ 기존 스타일 그대로 적용
 
 const SubCategoryPage = () => {
-    const { subcategory } = useParams();  // 🔧 'category' → 'subcategory'로 수정
+    const { category, subcategory } = useParams();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -24,6 +24,7 @@ const SubCategoryPage = () => {
             case 'FISH': return '생선류';
             case 'JFRIED': return '튀김류';
             case 'REST': return '기타';
+            case 'GRILL': return '구운 안주';
 
             default: return code;
         }
@@ -35,10 +36,9 @@ const SubCategoryPage = () => {
         axios.get('/items/list')
             .then((response) => {
                 console.log(response.data.map(p => ({ name: p.name, subCategory: p.subCategory })));
-                const filteredProducts = response.data.filter((product) => {
-                    return product.subCategory === subcategory;
-                    
-                });
+                const filteredProducts = response.data.filter(product =>
+                    product.category === category && product.subCategory === subcategory
+                );
 
                 setProducts(filteredProducts);
                 setCurrentPage(1); // 새 카테고리 선택 시 첫 페이지로 리셋
@@ -48,7 +48,7 @@ const SubCategoryPage = () => {
                 console.error("에러", error);
                 setLoading(false);
             });
-    }, [subcategory]);
+    }, [category, subcategory]);
 
     // 페이지별로 잘라내기
     const indexOfLastItem = currentPage * itemsPerPage;
