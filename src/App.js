@@ -61,9 +61,9 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/orders" element={<Orders />} />
-          <Route path="/subcategory/:subcategory" element={<SubCategoryPage />} />
+          <Route path="/category/:category/subcategory/:subcategory" element={<SubCategoryPage />} />
           <Route path="/oauth/login/callback" element={<KakaoCallback />} />
-          <Route path="/Aisearch" element={<Aisearch/>} />
+          <Route path="/Aisearch" element={<Aisearch />} />
         </Route>
 
         {/* 관리자용 레이아웃 (헤더/푸터 없음) */}
