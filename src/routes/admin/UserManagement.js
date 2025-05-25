@@ -17,23 +17,23 @@ const UserManagement = () => {
   }, []);
 
   // 회원 삭제 함수
-// 회원 삭제 함수
-const deleteMember = (id, name) => {
-  // 삭제 확인 팝업
-  const confirmDelete = window.confirm(`${name} 회원을 삭제하시겠습니까?`);
-  if (!confirmDelete) return;  // 취소 클릭 시 삭제하지 않음
+  // 회원 삭제 함수
+  const deleteMember = (id, name) => {
+    // 삭제 확인 팝업
+    const confirmDelete = window.confirm(`${name} 회원을 삭제하시겠습니까?`);
+    if (!confirmDelete) return;  // 취소 클릭 시 삭제하지 않음
 
-  axios.post(`/admin/${id}/deleteMember`)  // 경로 수정
-    .then(() => {
-      // 삭제 후 회원 목록 새로고침
-      setMembers(members.filter((member) => member.id !== id));
-      alert('회원이 삭제되었습니다.');
-    })
-    .catch((error) => {
-      console.error('회원 삭제 오류:', error);
-      alert('회원 삭제에 실패했습니다.');
-    });
-};
+    axios.post(`/admin/${id}/deleteMember`)  // 경로 수정
+      .then(() => {
+        // 삭제 후 회원 목록 새로고침
+        setMembers(members.filter((member) => member.id !== id));
+        alert('회원이 삭제되었습니다.');
+      })
+      .catch((error) => {
+        console.error('회원 삭제 오류:', error);
+        alert('회원 삭제에 실패했습니다.');
+      });
+  };
 
 
 
@@ -44,7 +44,7 @@ const deleteMember = (id, name) => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>이메일</th>
+            <th>아이디</th>
             <th>이름</th>
             <th>역할</th>
             <th>작업</th>
@@ -54,12 +54,12 @@ const deleteMember = (id, name) => {
           {members.map((member) => (
             <tr key={member.id}>
               <td>{member.id}</td>
-              <td>{member.email}</td>
+              <td>{member.userCode}</td>
               <td>{member.name}</td>
               <td>{member.role}</td>
               <td>
-  <button onClick={() => deleteMember(member.id, member.name)}>삭제</button>
-</td>
+                <button onClick={() => deleteMember(member.id, member.name)}>삭제</button>
+              </td>
 
 
             </tr>
