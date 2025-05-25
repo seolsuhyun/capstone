@@ -23,20 +23,20 @@ const ProductUpdate = ({ product }) => {
 
   // product가 변경될 때 form 상태 초기화
   useEffect(() => {
-  if (product) {
-    setForm({
-      name: product.name || '',
-      price: product.price || '',
-      content: product.content || '',
-      subcontent: product.subcontent || '',  // ← 추가
-      stock: product.stock || '',
-      itemStatus: product.itemStatus || 'NEW',
-      category: product.category || 'SOUP',
-      subCategory: product.subCategory || 'TANG',
-      itemImgIds: product.itemImgIds || [],
-    });
-  }
-}, [product]);
+    if (product) {
+      setForm({
+        name: product.name || '',
+        price: product.price || '',
+        content: product.content || '',
+        subcontent: product.subcontent || '',  // ← 추가
+        stock: product.stock || '',
+        itemStatus: product.itemStatus || 'NEW',
+        category: product.category || 'SOUP',
+        subCategory: product.subCategory || 'TANG',
+        itemImgIds: product.itemImgIds || [],
+      });
+    }
+  }, [product]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -106,12 +106,12 @@ const ProductUpdate = ({ product }) => {
           placeholder="상품 설명"
         />
         <textarea
-  className={classNames('input-field', 'product-subcontent')}
-  name="subcontent"
-  value={form.subcontent}
-  onChange={handleChange}
-  placeholder="부가 설명 (subcontent)"
-/>
+          className={classNames('input-field', 'product-subcontent')}
+          name="subcontent"
+          value={form.subcontent}
+          onChange={handleChange}
+          placeholder="부가 설명 (subcontent)"
+        />
         <input
           className={classNames('input-field', 'product-stock')}
           name="stock"
@@ -140,7 +140,9 @@ const ProductUpdate = ({ product }) => {
           <option value="ROAST">Roast</option>
           <option value="PASTA">Pasta</option>
           <option value="ANJU">Anju</option>
+          <option value="JFOOD">JFood</option>
         </select>
+
 
         <select
           className={classNames('input-field', 'product-subcategory')}
@@ -151,9 +153,18 @@ const ProductUpdate = ({ product }) => {
           <option value="Noodle">Noodle</option>
           <option value="JJIGAE">Jjigae</option>
           <option value="TANG">Tang</option>
-          <option value="SUSHI">Sushi</option>
+          <option value="FISH">Fish</option>
           <option value="FRIED">Fried</option>
+          <option value="BOKKEUM">Bokkeum</option>
+          <option value="SORBET">Sorbet</option>
+          <option value="RAMEN">Ramen</option>
+          <option value="REST">Rest</option>
+          <option value="NABE">Nabe</option>
+          <option value="JFRIED">JFried</option>
+          <option value="SUSHI">Sushi</option>
+          <option value="GRILL">Grill</option>
         </select>
+
 
         <input
           className={classNames('input-file')}

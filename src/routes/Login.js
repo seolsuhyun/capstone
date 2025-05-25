@@ -35,7 +35,8 @@ const Login = () => {
       // 로그인 성공 처리
       if (response.status === 200) {
         alert('로그인 성공!');
-        login(response.data.name, response.data.userCode, response.data.role, response.data.id);  // 로그인 상태 업데이트
+        console.log(response.data);
+        login(response.data.name, response.data.userCode, response.data.role, response.data.id,response.data.user);  // 로그인 상태 업데이트
         navigate('/', { state: { userData: response.data } });
       } else {
         alert('아이디 또는 비밀번호가 틀렸습니다.');

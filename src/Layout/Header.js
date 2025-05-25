@@ -24,7 +24,7 @@ const Header = () => {
         });
 
         if (response.status === 200) {
-          login(response.data.name, response.data.userCode, response.data.role, response.data.id);
+          login(response.data.name, response.data.userCode, response.data.role, response.data.id,response.data.user); // 로그인 상태 업데이트
         }
       } catch (error) {
         if (error.response && (error.response.status === 404 || error.response.status === 401)) {

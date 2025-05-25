@@ -102,10 +102,11 @@ const ProductRegistration = () => {
           value={form.category}
           onChange={handleChange}
         >
-          <option value="SOUP">Soup</option>
+           <option value="SOUP">Soup</option>
           <option value="ROAST">Roast</option>
           <option value="PASTA">Pasta</option>
           <option value="ANJU">Anju</option>
+          <option value="JFOOD">JFood</option>
         </select>
         <select
           className={classNames('input-field')}
@@ -113,11 +114,19 @@ const ProductRegistration = () => {
           value={form.subCategory}
           onChange={handleChange}
         >
-          <option value="Noodle">Noodle</option>
+           <option value="Noodle">Noodle</option>
           <option value="JJIGAE">Jjigae</option>
           <option value="TANG">Tang</option>
-          <option value="SUSHI">Sushi</option>
+          <option value="FISH">Fish</option>
           <option value="FRIED">Fried</option>
+          <option value="BOKKEUM">Bokkeum</option>
+          <option value="SORBET">Sorbet</option>
+          <option value="RAMEN">Ramen</option>
+          <option value="REST">Rest</option>
+          <option value="NABE">Nabe</option>
+          <option value="JFRIED">JFried</option>
+          <option value="SUSHI">Sushi</option>
+          <option value="GRILL">Grill</option>
         </select>
         <input
           className={classNames('input-file')}

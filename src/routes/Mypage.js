@@ -6,14 +6,13 @@
   import { useNavigate } from "react-router-dom";
 
   const Mypage = () => {
-    const { userName, userCode, userId } = useLogin();
+    const { userName, userCode, userGrade } = useLogin();
     const [addresses, setAddresses] = useState([]);
     const [showAddressPopup, setShowAddressPopup] = useState(false);
 
     const navigate = useNavigate();
     const points = 1250;
     const coupons = 5;
-    const userGrade = "VIP";
     const discount = 0;
     const shippingCost = 3000;
     const [orders, setOrders] = useState([]);

@@ -44,7 +44,7 @@ const deleteMember = (id, name) => {
         <thead>
           <tr>
             <th>ID</th>
-            <th>이메일</th>
+            
             <th>이름</th>
             <th>역할</th>
             <th>작업</th>
@@ -54,7 +54,7 @@ const deleteMember = (id, name) => {
           {members.map((member) => (
             <tr key={member.id}>
               <td>{member.id}</td>
-              <td>{member.email}</td>
+            
               <td>{member.name}</td>
               <td>{member.role}</td>
               <td>
