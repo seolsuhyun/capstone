@@ -26,7 +26,7 @@ function Order() {
   const [couponDiscount, setCouponDiscount] = useState(1000);  // 쿠폰 할인 금액
   const [couponCode, setCouponCode] = useState('');
   const [pointsUsage, setPointsUsage] = useState(0);  // 사용 포인트
-  const [shippingCost, setShippingCost] = useState(3500);  // 기본 배송비
+ // 기본 배송비
   const [isPersonalInfoAgreed, setIsPersonalInfoAgreed] = useState(false);  // 개인정보 처리 방침 동의 여부
   const [isTermsAgreed, setIsTermsAgreed] = useState(false);  // 이용 약관 동의 여부
   const [isPaymentAgreed, setIsPaymentAgreed] = useState(false);  // 결제 동의 여부
@@ -56,10 +56,10 @@ function Order() {
 
   // 주문 생성 함수 (주소 검증 후 서버에 요청)
   const createOrder = async () => {
-    if (!validateAddress()) return;  // 주소 검증 실패 시 종료
+    if (!validateAddress()) return;
   
-    if (isNewAddress()) {  // 새로운 주소면 저장할지 물어보기
-      const wantToSave = window.confirm(" 주소를 추가하시겠습니까?");
+    if (isNewAddress()) {
+      const wantToSave = window.confirm("주소를 추가하시겠습니까?");
       if (wantToSave) {
         await saveAddressToServer();
       }
@@ -72,26 +72,37 @@ function Order() {
       alert("주문이 완료되었습니다.");
       navigate('/order/ordersuccess');
     } catch (error) {
-      console.error("Error creating order", error);
-      alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
+      // 서버가 아예 응답하지 않은 경우 (서버 꺼짐 등)
+      if (!error.response) {
+        alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+        return;
+      }
+  
+      // 서버는 응답했지만 에러 메시지를 포함한 경우
+      if (error.response.data && error.response.data.error) {
+        alert(error.response.data.error);
+      } else {
+        alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
+      }
     }
   };
+  
 
   const isNewAddress = () => {
-    console.log("주소 비교 중:", addressList, roadAddress, detailAddress);
+  
     return !addressList.some(addr => {
       const match = 
       addr.address.trim() === roadAddress.trim() &&
       addr.addressDetail.trim() === detailAddress.trim();
     
-    console.log(`비교: ${addr.address} vs ${roadAddress} -> ${match}`);
+  
     return match;
     
     });
   };
   // 총 금액 계산 함수
   const calculateTotalPrice = () => {
-    const total = totalPrice - couponDiscount - pointsUsage + shippingCost;
+    const total = totalPrice - couponDiscount - pointsUsage ;
     return total < 0 ? 0 : total;  // 0 미만으로는 안되도록 처리
   };
 
@@ -294,8 +305,12 @@ function Order() {
         setDetailAddress(latest.addressDetail);
         setHasSavedAddress(true);
       }
-    } catch (err) {
-      console.error("주소 불러오기 실패:", err);
+    } catch (error) {
+      if (!error.response) {
+        alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+        return;
+      }
+      console.error("주소 불러오기 실패:", error);
     }
   };
   const saveAddressToServer = async () => {
@@ -308,6 +323,10 @@ function Order() {
       await axios.post("/address", data, { withCredentials: true });
       console.log("주소 저장 성공");
     } catch (error) {
+      if (!error.response) {
+      alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+      return;
+    }
       console.error("주소 저장 실패:", error);
     }
   };
@@ -452,7 +471,7 @@ function Order() {
               <div className="price-item"><label>상품 가격</label><p>{totalPrice.toLocaleString()} 원</p></div>
               <div className="price-item"><label>쿠폰 할인</label><p>{couponDiscount.toLocaleString()} 원</p></div>
               <div className="price-item"><label>포인트 사용</label><p>{pointsUsage.toLocaleString()} 원</p></div>
-              <div className="price-item"><label>배송비</label><p>{shippingCost.toLocaleString()} 원</p></div>
+           
             </div>
             <div className="final-price">
               <h3>최종 결제금액</h3>

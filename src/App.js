@@ -32,6 +32,7 @@ import SubCategoryPage from "./routes/SubCategoryPage";
 import KakaoCallback from "./routes/KakaoCallback";
 import Aisearch from "./routes/Aisearch";
 axios.defaults.baseURL = "https://api.bugifood.shop:8080";
+//axios.defaults.baseURL = "http://localhost:8080";
 axios.defaults.withCredentials = true;
 
 function App() {

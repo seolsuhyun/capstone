@@ -35,7 +35,7 @@ function Orders() {
     const [couponDiscount, setCouponDiscount] = useState(0);
     const [couponCode, setCouponCode] = useState("");
     const [pointsUsage, setPointsUsage] = useState(0);
-    const [shippingCost, setShippingCost] = useState(3500);
+  
 
     // 동의 체크
     const [isPersonalInfoAgreed, setIsPersonalInfoAgreed] = useState(false);
@@ -57,7 +57,7 @@ function Orders() {
 
     const totalPrice = products.reduce((acc, item) => acc + item.price * item.count, 0);
     const calculateTotalPrice = () => {
-        const total = totalPrice - couponDiscount - pointsUsage + shippingCost;
+        const total = totalPrice - couponDiscount - pointsUsage ;
         return total < 0 ? 0 : total;
     };
 
@@ -99,6 +99,10 @@ function Orders() {
                 setHasSavedAddress(true);
             }
         } catch (err) {
+            if (!err.response) {
+                alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+                return;
+              }
             console.error("주소 불러오기 실패:", err);
         }
     };
@@ -127,6 +131,10 @@ function Orders() {
             await axios.post("/address", data, { withCredentials: true });
             console.log("주소 저장 성공");
         } catch (error) {
+            if (!error.response) {
+                alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+                return;
+              }
             console.error("주소 저장 실패:", error);
         }
     };
@@ -244,9 +252,16 @@ function Orders() {
             await fetchCart();
             alert("장바구니 주문이 완료되었습니다!");
             navigate("/order/ordersuccess");
-        } catch (err) {
-            console.error("주문 실패:", err);
-            alert("주문 처리 중 오류가 발생했습니다.");
+        } catch (error) {
+            if (!error.response) {
+                alert("서버에 연결할 수 없습니다. 나중에 다시 시도해주세요.");
+                return;
+              }
+              if (error.response.data && error.response.data.error) {
+                alert(error.response.data.error);
+              } else {
+                alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
+              }
         }
     };
     
@@ -361,7 +376,7 @@ function Orders() {
                             <div className="price-item"><label>상품 가격</label><p>{totalPrice.toLocaleString()} 원</p></div>
                             <div className="price-item"><label>쿠폰 할인</label><p>{couponDiscount.toLocaleString()} 원</p></div>
                             <div className="price-item"><label>포인트 사용</label><p>{pointsUsage.toLocaleString()} 원</p></div>
-                            <div className="price-item"><label>배송비</label><p>{shippingCost.toLocaleString()} 원</p></div>
+                       
                         </div>
                         <div className="final-price">
                             <h3>최종 결제금액</h3>

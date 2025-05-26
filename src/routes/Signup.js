@@ -24,6 +24,8 @@ const Signup = () => {
       alert('회원가입 완료');
       navigate("/Signup/SignupOk", { state: { userName: user.name } });
     } catch (error) {
+      if (error.response && error.response.status === 409) {
+        alert('이미 가입된 아이디입니다.');}
       console.log('회원가입 에러: ' + error);
     }
   };
