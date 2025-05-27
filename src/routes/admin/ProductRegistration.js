@@ -8,7 +8,7 @@ const ProductRegistration = () => {
     name: '',
     price: '',
     content: '',
-    subcontent: '', 
+    subcontent: '',
     stock: '',
     itemStatus: 'NEW',
     category: 'SOUP',
@@ -95,6 +95,7 @@ const ProductRegistration = () => {
         >
           <option value="BEST">BEST</option>
           <option value="NEW">NEW</option>
+          <option value="DISC">DISCOUNT</option>
         </select>
         <select
           className={classNames('input-field')}
@@ -102,7 +103,7 @@ const ProductRegistration = () => {
           value={form.category}
           onChange={handleChange}
         >
-           <option value="SOUP">Soup</option>
+          <option value="SOUP">Soup</option>
           <option value="ROAST">Roast</option>
           <option value="PASTA">Pasta</option>
           <option value="ANJU">Anju</option>
@@ -114,7 +115,7 @@ const ProductRegistration = () => {
           value={form.subCategory}
           onChange={handleChange}
         >
-           <option value="Noodle">Noodle</option>
+          <option value="Noodle">Noodle</option>
           <option value="JJIGAE">Jjigae</option>
           <option value="TANG">Tang</option>
           <option value="FISH">Fish</option>
