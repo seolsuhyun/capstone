@@ -24,7 +24,7 @@ const Category = () => {
                     if (category === '안주') return product.category === 'ANJU';
                     if (category === "신상품") return product.itemStatus === 'NEW';
                     if (category === "베스트") return product.itemStatus === 'BEST';
-                    if (category === "할인특가") return product.itemStatus === 'NEW';
+                    if (category === "할인특가") return product.itemStatus === 'DISC';
                     return true;
                 });
                 setProducts(filteredProducts);

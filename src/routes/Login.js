@@ -13,7 +13,7 @@ const Login = () => {
 
   // 카카오 로그인 URL 생성
   const kakaoClientId = 'acfbac7198077c2aa2e004e4e3c797c5';  // 환경변수에서 받아온 값
-  const redirectUri = 'http://api.bugifood.shop:8080/oauth/login/callback';  // 환경변수에서 받아온 값
+  const redirectUri = 'https://api.bugifood.shop:8080/oauth/login/callback'; 
   const kakaoLoginUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${encodeURIComponent(redirectUri)}`;
 
   const handleSubmit = async (e) => {

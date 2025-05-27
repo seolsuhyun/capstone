@@ -82,7 +82,7 @@ const Aisearch = () => {
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        placeholder="부기푸드"
+                        placeholder="ex) 김치들어간 음식 추천해줘"
                         className="ai-search-bar"
                     />
                     <button type="submit" className="ai-search-btn">

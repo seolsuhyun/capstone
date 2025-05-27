@@ -82,7 +82,8 @@ function Order() {
       if (error.response.data && error.response.data.error) {
         alert(error.response.data.error);
       } else {
-        alert("주문 처리에 실패했습니다. 다시 시도해주세요.");
+       
+        alert("주문 처리에 실패했습니다. 다시 시도해주세요. "+error.response.data.message);
       }
     }
   };
