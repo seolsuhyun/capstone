@@ -39,6 +39,7 @@ const MainPage = () => {
   const [bestProducts, setBestProducts] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
   const [likedItems, setLikedItems] = useState([]);
+  const [discProducts, setDiscProducts] = useState([]);
 
   const { userName, userCode, userId } = useLogin();
   const [showPopup, setShowPopup] = useState(false);
@@ -73,22 +74,30 @@ const MainPage = () => {
     axios
       .get("/items/list")
       .then((response) => {
-        console.log("서버 응답 데이터:", response.data);
         const allItems = response.data;
-
+  
+        // 신규 상품 4개
         const newItems = allItems.filter(item => item.itemStatus === 'NEW');
-        const shuffledNew = [...newItems].sort(() => 0.5 - Math.random());
-        const selectedNew = shuffledNew.slice(0, 4);
+        const selectedNew = shuffleAndPick(newItems, 4);
+  
+        // 베스트 상품 5개
         const bestItems = allItems.filter(item => item.itemStatus === 'BEST');
-
-
+        const selectedBest = shuffleAndPick(bestItems, 5);
+  
+        // 할인 상품 5개
+        const discItems = allItems.filter(item => item.itemStatus === 'DISC');
+        const selectedDisc = shuffleAndPick(discItems, 5);
+  
         setNewProducts(selectedNew);
-        setBestProducts(bestItems);
+        setBestProducts(selectedBest);
+        setDiscProducts(selectedDisc);
       })
       .catch((error) => {
         console.error("에러", error);
       });
   }, []);
+  
+  
   useEffect(() => {
     const popupTimer = setTimeout(() => {
       setShowPopup(true);
@@ -260,7 +269,7 @@ const MainPage = () => {
 
         </div>
         <div className="more-button-wrapper">
-          <button className="more-button" onClick={() => navigate('/category/new')}>신상품 더보기 &gt;</button>
+          <button className="more-button" onClick={() => navigate('/category/신상품')}>신상품 더보기 &gt;</button>
         </div>
 
       </div>
@@ -272,25 +281,26 @@ const MainPage = () => {
         <h2 className="discount-title">금주할인특가</h2>
 
         <div className="discount-items">
-          {bestProducts.map((item, idx) => (
-            <div key={idx} className="discount-item">
-              <img src={getImageUrl(item.image)} alt={item.name} className="discount-image" />
-              <div className="discount-name">{item.name}</div>
+  {discProducts.map((item, idx) => (
+    <div key={idx} className="discount-item">
+      <img src={getImageUrl(item.image)} alt={item.name} className="discount-image" />
+      <div className="discount-name">{item.name}</div>
 
-              <div className="discount-price-box">
-                <div className="discount-final-row">
-                  <div className="discount-original">{item.price.toLocaleString()}원</div>
-                  <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
-                    <img src={shopping_cart_img} alt="장바구니" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
+      <div className="discount-price-box">
+        <div className="discount-final-row">
+          <div className="discount-original">{item.price.toLocaleString()}원</div>
+          <Link to={`/detail/${item.id}`} state={item} className="buy-button small">
+            <img src={shopping_cart_img} alt="장바구니" />
+          </Link>
         </div>
+      </div>
+    </div>
+  ))}
+</div>
+
 
         <div className="more-button-wrapper">
-          <button className="more-button" onClick={() => navigate('/category/discount')}>상품 더보기 &gt;</button>
+          <button className="more-button" onClick={() => navigate('/category/할인특가')}>상품 더보기 &gt;</button>
         </div>
       </div>
 
@@ -323,7 +333,7 @@ const MainPage = () => {
           ))}
         </div>
         <div className="more-button-wrapper">
-          <button className="more-button" onClick={() => navigate('/category/best')}>상품 더보기 &gt;</button>
+          <button className="more-button" onClick={() => navigate('/category/베스트')}>상품 더보기 &gt;</button>
         </div>
       </div>
     </div>
