@@ -128,6 +128,7 @@ const ProductUpdate = ({ product }) => {
         >
           <option value="BEST">BEST</option>
           <option value="NEW">NEW</option>
+          <option value="DISC">DISCOUNT</option>
         </select>
 
         <select
