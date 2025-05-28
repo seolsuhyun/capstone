@@ -12,13 +12,17 @@ const Home = () => {
     axios
       .get("/items/list")
       .then((response) => {
-     
-        setProducts(response.data);
+        // 상품 이름을 기준으로 가나다순 정렬
+        const sortedProducts = response.data.sort((a, b) =>
+          a.name.localeCompare(b.name, "ko-KR")
+        );
+        setProducts(sortedProducts);
       })
       .catch((error) => {
         console.error("에러", error);
       });
   }, []);
+  
 
 
   // 현재 페이지에 맞는 상품 목록 자르기

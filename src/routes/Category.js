@@ -13,28 +13,34 @@ const Category = () => {
     useEffect(() => {
         setLoading(true);
         axios.get('/items/list')
-            .then((response) => {
-                const filteredProducts = response.data.filter((product) => {
-                    if (!product || !product.category) return false; // product가 없거나 category가 없으면 제외
-                  
-                    if (category === '구이류') return product.category === 'ROAST';
-                    if (category === '국물요리') return product.category === 'SOUP';
-                    if (category === '면류') return product.category === 'PASTA';
-                    if (category === '일식') return product.category === 'JFOOD';
-                    if (category === '안주') return product.category === 'ANJU';
-                    if (category === "신상품") return product.itemStatus === 'NEW';
-                    if (category === "베스트") return product.itemStatus === 'BEST';
-                    if (category === "할인특가") return product.itemStatus === 'DISC';
-                    return true;
-                });
-                setProducts(filteredProducts);
-                setCurrentPage(1); // 새 카테고리 선택 시 첫 페이지로 리셋
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("에러", error);
-                setLoading(false);
-            });
+        .then((response) => {
+          const filteredProducts = response.data.filter((product) => {
+            if (!product || !product.category) return false;
+      
+            if (category === '구이류') return product.category === 'ROAST';
+            if (category === '국물요리') return product.category === 'SOUP';
+            if (category === '면류') return product.category === 'PASTA';
+            if (category === '일식') return product.category === 'JFOOD';
+            if (category === '안주') return product.category === 'ANJU';
+            if (category === "신상품") return product.itemStatus === 'NEW';
+            if (category === "베스트") return product.itemStatus === 'BEST';
+            if (category === "할인특가") return product.itemStatus === 'DISC';
+            return true;
+          });
+      
+          // 🔽 가나다순 정렬 추가
+          const sortedProducts = filteredProducts.sort((a, b) =>
+            a.name.localeCompare(b.name, "ko-KR")
+          );
+      
+          setProducts(sortedProducts);
+          setCurrentPage(1);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("에러", error);
+          setLoading(false);
+        });
     }, [category]);
 
     // 페이지별로 잘라내기
